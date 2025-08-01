@@ -12,7 +12,7 @@ body, html {
 /* Background setup */
 .hero-section {
   background: linear-gradient(rgba(0, 0, 30, 0.7), rgba(0, 0, 30, 0.7)),
-              url('your-background-image.jpg') no-repeat center center/cover;
+              url('https://www.colorbackground.com/images/polygon-color-background/cornflower-blue.png') no-repeat center center/cover;
   color: white;
   min-height: 100vh;
   display: flex;
@@ -93,31 +93,52 @@ nav a:hover {
 }
 
 /* Right login card */
-.login-box {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 10px;
-  width: 300px;
+
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 350px;
+}
+
+.form-container {
+  background: rgba(20, 30, 50, 0.95); /* dark blue background with opacity */
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  padding: 36px 32px 32px 32px;
+  border-radius: 16px;
+  width: 340px;
   text-align: center;
-  backdrop-filter: blur(5px);
+  border: 1.5px solid #4DB8FF;
+  -webkit-backdrop-filter: blur(6px); /* Safari support */
+  backdrop-filter: blur(6px);
 }
 
-.login-box h2 {
-  color: white;
-  margin-bottom: 20px;
+.form-container h2 {
+  color: #4DB8FF;
+  margin-bottom: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
-.login-box input {
+.form-container input {
   width: 100%;
   padding: 12px;
-  margin: 10px 0;
-  border: none;
-  border-bottom: 2px solid #4DB8FF;
-  background: transparent;
-  color: white;
+  margin: 12px 0;
+  border: 1.5px solid #4DB8FF;
+  border-radius: 6px;
+  background: #181c2f;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-.login-box button {
+.form-container input:focus {
+  border-color: #2196f3;
+}
+
+.form-container button {
   background: #4DB8FF;
   color: white;
   border: none;
@@ -125,30 +146,50 @@ nav a:hover {
   width: 100%;
   cursor: pointer;
   border-radius: 6px;
-  margin-top: 15px;
+  margin-top: 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: background 0.2s;
 }
 
-.login-box p {
-  margin-top: 10px;
-  font-size: 14px;
+.form-container button:hover {
+  background: #2196f3;
 }
 
-.login-box a {
+.form-container p {
+  margin-top: 18px;
+  font-size: 15px;
+  color: #fff;
+}
+
+.form-container a {
   color: #4DB8FF;
-  text-decoration: none;
+  text-decoration: underline;
+  transition: color 0.2s;
 }
 
-.social-icons {
-  margin-top: 15px;
+.form-container a:hover {
+  color: #2196f3;
+}
+
+/*Sign Up Section*/
+.signup-content {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  gap: 15px;
+  align-items: center;
+  padding: 0;
+}
+
+.signup-content label {
   color: white;
 }
 
-/*Services Section */
+/* Services Section */
 .stacked-container {
   width: 100vw;
+  width: 100vh;
   display: flex;
   flex-direction: column;
 }
