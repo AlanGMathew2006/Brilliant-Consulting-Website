@@ -1,26 +1,25 @@
-const mongoose = require('mongoose');
-const connect = mongoose.connect('mongodb://localhost:27017/Login'); // Add your MongoDB connection string here
+const { MongoClient } = require('mongodb');
 
-connect.then(() => {
-    console.log('Database connected successfully');
-})
-.catch(() => {
-    console.log('Database connection failed');
-});
+const uri = 'mongodb://localhost:27017'; // Update if needed
+const client = new MongoClient(uri);
 
-// Define the Login schema
-const LoginSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    }
-});
+let collection;
 
-//Collection Part
-const collection = new mongoose.model("users", LoginSchema);
+async function connectDB() {
+  try {
+    await client.connect();
+    const db = client.db('Login'); // Replace with your DB name
+    collection = db.collection('users'); // Replace with your collection name
+    console.log('Connected to MongoDB');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1); // Exit if connection fails
+  }
+}
 
-module.exports = collection; // Export the collection for use in other files
+function getCollection() {
+  if (!collection) throw new Error('MongoDB not connected');
+  return collection;
+}
+
+module.exports = { connectDB, getCollection };
