@@ -1,0 +1,387 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: 'Segoe UI', sans-serif;
+  height: 100%;
+}
+
+/* Background setup */
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 30, 0.7), rgba(0, 0, 30, 0.7)),
+              url('https://www.colorbackground.com/images/polygon-color-background/cornflower-blue.png') no-repeat center center/cover;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background-color: black;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+}
+
+.logo span {
+  color: #4DB8FF; /* Cornflower blue */
+}
+
+nav a {
+  margin: 0 15px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: #4DB8FF;
+}
+
+/* Main content */
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 60px;
+  align-items: center;
+}
+
+/* Left text section */
+.left {
+  max-width: 50%;
+}
+
+
+.left h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.left h1 span {
+  color: #4DB8FF;
+}
+
+.left p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.left button {
+  background-color: #4DB8FF;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* Right login card */
+
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 350px;
+}
+
+.form-container {
+  background: rgba(20, 30, 50, 0.95); /* dark blue background with opacity */
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  padding: 36px 32px 32px 32px;
+  border-radius: 16px;
+  width: 340px;
+  text-align: center;
+  border: 1.5px solid #4DB8FF;
+  -webkit-backdrop-filter: blur(6px); /* Safari support */
+  backdrop-filter: blur(6px);
+}
+
+.form-container h2 {
+  color: #4DB8FF;
+  margin-bottom: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1.5px solid #4DB8FF;
+  border-radius: 6px;
+  background: #181c2f;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-container input:focus {
+  border-color: #2196f3;
+}
+
+.form-container button {
+  background: #4DB8FF;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-top: 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: background 0.2s;
+}
+
+.form-container button:hover {
+  background: #2196f3;
+}
+
+.form-container p {
+  margin-top: 18px;
+  font-size: 15px;
+  color: #fff;
+}
+
+.form-container a {
+  color: #4DB8FF;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.form-container a:hover {
+  color: #2196f3;
+}
+
+/*Sign Up Section*/
+.signup-content {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.signup-content label {
+  color: white;
+}
+
+/* Services Section */
+.stacked-container {
+  width: 100vw;
+  width: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+ .content-block {
+    background: white;
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+    width: 100vw;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    padding-left: 60px;
+  }
+
+  /* Block header/title */
+  .content-block h1 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 3.0rem;
+    color: #4DB8FF; /* Cornflower blue */
+    text-align: center;
+  }
+
+  .content-block h2 {
+    color: #4DB8FF; /* Cornflower blue */
+  }
+
+  .content-block p, li {
+    color: black;
+  }
+
+  .side-by-side {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Text section */
+.text-side {
+  flex: 1;
+  max-width: 50%
+}
+
+/* Image section */
+.image-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.image-side img {
+  max-width: 100%;
+  height: 200px;
+  border-radius: 8px;
+}
+
+.side-by-side.reverse {
+  flex-direction: row-reverse;
+}
+
+/* Adjust text spacing in reverse layout */
+.side-by-side.reverse .text-side {
+  padding-left: 2rem;
+}
+
+/*About Us Section*/
+
+#OurMission {
+  text-align: center;
+  background-color: black;
+}
+
+#OurMission p {
+  color: white;
+}
+
+#Benefits {
+  background-color: black;
+}
+
+#Benefits p {
+  color: white;
+}
+
+/* Contact Section */
+.contact-section {
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  background-color: white;
+  padding: 40px 30px 60px;
+  text-align: center;
+  border-radius: 6px 6px 0 0;
+}
+
+.contact-section h2 {
+  font-weight: 900;
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  color: black
+}
+
+.contact-section p {
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: black
+}
+
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto 50px;
+}
+
+.input-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 14px 18px;
+  border-radius: 20px;
+  border: none;
+  background-color: #e1e1e1;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-row input::placeholder {
+  color: #a5a5a5;
+}
+
+.contact-form button {
+  background-color: #4DB8FF; /* Cornflower blue */
+  color: white;
+  border: none;
+  padding: 15px 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  letter-spacing: 1.5px;
+}
+
+.contact-form button:hover {
+  background-color: rgb(41, 108, 233);
+}
+
+.info-section {
+  display: flex;
+  justify-content: space-between;
+  background-color: #e6e6e6;
+  padding: 30px 40px;
+  border-radius: 0 0 6px 6px;
+  color: #333;
+}
+
+.info-box {
+  width: 30%;
+  text-align: center;
+}
+
+.icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  color: white;
+}
+
+.circle-bg {
+  background-color: #4DB8FF; /* Cornflower blue */
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.info-box h3 {
+  font-weight: 900;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.info-box p {
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
