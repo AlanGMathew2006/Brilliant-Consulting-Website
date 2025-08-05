@@ -11,34 +11,244 @@
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
   <style>
+    /* Override split-screen layout from main CSS */
+    .hero-section .content {
+      display: block !important;
+      width: 100% !important;
+    }
+    
+    .hero-section .left,
+    .hero-section .right {
+      display: none !important;
+    }
+
+    /* Make only the header/navbar sticky */
+    header {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 1000 !important;
+      background: #1a1a1a !important; /* Match your header background */
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Add top padding to body to account for fixed header */
+    body {
+      padding-top: 80px !important; /* Adjust based on your header height */
+    }
+
     /* White background for the entire page/container */
     .stacked-container {
       background: white;
       padding: 40px 20px;
       min-height: calc(100vh - 100px);
+      display: block !important;
+      width: 100% !important;
+      /* Remove any position sticky properties */
+      position: static !important;
     }
 
-    #calendar {
-      max-width: 800px;
-      margin: 40px auto;
-      background: #4DB8FF;  /* Keep calendar background cornflower blue */
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
     .welcome-section {
-      max-width: 800px;
-      margin: 0 auto 20px auto;  /* Center like the calendar */
+      width: 70%;  /* 70% as requested */
+      max-width: 900px;
+      margin: 0 auto 40px auto;
       text-align: center;
       padding: 30px 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(77, 184, 255, 0.1);
+      /* Ensure welcome section is not sticky */
+      position: static !important;
     }
     
     .welcome-section h1 {
       font-size: 2.5rem;
-      color: #4DB8FF;  /* Make heading cornflower blue */
+      color: #4DB8FF;  /* Cornflower blue heading */
       margin-bottom: 10px;
       font-weight: bold;
+    }
+
+    .welcome-section p {
+      font-size: 1.2rem;
+      color: black;
+      margin-bottom: 0;
+    }
+
+    /* Professional Calendar taking 70% of screen */
+    #calendar {
+      width: 70%;  /* 70% as requested */
+      max-width: 900px;
+      margin: 0 auto;  /* Center the calendar */
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      border: 2px solid #4DB8FF;
+      /* Ensure calendar is not sticky */
+      position: static !important;
+    }
+
+    /* Remove any sticky properties from FullCalendar */
+    .fc-header-toolbar {
+      background: #4DB8FF !important;
+      padding: 20px !important;
+      border: none !important;
+      position: static !important; /* Prevent calendar header from being sticky */
+      top: auto !important;
+    }
+
+    .fc-toolbar-title {
+      color: white !important;
+      font-size: 1.6rem !important;
+      font-weight: 600 !important;
+    }
+
+    .fc-button {
+      background: rgba(255, 255, 255, 0.2) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      color: white !important;
+      font-weight: 500 !important;
+      border-radius: 6px !important;
+      padding: 8px 15px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .fc-button:hover {
+      background: rgba(255, 255, 255, 0.3) !important;
+      border-color: rgba(255, 255, 255, 0.5) !important;
+      transform: translateY(-1px);
+    }
+
+    .fc-button-active {
+      background: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    /* Calendar Body */
+    .fc-view-harness {
+      background: white !important;
+    }
+
+    /* Day Headers - ensure they're not sticky */
+    .fc-col-header {
+      background: #f8f9fa !important;
+      border-bottom: 2px solid #4DB8FF !important;
+      position: static !important; /* Prevent day headers from being sticky */
+    }
+
+    .fc-col-header-cell {
+      padding: 12px 0 !important;
+      font-weight: 600 !important;
+      color: #4DB8FF !important;
+      text-transform: uppercase !important;
+      font-size: 0.85rem !important;
+      letter-spacing: 0.5px !important;
+    }
+
+    /* Day Cells */
+    .fc-daygrid-day {
+      border: 1px solid #e9ecef !important;
+      transition: all 0.2s ease !important;
+      background: white !important;
+    }
+
+    .fc-daygrid-day:hover {
+      background: rgba(77, 184, 255, 0.05) !important;
+      cursor: pointer;
+    }
+
+    .fc-daygrid-day-number {
+      padding: 10px !important;
+      font-weight: 500 !important;
+      color: #495057 !important;
+      font-size: 0.9rem !important;
+    }
+
+    /* Today Highlighting */
+    .fc-day-today {
+      background: rgba(77, 184, 255, 0.1) !important;
+      border-color: #4DB8FF !important;
+    }
+
+    .fc-day-today .fc-daygrid-day-number {
+      background: #4DB8FF !important;
+      color: white !important;
+      border-radius: 50% !important;
+      width: 28px !important;
+      height: 28px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin: 2px !important;
+      font-weight: 600 !important;
+    }
+
+    /* Weekend Styling */
+    .fc-day-sat, .fc-day-sun {
+      background: rgba(248, 249, 250, 0.7) !important;
+    }
+
+    /* Events Styling */
+    .fc-event {
+      border: none !important;
+      background: #4DB8FF !important;
+      border-radius: 4px !important;
+      padding: 2px 6px !important;
+      font-weight: 500 !important;
+      font-size: 0.8rem !important;
+      color: white !important;
+    }
+
+    .fc-event:hover {
+      background: #3da8e8 !important;
+      transform: scale(1.02);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      body {
+        padding-top: 70px !important; /* Smaller padding for mobile */
+      }
+      
+      .welcome-section {
+        width: 90%;
+      }
+      
+      #calendar {
+        width: 90%;
+      }
+      
+      .welcome-section h1 {
+        font-size: 2rem;
+      }
+      
+      .fc-header-toolbar {
+        padding: 15px !important;
+      }
+      
+      .fc-toolbar-title {
+        font-size: 1.3rem !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding-top: 65px !important; /* Even smaller padding for small mobile */
+      }
+      
+      .welcome-section {
+        width: 95%;
+        padding: 20px 15px;
+      }
+      
+      #calendar {
+        width: 95%;
+      }
+      
+      .welcome-section h1 {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
@@ -69,13 +279,11 @@
     </header>
 
     <div class="stacked-container">
-      
-      <!-- 👤 Welcome Message -->
-      <section class="welcome-section">
+      <div class="welcome-section">
         <h1><strong>WELCOME, <%= userName %>!</strong></h1>
-      </section>
+        <p><strong>Want to book an appointment?</strong></p>
+      </div>
 
-      <!-- 📅 Calendar Section (Now Below Welcome Message) -->
       <div id="calendar"></div>
 
     </div>
@@ -88,9 +296,27 @@
       var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         selectable: true,
+        selectMirror: true,
+        dayMaxEvents: true,
+        weekends: true,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek'
+        },
+        
         select: function (info) {
           const confirmed = confirm(`Book an appointment on ${info.startStr}?`);
           if (confirmed) {
+            // Add visual feedback
+            calendar.addEvent({
+              title: 'New Appointment',
+              start: info.start,
+              end: info.end,
+              backgroundColor: '#4DB8FF',
+              borderColor: '#4DB8FF'
+            });
+
             fetch('/appointments', {
               method: 'POST',
               headers: {
@@ -101,8 +327,16 @@
               })
             })
               .then(res => res.text())
-              .then(data => alert(data))
-              .catch(err => alert('Booking failed.'));
+              .then(data => alert('Appointment booked successfully!'))
+              .catch(err => alert('Booking failed. Please try again.'));
+          }
+          calendar.unselect();
+        },
+
+        eventClick: function(info) {
+          if (confirm('Cancel this appointment?')) {
+            info.event.remove();
+            alert('Appointment cancelled.');
           }
         }
       });
