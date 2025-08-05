@@ -9,8 +9,11 @@ const app = express();
 const port = 3000;
 
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '..', 'Views')); // Updated to point to root Views folder
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static('public')); // Serves CSS, images, etc.
 
 app.use(session({
   secret: 'yourSecretKey', // use a strong secret in production
@@ -18,32 +21,30 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// Render login EJS view
+//Routes
+const authRoutes = require('./routes/auth'); 
+const appointmentRoutes = require('./routes/appointments');
+
+app.use('/auth', authRoutes);
+app.use('/appointments', appointmentRoutes);
+
+
+// Routes - Make login the default page
 app.get('/', (req, res) => {
-  res.render('login', { error: null });
-});
-
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  const collection = getCollection();
-
-  try {
-    const user = await collection.findOne({ email });
-
-    if (user && await bcrypt.compare(password, user.password)) {
-      req.session.userName = user.name || user.email; // Use 'name' field from DB
-      res.redirect('/home');
-    } else {
-      res.render('login', { error: 'Invalid email or password' });
-    }
-  } catch (err) {
-    console.error('Login error:', err);
-    res.render('login', { error: 'Something went wrong. Please try again.' });
+  // Check if user is already logged in
+  if (req.session.userName) {
+    return res.redirect('/home');
   }
+  // Show login page if not logged in
+  res.render('login', { error: null, userName: null });
 });
 
-// Protect the /home route
+app.get('/login', (req, res) => {
+  res.render('login', { error: null, userName: null });
+});
+
 app.get('/home', (req, res) => {
+  // Protect home route - redirect to login if not logged in
   if (!req.session.userName) {
     return res.redirect('/');
   }
@@ -52,29 +53,28 @@ app.get('/home', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-  res.render('signup', { error: null });
+  res.render('signup', { error: null, userName: null });
 });
 
-// Register User
-app.post('/signup', async (req, res) => {
-  const { username, email, password } = req.body;
-  const collection = getCollection();
+// Fixed routes - remove the callback and res.send()
+app.get('/services', (req, res) => {
+  const userName = req.session.userName || null;
+  res.render('services', { userName: userName });
+});
 
-  try {
-    const existingUser = await collection.findOne({ email });
+app.get('/products', (req, res) => {
+  const userName = req.session.userName || null;
+  res.render('products', { userName: userName });
+});
 
-    if (existingUser) {
-      return res.render('signup', { error: 'Email already registered' });
-    }
+app.get('/about', (req, res) => {
+  const userName = req.session.userName || null;
+  res.render('about', { userName: userName });
+});
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await collection.insertOne({ name: username, email, password: hashedPassword });
-
-    res.redirect('/');
-  } catch (err) {
-    console.error('Signup error:', err);
-    res.render('signup', { error: 'Something went wrong. Please try again.' });
-  }
+app.get('/contact', (req, res) => {
+  const userName = req.session.userName || null;
+  res.render('contact', { userName: userName });
 });
 
 (async () => {

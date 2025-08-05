@@ -12,11 +12,23 @@
         <header>
         <div class="logo">Brilliant <span>Consulting</span></div>
         <nav>
+          <% if (userName) { %>
+            <!-- User is logged in - show full navigation -->
+            <a href="/home">Home</a>
+            <a href="/services">Services</a>
+            <a href="/products">Products</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/auth/logout" class="logout-btn">Logout</a>
+          <% } else { %>
+            <!-- User is NOT logged in - show limited navigation -->
+            <a href="/services">Services</a>
+            <a href="/products">Products</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
             <a href="/">Login</a>
-            <a href="/services.html">Services</a>
-            <a href="/products.html">Products</a>
-            <a href="/about.html">About</a>
-            <a href="/contact.html">Contact</a>
+            <a href="/signup">Sign Up</a>
+          <% } %>
         </nav>
         </header>
     

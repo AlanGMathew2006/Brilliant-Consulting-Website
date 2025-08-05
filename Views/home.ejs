@@ -1,1 +1,116 @@
-<h1>Welcome, <%= userName %>!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brilliant Consulting - Home</title>
+  <link rel="stylesheet" href="/style.css" />
+  
+  <!-- FullCalendar CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+  <style>
+    /* White background for the entire page/container */
+    .stacked-container {
+      background: white;
+      padding: 40px 20px;
+      min-height: calc(100vh - 100px);
+    }
+
+    #calendar {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #4DB8FF;  /* Keep calendar background cornflower blue */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .welcome-section {
+      max-width: 800px;
+      margin: 0 auto 20px auto;  /* Center like the calendar */
+      text-align: center;
+      padding: 30px 20px;
+    }
+    
+    .welcome-section h1 {
+      font-size: 2.5rem;
+      color: #4DB8FF;  /* Make heading cornflower blue */
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero-section">
+    <header>
+      <div class="logo">Brilliant <span>Consulting</span></div>
+      <nav>
+        <% if (userName) { %>
+          <!-- User is logged in - show full navigation -->
+          <a href="/home">Home</a>
+          <a href="/services">Services</a>
+          <a href="/products">Products</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/auth/logout" class="logout-btn">Logout</a>
+        <% } else { %>
+          <!-- User is NOT logged in - show limited navigation -->
+          <a href="/services">Services</a>
+          <a href="/products">Products</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/">Login</a>
+          <a href="/signup">Sign Up</a>
+        <% } %>
+      </nav>
+    </header>
+
+    <div class="stacked-container">
+      
+      <!-- 👤 Welcome Message -->
+      <section class="welcome-section">
+        <h1><strong>WELCOME, <%= userName %>!</strong></h1>
+      </section>
+
+      <!-- 📅 Calendar Section (Now Below Welcome Message) -->
+      <div id="calendar"></div>
+
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var calendarEl = document.getElementById('calendar');
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        select: function (info) {
+          const confirmed = confirm(`Book an appointment on ${info.startStr}?`);
+          if (confirmed) {
+            fetch('/appointments', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                date: info.startStr
+              })
+            })
+              .then(res => res.text())
+              .then(data => alert(data))
+              .catch(err => alert('Booking failed.'));
+          }
+        }
+      });
+
+      calendar.render();
+    });
+  </script>
+</body>
+</html>
+
+
