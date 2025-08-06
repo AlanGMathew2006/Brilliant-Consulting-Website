@@ -1,0 +1,264 @@
+/* Professional Horizontal Footer */
+.site-footer {
+  background: #000000;
+  color: #ffffff;
+  margin-top: 60px;
+  border-top: 3px solid #4DB8FF;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Main Footer Content - Horizontal Layout */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 50px 0 30px 0;
+  gap: 60px;
+}
+
+/* Company Branding Section */
+.footer-brand {
+  flex: 1;
+  max-width: 350px;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.footer-tagline {
+  color: #cccccc;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Navigation Section */
+.footer-nav {
+  display: flex;
+  gap: 50px;
+  flex: 2;
+}
+
+.nav-column {
+  flex: 1;
+}
+
+.nav-title {
+  color: #4DB8FF;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  margin-bottom: 10px;
+}
+
+.nav-links a {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: block;
+  padding: 2px 0;
+}
+
+.nav-links a:hover {
+  color: #4DB8FF;
+  transform: translateX(5px);
+}
+
+/* Contact & Social Section */
+.footer-contact {
+  flex: 1;
+  max-width: 280px;
+}
+
+.contact-title {
+  color: #4DB8FF;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contact-details {
+  margin-bottom: 25px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #cccccc;
+  font-size: 0.9rem;
+}
+
+.contact-item i {
+  color: #4DB8FF;
+  width: 18px;
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+
+/* Social Media */
+.social-media {
+  display: flex;
+  gap: 12px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(77, 184, 255, 0.1);
+  color: #4DB8FF;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(77, 184, 255, 0.2);
+}
+
+.social-link:hover {
+  background: #4DB8FF;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(77, 184, 255, 0.3);
+}
+
+/* Bottom Footer Bar */
+.footer-bottom {
+  border-top: 1px solid #333333;
+  padding: 20px 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copyright {
+  color: #999999;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-legal a {
+  color: #999999;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.3s ease;
+}
+
+.footer-legal a:hover {
+  color: #4DB8FF;
+}
+
+.separator {
+  color: #666666;
+  font-size: 0.8rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 968px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 40px;
+    text-align: center;
+    padding: 40px 0 30px 0;
+  }
+  
+  .footer-nav {
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .nav-column {
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    gap: 30px;
+  }
+  
+  .footer-nav {
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+  }
+  
+  .footer-bottom-content {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .footer-legal {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 0 15px;
+  }
+  
+  .footer-content {
+    padding: 30px 0 20px 0;
+  }
+  
+  .footer-logo {
+    font-size: 1.5rem;
+  }
+  
+  .social-media {
+    justify-content: center;
+  }
+  
+  .footer-legal {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .separator {
+    display: none;
+  }
+}
+
+/* Adjust content spacing for footer */
+.hero-section,
+.stacked-container {
+  margin-bottom: 0;
+  min-height: calc(100vh - 200px);
+}

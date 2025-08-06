@@ -269,11 +269,11 @@ nav a:hover {
 }
 
 #Benefits {
-  background-color: black;
+  background-color: white;
 }
 
 #Benefits p {
-  color: white;
+  color: black;
 }
 
 /* Contact Section */
@@ -399,4 +399,156 @@ nav a:hover {
 .logout-btn:hover {
   background-color: #14a1ff; /* Cornflower blue */
   color: white;
+}
+
+/* Login Page Specific Fixes - Override any sticky positioning */
+.hero-section.login-page {
+  position: static !important;
+  min-height: calc(100vh - 200px);
+  padding-top: 0 !important; /* Remove any top padding from hero section */
+}
+
+/* Fix login page header - make it properly fixed at top */
+.login-page header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1000 !important;
+  background: black !important; /* Keep original black background */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 20px 60px !important;
+  margin: 0 !important;
+}
+
+/* Add top padding to login page content to account for fixed header */
+.login-page .content {
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+  min-height: calc(100vh - 280px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px;
+  margin-top: 80px !important; /* Add space for fixed header */
+}
+
+/* Ensure left section is static */
+.login-page .left {
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+  max-width: 50%;
+}
+
+/* Ensure right section (login form) is static */
+.login-page .right {
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  right: auto !important;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 350px;
+}
+
+/* Fix form container positioning */
+.login-page .form-container {
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  right: auto !important;
+  margin: 0;
+}
+
+/* Override any existing sticky/fixed positioning for login elements EXCEPT header */
+.login-page .hero-section,
+.login-page .content,
+.login-page .left,
+.login-page .right,
+.login-page .form-container,
+.login-page h1,
+.login-page h2,
+.login-page p,
+.login-page form,
+.login-page button {
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+/* Fix footer positioning on login page */
+.login-page ~ .site-footer,
+.hero-section.login-page + .site-footer {
+  margin-top: 0;
+  position: relative;
+}
+
+/* Responsive fixes for login page */
+@media (max-width: 768px) {
+  .login-page header {
+    padding: 15px 40px !important;
+  }
+  
+  .login-page .content {
+    flex-direction: column !important;
+    padding: 40px 20px !important;
+    min-height: calc(100vh - 320px) !important;
+    position: static !important;
+    margin-top: 70px !important; /* Adjust for smaller header */
+  }
+  
+  .login-page .left {
+    max-width: 100% !important;
+    text-align: center;
+    margin-bottom: 30px;
+    position: static !important;
+  }
+  
+  .login-page .right {
+    min-width: auto !important;
+    width: 100%;
+    max-width: 400px;
+    position: static !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-page header {
+    padding: 10px 20px !important;
+  }
+  
+  .login-page .content {
+    padding: 30px 15px !important;
+    min-height: calc(100vh - 340px) !important;
+    position: static !important;
+    margin-top: 65px !important; /* Adjust for mobile header */
+  }
+  
+  .login-page .form-container {
+    width: 100%;
+    max-width: 320px;
+    padding: 24px 20px;
+    position: static !important;
+  }
+}
+
+/* Keep header elements with proper positioning */
+.login-page header,
+.login-page header .logo,
+.login-page header nav,
+.login-page header nav a {
+  position: inherit !important;
 }
