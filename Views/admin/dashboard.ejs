@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Brilliant Consulting</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">Brilliant <span>Consulting</span></div>
+    <nav>
+      <span>Welcome, Admin <%= userName %>!</span>
+      <a href="/auth/logout" class="logout-btn">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>🔐 Admin Dashboard</h1>
+    <p>Welcome to the admin control panel!</p>
+    
+    <div class="admin-sections">
+      <div class="admin-card">
+        <h3>User Management</h3>
+        <p>Manage system users</p>
+      </div>
+      
+      <div class="admin-card">
+        <h3>Appointments</h3>
+        <p>View all appointments</p>
+      </div>
+      
+      <div class="admin-card">
+        <h3>System Settings</h3>
+        <p>Configure system settings</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

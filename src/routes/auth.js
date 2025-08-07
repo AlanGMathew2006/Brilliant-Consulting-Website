@@ -64,13 +64,12 @@ router.get('/', (req, res) => {
   res.render('login', { error: null });
 });
 
-// POST: login form (add debugging)
+// POST: login form - UPDATE THIS SECTION
 router.post('/login', async (req, res) => {
   const { userName, password } = req.body;
 
   try {
     console.log('\n=== LOGIN ATTEMPT DEBUG ===');
-    console.log('Raw req.body:', req.body);
     console.log('Username from form:', userName);
     console.log('Password provided:', !!password);
 
@@ -82,10 +81,7 @@ router.post('/login', async (req, res) => {
     
     if (user) {
       console.log('Found user details:', {
-        _id: user._id,
-        userName: user.userName,
-        email: user.email,
-        hasPassword: !!user.password
+        role: user.role,  // ← This shows the role exists
       });
     }
     
@@ -98,7 +94,6 @@ router.post('/login', async (req, res) => {
     }
 
     // Compare password with saved hash
-    console.log('Comparing passwords...');
     const isValidPassword = await bcrypt.compare(password, user.password);
     console.log('Password comparison result:', isValidPassword);
     
@@ -110,15 +105,29 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    console.log('✅ Password valid - logging in user');
+    if (isValidPassword) {
+      console.log('✅ Password valid - logging in user');
+      console.log('🔍 User role from database:', user.role);
+      
+      // Set session with FULL user object including role
+      req.session.user = {
+        userName: user.userName,
+        email: user.email,
+        role: user.role || 'user'
+      };
+      req.session.userName = userName;
 
-    // Set session - user is now logged in
-    req.session.userName = userName;
-    console.log('✅ Session created for:', userName);
-    console.log('=== END LOGIN DEBUG ===\n');
+      console.log('✅ Session created for:', userName, 'with role:', user.role || 'user');
 
-    // Redirect to home page
-    res.redirect('/home');
+      // CRITICAL: Role-based redirect
+      if (user.role === 'admin') {
+        console.log('🔐 Admin detected - redirecting to admin dashboard');
+        return res.redirect('/admin');
+      } else {
+        console.log('👤 Regular user - redirecting to home');
+        return res.redirect('/home');
+      }
+    }
     
   } catch (err) {
     console.error('❌ Login error:', err);
@@ -134,7 +143,7 @@ router.get('/signup', (req, res) => {
   res.render('signup', { error: null });
 });
 
-// POST: signup form
+// POST: signup form - UPDATE THIS SECTION
 router.post('/signup', async (req, res) => {
   const { userName, email, password } = req.body;
 
@@ -144,8 +153,6 @@ router.post('/signup', async (req, res) => {
     console.log('Username extracted:', userName);
     console.log('Email extracted:', email);
     console.log('Password extracted:', password ? '[PROVIDED]' : '[MISSING]');
-    console.log('Username type:', typeof userName);
-    console.log('Username length:', userName ? userName.length : 'null/undefined');
 
     if (!userName || !email || !password) {
       console.log('❌ Missing required fields');
@@ -179,15 +186,9 @@ router.post('/signup', async (req, res) => {
       userName: userName,
       email: email,
       password: hashedPassword,
+      role: 'user',  // Default role for new signups
       createdAt: new Date()
     };
-
-    console.log('User object to insert:', {
-      userName: newUser.userName,
-      email: newUser.email,
-      hasPassword: !!newUser.password,
-      createdAt: newUser.createdAt
-    });
 
     // Save user to database
     const result = await users.insertOne(newUser);
@@ -199,16 +200,27 @@ router.post('/signup', async (req, res) => {
       _id: savedUser._id,
       userName: savedUser.userName,
       email: savedUser.email,
+      role: savedUser.role,
       hasPassword: !!savedUser.password
     });
 
-    // Set session - user is now logged in
-    req.session.userName = userName;
-    console.log('✅ Session created for:', userName);
+    // Set FULL session with user object including role
+    req.session.user = {
+      userName: savedUser.userName,
+      email: savedUser.email,
+      role: savedUser.role
+    };
+    req.session.userName = userName; // Keep for backward compatibility
+    
+    console.log('✅ Session created for:', userName, 'with role:', savedUser.role);
     console.log('=== END SIGNUP DEBUG ===\n');
 
-    // Redirect to home page (user is logged in)
-    res.redirect('/home');
+    // Redirect based on role (though new signups will always be 'user')
+    if (savedUser.role === 'admin') {
+      res.redirect('/admin');
+    } else {
+      res.redirect('/home');
+    }
     
   } catch (err) {
     console.error('❌ Signup error:', err);
@@ -233,6 +245,7 @@ router.get('/debug-users', async (req, res) => {
         _id: user._id,
         userName: user.userName,
         email: user.email,
+        role: user.role,  // ← ADD THIS LINE
         hasPassword: !!user.password,
         passwordLength: user.password ? user.password.length : 0,
         createdAt: user.createdAt
@@ -333,6 +346,36 @@ router.get('/create-clean-user', async (req, res) => {
       error: err.message,
       stack: err.stack 
     });
+  }
+});
+
+// Temporary debug route - add this before module.exports = router;
+router.get('/test-admin-login', async (req, res) => {
+  try {
+    const users = getCollection('users');
+    const admin = await users.findOne({ userName: 'admin' });
+    
+    if (!admin) {
+      return res.json({ error: 'Admin user not found in database' });
+    }
+    
+    const passwordTest = await bcrypt.compare('Melattu@1975', admin.password);
+    
+    res.json({
+      adminExists: !!admin,
+      adminDetails: {
+        userName: admin.userName,
+        email: admin.email,
+        role: admin.role,
+        hasPassword: !!admin.password
+      },
+      passwordTest: passwordTest,
+      roleCheck: admin.role === 'admin',
+      rawAdminObject: admin  // Show the complete object
+    });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

@@ -20,12 +20,12 @@ connectDB().then(() => {
 
   // Session configuration - IMPORTANT!
   app.use(session({
-    secret: 'yourSecretKey_' + Date.now(), // More unique secret
+    secret: 'yourSecretKey_' + Date.now(),
     resave: false,
     saveUninitialized: false,
     cookie: { 
-      secure: false,  // Must be false for HTTP (development)
-      httpOnly: true, // Security
+      secure: false,
+      httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   }));
@@ -36,18 +36,26 @@ connectDB().then(() => {
     next();
   });
 
-  // Routes
+  // Import routes
   const authRoutes = require('./routes/auth'); 
   const appointmentRoutes = require('./routes/appointments');
+  const adminRoutes = require('./routes/admin');  // Add this line
 
+  // Use route modules FIRST
   app.use('/auth', authRoutes);
   app.use('/appointments', appointmentRoutes);
+  app.use('/admin', adminRoutes);  // Add this line
 
   // Main routes
   app.get('/', (req, res) => {
-    console.log('Root route accessed, session:', req.session);
-    if (req.session.userName) {
-      console.log('User already logged in:', req.session.userName);
+    console.log('Root route accessed, session user:', req.session.user);
+    if (req.session.userName || req.session.user) {
+      console.log('User already logged in:', req.session.userName || req.session.user.userName);
+      
+      // Check if admin and redirect accordingly
+      if (req.session.user && req.session.user.role === 'admin') {
+        return res.redirect('/admin');
+      }
       return res.redirect('/home');
     }
     res.render('login', { error: null, userName: null });
@@ -64,48 +72,61 @@ connectDB().then(() => {
   // Home route (protected)
   app.get('/home', (req, res) => {
     console.log('🏠 Home route accessed');
-    console.log('   - Session:', req.session);
+    console.log('   - Session user:', req.session.user);
     console.log('   - Username in session:', req.session.userName);
     
-    if (!req.session.userName) {
+    if (!req.session.userName && !req.session.user) {
       console.log('❌ User not logged in, redirecting to login');
       return res.redirect('/');
     }
     
     console.log('✅ User logged in, rendering home page');
-    res.render('home', { userName: req.session.userName });
+    res.render('home', { 
+      userName: req.session.userName || req.session.user.userName 
+    });
   });
 
   // Other protected routes
   app.get('/services', (req, res) => {
-    res.render('services', { userName: req.session.userName || null });
+    res.render('services', { 
+      userName: req.session.userName || req.session.user?.userName || null 
+    });
   });
 
   app.get('/products', (req, res) => {
-    res.render('products', { userName: req.session.userName || null });
+    res.render('products', { 
+      userName: req.session.userName || req.session.user?.userName || null 
+    });
   });
 
   app.get('/about', (req, res) => {
-    res.render('about', { userName: req.session.userName || null });
+    res.render('about', { 
+      userName: req.session.userName || req.session.user?.userName || null 
+    });
   });
 
   app.get('/contact', (req, res) => {
-    res.render('contact', { userName: req.session.userName || null });
+    res.render('contact', { 
+      userName: req.session.userName || req.session.user?.userName || null 
+    });
   });
 
-  // 404 handler
+  // 404 handler - MUST BE LAST!
   app.use((req, res) => {
-    res.status(404).render('404', { userName: req.session.userName || null });
+    console.log('🔧 404 HANDLER HIT for:', req.path);
+    res.status(404).render('404', { 
+      userName: req.session.userName || req.session.user?.userName || null 
+    });
   });
 
   // Start server
   app.listen(PORT, () => {
     console.log(`🌟 Server running on http://localhost:${PORT}`);
     console.log('📋 Test URLs:');
-    console.log('   - Database test: http://localhost:' + PORT + '/auth/test-db');
-    console.log('   - Users debug: http://localhost:' + PORT + '/auth/debug-users');
-    console.log('   - bcrypt test: http://localhost:' + PORT + '/auth/test-bcrypt/testpass');
-    console.log('   - Create test user: http://localhost:' + PORT + '/auth/create-clean-user');
+    console.log('   - Login: http://localhost:' + PORT + '/');
+    console.log('   - Admin: http://localhost:' + PORT + '/admin');
+    console.log('   - Debug users: http://localhost:' + PORT + '/auth/debug-users');
+    console.log('   - Test admin login: http://localhost:' + PORT + '/auth/test-admin-login');
   });
 
 }).catch(err => {
