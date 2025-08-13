@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Brilliant Consulting</title>
   <link rel="stylesheet" href="/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -16,25 +17,218 @@
   </header>
 
   <main>
-    <h1>🔐 Admin Dashboard</h1>
-    <p>Welcome to the admin control panel!</p>
+    <div class="dashboard-header">
+      <h1>Admin Dashboard</h1>
+      <p>Welcome to the admin control panel!</p>
+    </div>
     
-    <div class="admin-sections">
-      <div class="admin-card">
-        <h3>User Management</h3>
-        <p>Manage system users</p>
-      </div>
-      
-      <div class="admin-card">
-        <h3>Appointments</h3>
-        <p>View all appointments</p>
-      </div>
-      
-      <div class="admin-card">
-        <h3>System Settings</h3>
-        <p>Configure system settings</p>
+    <!-- Stats Cards -->
+    <div class="stats-section">
+      <h2>Key Metrics</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Total Users</h3>
+            <div class="stat-number" data-count="247">0</div>
+            <p>Registered accounts</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Total Appointments</h3>
+            <div class="stat-number" data-count="89">0</div>
+            <p>All appointments</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Booked Appointments</h3>
+            <div class="stat-number" data-count="56">0</div>
+            <p>Confirmed bookings</p>
+          </div>
+        </div>
       </div>
     </div>
   </main>
+
+  <style>
+    /* Dashboard styles with updated color scheme */
+    .dashboard-header {
+      text-align: center;
+      margin: 2rem 0 3rem 0;
+      padding: 2rem 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .dashboard-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #4DB8FF 0%, #3A9CE8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .dashboard-header p {
+      font-size: 1.3rem;
+      color: #64748b;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .stats-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .stats-section h2 {
+      margin-bottom: 2rem;
+      color: #333;
+      font-size: 1.6rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #f0f0f0;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #4DB8FF, #3A9CE8);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(77, 184, 255, 0.15);
+      border-color: #4DB8FF;
+    }
+
+    .stat-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #4DB8FF, #3A9CE8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: white;
+      font-size: 22px;
+      box-shadow: 0 4px 15px rgba(77, 184, 255, 0.3);
+    }
+
+    .stat-content h3 {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #4DB8FF;
+      margin-bottom: 0.8rem;
+      line-height: 1;
+    }
+
+    .stat-content p {
+      color: #777;
+      font-size: 0.95rem;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dashboard-header {
+        margin: 1rem 0 2rem 0;
+        padding: 1.5rem 0;
+      }
+
+      .dashboard-header h1 {
+        font-size: 2.2rem;
+      }
+
+      .dashboard-header p {
+        font-size: 1.1rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .stat-card {
+        padding: 1.5rem;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+
+  <script>
+    // Smooth number animation
+    function animateNumbers() {
+      document.querySelectorAll('.stat-number').forEach(numberElement => {
+        const finalNumber = parseInt(numberElement.getAttribute('data-count'));
+        let currentNumber = 0;
+        const increment = finalNumber / 80; // Smoother animation
+        
+        const timer = setInterval(() => {
+          currentNumber += increment;
+          if (currentNumber >= finalNumber) {
+            currentNumber = finalNumber;
+            clearInterval(timer);
+          }
+          numberElement.textContent = Math.floor(currentNumber);
+        }, 20);
+      });
+    }
+
+    // Start animation when page loads
+    window.addEventListener('load', () => {
+      setTimeout(animateNumbers, 400);
+    });
+  </script>
 </body>
 </html>

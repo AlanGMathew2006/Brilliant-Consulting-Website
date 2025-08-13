@@ -16,6 +16,9 @@
   <!-- Bootstrap JS Bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
   <style>
     /* Override split-screen layout from main CSS */
     .hero-section .content {
@@ -37,175 +40,426 @@
       width: 100% !important;
       z-index: 1000 !important;
       background: #1a1a1a !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+      backdrop-filter: blur(10px) !important;
     }
 
     /* Add top padding to body to account for fixed header */
     body {
       padding-top: 80px !important;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
     }
 
-    /* White background for the entire page/container */
+    /* Professional container styling */
     .stacked-container {
-      background: white;
-      padding: 40px 20px;
+      background: transparent;
+      padding: 40px 20px 60px;
       min-height: calc(100vh - 100px);
       display: block !important;
       width: 100% !important;
       position: static !important;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
+    /* Enhanced welcome section with professional SaaS styling */
     .welcome-section {
-      width: 70%;
-      max-width: 900px;
-      margin: 0 auto 40px auto;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto 50px auto;
       text-align: center;
-      padding: 30px 20px;
+      padding: 40px 30px;
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(77, 184, 255, 0.1);
-      position: static !important;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(100, 149, 237, 0.08);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .welcome-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #6495ed 0%, #4DB8FF 50%, #87ceeb 100%);
     }
     
     .welcome-section h1 {
-      font-size: 2.5rem;
-      color: #4DB8FF;
-      margin-bottom: 10px;
-      font-weight: bold;
+      font-size: 2.8rem;
+      background: linear-gradient(135deg, #6495ed 0%, #4DB8FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
     }
 
     .welcome-section p {
-      font-size: 1.2rem;
-      color: black;
+      font-size: 1.3rem;
+      color: #64748b;
       margin-bottom: 0;
+      font-weight: 500;
     }
 
-    /* Professional Calendar taking 70% of screen */
-    #calendar {
-      width: 70%;
-      max-width: 900px;
+    /* Professional calendar container */
+    .calendar-container {
+      width: 100%;
+      max-width: 1000px;
       margin: 0 auto;
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
       overflow: hidden;
-      border: 2px solid #4DB8FF;
-      position: static !important;
+      border: 1px solid #e2e8f0;
+      position: relative;
     }
 
-    /* Calendar Header */
+    .calendar-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #6495ed 0%, #4DB8FF 50%, #87ceeb 100%);
+      z-index: 1;
+    }
+
+    /* Professional calendar header */
+    .calendar-header {
+      background: linear-gradient(135deg, #6495ed 0%, #4DB8FF 100%);
+      padding: 30px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .calendar-title-section h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .calendar-title-section p {
+      margin: 5px 0 0 0;
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .calendar-stats {
+      display: flex;
+      gap: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 12px 20px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      opacity: 0.9;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Enhanced calendar styling */
+    #calendar {
+      padding: 0;
+      background: white;
+    }
+
+    /* Calendar Header Toolbar */
     .fc-header-toolbar {
-      background: #4DB8FF !important;
-      padding: 20px !important;
+      background: #f8fafc !important;
+      padding: 25px 30px !important;
       border: none !important;
-      position: static !important;
-      top: auto !important;
+      border-bottom: 2px solid #e2e8f0 !important;
+      margin: 0 !important;
     }
 
     .fc-toolbar-title {
-      color: white !important;
+      color: #1e293b !important;
       font-size: 1.6rem !important;
-      font-weight: 600 !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.5px !important;
     }
 
     .fc-button {
-      background: rgba(255, 255, 255, 0.2) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      color: white !important;
-      font-weight: 500 !important;
-      border-radius: 6px !important;
-      padding: 8px 15px !important;
+      background: white !important;
+      border: 2px solid #e2e8f0 !important;
+      color: #64748b !important;
+      font-weight: 600 !important;
+      border-radius: 10px !important;
+      padding: 10px 16px !important;
       transition: all 0.3s ease !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
     }
 
     .fc-button:hover {
-      background: rgba(255, 255, 255, 0.3) !important;
-      border-color: rgba(255, 255, 255, 0.5) !important;
-      transform: translateY(-1px);
+      background: #4DB8FF !important;
+      border-color: #4DB8FF !important;
+      color: white !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3) !important;
     }
 
     .fc-button-active {
-      background: rgba(255, 255, 255, 0.3) !important;
+      background: #6495ed !important;
+      border-color: #6495ed !important;
+      color: white !important;
+      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3) !important;
     }
 
     /* Calendar Body */
     .fc-view-harness {
       background: white !important;
+      padding: 20px;
     }
 
-    /* Day Headers */
+    /* Day Headers - Professional styling */
     .fc-col-header {
-      background: #f8f9fa !important;
-      border-bottom: 2px solid #4DB8FF !important;
-      position: static !important;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+      border-bottom: 3px solid #4DB8FF !important;
     }
 
     .fc-col-header-cell {
-      padding: 12px 0 !important;
-      font-weight: 600 !important;
+      padding: 20px 0 !important;
+      font-weight: 700 !important;
       color: #4DB8FF !important;
       text-transform: uppercase !important;
-      font-size: 0.85rem !important;
-      letter-spacing: 0.5px !important;
+      font-size: 0.9rem !important;
+      letter-spacing: 1px !important;
+      border-right: 1px solid #e2e8f0 !important;
     }
 
-    /* Day Cells */
+    /* Day Cells - Enhanced professional look */
     .fc-daygrid-day {
-      border: 1px solid #e9ecef !important;
-      transition: all 0.2s ease !important;
+      border: 1px solid #f1f5f9 !important;
+      transition: all 0.3s ease !important;
       background: white !important;
+      position: relative !important;
+      min-height: 120px !important;
     }
 
     .fc-daygrid-day:hover {
-      background: rgba(77, 184, 255, 0.05) !important;
+      background: linear-gradient(135deg, rgba(100, 149, 237, 0.05) 0%, rgba(135, 206, 235, 0.05) 100%) !important;
+      border-color: #4DB8FF !important;
+      transform: scale(1.02) !important;
+      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.1) !important;
       cursor: pointer;
+      z-index: 2 !important;
     }
 
     .fc-daygrid-day-number {
-      padding: 10px !important;
-      font-weight: 500 !important;
-      color: #495057 !important;
-      font-size: 0.9rem !important;
+      padding: 15px !important;
+      font-weight: 600 !important;
+      color: #475569 !important;
+      font-size: 1rem !important;
+      transition: all 0.3s ease !important;
     }
 
-    /* Today Highlighting */
+    /* Today Highlighting - Enhanced */
     .fc-day-today {
-      background: rgba(77, 184, 255, 0.1) !important;
-      border-color: #4DB8FF !important;
+      background: linear-gradient(135deg, rgba(100, 149, 237, 0.08) 0%, rgba(135, 206, 235, 0.08) 100%) !important;
+      border: 2px solid #4DB8FF !important;
+      position: relative !important;
+    }
+
+    .fc-day-today::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #4DB8FF 0%, #87ceeb 100%);
     }
 
     .fc-day-today .fc-daygrid-day-number {
-      background: #4DB8FF !important;
+      background: linear-gradient(135deg, #4DB8FF 0%, #4169e1 100%) !important;
       color: white !important;
-      border-radius: 50% !important;
-      width: 28px !important;
-      height: 28px !important;
+      border-radius: 12px !important;
+      width: 36px !important;
+      height: 36px !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      margin: 2px !important;
-      font-weight: 600 !important;
+      margin: 8px !important;
+      font-weight: 700 !important;
+      box-shadow: 0 3px 10px rgba(100, 149, 237, 0.4) !important;
     }
 
-    /* Weekend Styling */
+    /* Weekend Styling - Subtle professional look */
     .fc-day-sat, .fc-day-sun {
-      background: rgba(248, 249, 250, 0.7) !important;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
     }
 
-    /* Events Styling */
+    /* Events Styling - Professional appearance */
     .fc-event {
       border: none !important;
-      background: #4DB8FF !important;
-      border-radius: 4px !important;
-      padding: 2px 6px !important;
-      font-weight: 500 !important;
-      font-size: 0.8rem !important;
+      background: linear-gradient(135deg, #6495ed 0%, #4DB8FF 100%) !important;
+      border-radius: 8px !important;
+      padding: 6px 12px !important;
+      font-weight: 600 !important;
+      font-size: 0.85rem !important;
       color: white !important;
+      margin: 2px !important;
+      box-shadow: 0 2px 8px rgba(100, 149, 237, 0.3) !important;
+      transition: all 0.3s ease !important;
     }
 
     .fc-event:hover {
-      background: #3da8e8 !important;
-      transform: scale(1.02);
+      background: linear-gradient(135deg, #4169e1 0%, #4DB8FF 100%) !important;
+      transform: translateY(-2px) scale(1.05) !important;
+      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.4) !important;
+      cursor: pointer !important;
+    }
+
+    /* Professional Modal Styling */
+    .modal-content {
+      border-radius: 20px !important;
+      overflow: hidden;
+      border: none !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #6495ed 0%, #4DB8FF 100%) !important;
+      border: none !important;
+      padding: 25px 30px !important;
+    }
+
+    .modal-title {
+      font-size: 1.4rem !important;
+      font-weight: 700 !important;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-body {
+      padding: 30px !important;
+      background: #f8fafc;
+    }
+
+    .modal-footer {
+      background: white !important;
+      border: none !important;
+      padding: 25px 30px !important;
+    }
+
+    /* Enhanced Form Controls */
+    .form-select, .form-control {
+      border: 2px solid #e2e8f0 !important;
+      border-radius: 12px !important;
+      padding: 12px 16px !important;
+      font-size: 0.95rem !important;
+      transition: all 0.3s ease !important;
+      background: white !important;
+    }
+
+    .form-select:focus, .form-control:focus {
+      border-color: #4DB8FF !important;
+      box-shadow: 0 0 0 4px rgba(100, 149, 237, 0.1) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .form-label {
+      font-weight: 600 !important;
+      color: #334155 !important;
+      margin-bottom: 10px !important;
+      font-size: 0.95rem !important;
+    }
+
+    /* Enhanced Alert Styling */
+    .alert {
+      border-radius: 12px !important;
+      border: none !important;
+      padding: 20px !important;
+      margin-bottom: 25px !important;
+    }
+
+    .alert-info {
+      background: linear-gradient(135deg, rgba(100, 149, 237, 0.08) 0%, rgba(135, 206, 235, 0.08) 100%) !important;
+      color: #4DB8FF !important;
+      border-left: 4px solid #4DB8FF !important;
+    }
+
+    .alert-warning {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.08) 0%, rgba(255, 193, 7, 0.08) 100%) !important;
+      color: #f59e0b !important;
+      border-left: 4px solid #f59e0b !important;
+    }
+
+    .alert-danger {
+      background: linear-gradient(135deg, rgba(220, 53, 69, 0.08) 0%, rgba(220, 53, 69, 0.08) 100%) !important;
+      color: #dc3545 !important;
+      border-left: 4px solid #dc3545 !important;
+    }
+
+    /* Enhanced Button Styling */
+    .btn {
+      border-radius: 12px !important;
+      padding: 12px 24px !important;
+      font-weight: 600 !important;
+      transition: all 0.3s ease !important;
+      text-transform: none !important;
+      letter-spacing: 0.3px !important;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) !important;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4DB8FF 0%, #4169e1 100%) !important;
+      border: none !important;
+      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3) !important;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(100, 149, 237, 0.4) !important;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+      border: none !important;
+      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3) !important;
+    }
+
+    .btn-outline-secondary {
+      border: 2px solid #e2e8f0 !important;
+      color: #64748b !important;
+      background: white !important;
+    }
+
+    .btn-outline-secondary:hover {
+      background: #f8fafc !important;
+      border-color: #6CB2EB !important;
+      color: #4DB8FF !important;
     }
 
     /* Mobile Responsiveness */
@@ -215,23 +469,35 @@
       }
       
       .welcome-section {
-        width: 90%;
-      }
-      
-      #calendar {
-        width: 90%;
+        padding: 30px 20px;
+        margin-bottom: 30px;
       }
       
       .welcome-section h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+      }
+      
+      .calendar-header {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .calendar-stats {
+        justify-content: center;
+        flex-wrap: wrap;
       }
       
       .fc-header-toolbar {
-        padding: 15px !important;
+        padding: 20px 15px !important;
       }
       
       .fc-toolbar-title {
         font-size: 1.3rem !important;
+      }
+
+      .fc-daygrid-day {
+        min-height: 80px !important;
       }
     }
 
@@ -240,73 +506,35 @@
         padding-top: 65px !important;
       }
       
-      .welcome-section {
-        width: 95%;
-        padding: 20px 15px;
-      }
-      
-      #calendar {
-        width: 95%;
-      }
-      
       .welcome-section h1 {
-        font-size: 1.8rem;
+        font-size: 1.9rem;
+      }
+      
+      .stacked-container {
+        padding: 20px 15px 40px;
+      }
+
+      .modal-body, .modal-footer {
+        padding: 20px !important;
       }
     }
 
-    .modal-content {
-      border-radius: 15px !important;
-      overflow: hidden;
+    /* Loading Animation */
+    .calendar-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      color: #6495ed;
+      font-size: 1.1rem;
+      font-weight: 600;
     }
 
-    .form-select:focus,
-    .form-control:focus {
-      border-color: #4DB8FF !important;
-      box-shadow: 0 0 0 0.2rem rgba(77, 184, 255, 0.25) !important;
-    }
-
-    .form-select,
-    .form-control {
-      border-radius: 8px;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      transition: all 0.2s ease;
-    }
-
-    .btn[style*="background: #4DB8FF"]:hover {
-      background: #3da8e8 !important;
-    }
-
-    .alert-warning {
-      background-color: rgba(255, 193, 7, 0.1);
-      border-color: #ffc107;
-    }
-
-    .alert-danger {
-      background-color: rgba(220, 53, 69, 0.1);
-      border-color: #dc3545;
-    }
-
-    .form-select:focus,
-    .form-control:focus {
-      border-color: #dc3545 !important;
-      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
-    }
-
-    .btn-danger:hover {
-      transform: translateY(-1px);
-      transition: all 0.2s ease;
-      background-color: #c82333 !important;
-    }
-
-    #cancelAppointmentDetails .row {
-      margin-bottom: 8px;
-    }
-
-    #cancelAppointmentDetails .col-6:first-child {
-      color: #6c757d;
+    .spinner-border {
+      width: 2rem;
+      height: 2rem;
+      border-width: 3px;
+      border-color: #6495ed transparent #6495ed transparent;
     }
   </style>
 </head>
@@ -338,11 +566,35 @@
 
     <div class="stacked-container">
       <div class="welcome-section">
-        <h1><strong>WELCOME, <%= userName %>!</strong></h1>
-        <p><strong>Want to book an appointment?</strong></p>
+        <h1><i class="fas fa-calendar-check"></i> WELCOME, <%= userName %>!</h1>
+        <p><i class="fas fa-handshake"></i> Ready to schedule your next consultation?</p>
       </div>
 
-      <div id="calendar"></div>
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <div class="calendar-title-section">
+            <h2><i class="fas fa-calendar-alt"></i> Appointment Scheduler</h2>
+            <p>Select a date to book your consultation or click existing appointments to manage them</p>
+          </div>
+          <div class="calendar-stats">
+            <div class="stat-item">
+              <p class="stat-number" id="totalAppointments">0</p>
+              <p class="stat-label">Total</p>
+            </div>
+            <div class="stat-item">
+              <p class="stat-number" id="thisMonthAppointments">0</p>
+              <p class="stat-label">This Month</p>
+            </div>
+          </div>
+        </div>
+        
+        <div id="calendar">
+          <div class="calendar-loading">
+            <div class="spinner-border me-3"></div>
+            Loading your calendar...
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -371,6 +623,11 @@
           console.error('Failed to load appointments');
           alert('Failed to load existing appointments');
         }
+      },
+
+      // Update stats when events load
+      eventSourceSuccess: function(events) {
+        updateCalendarStats(events);
       },
       
       select: function (info) {
@@ -427,6 +684,21 @@
 
     calendar.render();
 
+    // Function to update calendar statistics
+    function updateCalendarStats(events) {
+      const totalCount = events.length;
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      
+      const thisMonthCount = events.filter(event => {
+        const eventDate = new Date(event.start);
+        return eventDate.getMonth() === currentMonth && eventDate.getFullYear() === currentYear;
+      }).length;
+
+      document.getElementById('totalAppointments').textContent = totalCount;
+      document.getElementById('thisMonthAppointments').textContent = thisMonthCount;
+    }
+
     // Handle confirm cancellation
     document.getElementById('confirmCancelBtn').addEventListener('click', async function() {
       if (!currentCancelEvent) return;
@@ -461,6 +733,9 @@
           
           // Show success message
           alert('✅ ' + msg);
+          
+          // Update stats
+          calendar.refetchEvents();
         } else {
           alert('❌ Error: ' + msg);
         }
@@ -515,81 +790,85 @@
   });
   </script>
 
-  <!-- Booking Modal -->
+  <!-- Enhanced Booking Modal -->
   <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
         <!-- Header with your cornflower blue gradient -->
-        <div class="modal-header text-white" style="background: #4DB8FF !important;">
-          <h5 class="modal-title fw-bold" id="bookingModalLabel">
+        <div class="modal-header">
+          <h5 class="modal-title" id="bookingModalLabel">
+            <i class="fas fa-calendar-plus"></i>
             Book Your Consultation
           </h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         
         <form id="bookingForm">
-          <div class="modal-body p-4">
+          <div class="modal-body">
             <input type="hidden" id="bookingDate" name="date" />
             
             <!-- Selected Date Display -->
-            <div class="alert mb-4" style="background-color: rgba(77, 184, 255, 0.1); border-color: #4DB8FF; color: #4DB8FF;">
-              <strong>Selected Date:</strong> 
-              <span id="selectedDateDisplay" style="color: #4DB8FF; font-weight: 600;"></span>
+            <div class="alert alert-info">
+              <h6 class="fw-bold mb-2">
+                <i class="fas fa-calendar-day"></i> Selected Date
+              </h6>
+              <span id="selectedDateDisplay" class="fw-bold"></span>
             </div>
 
-            <!-- Time Slot Selection -->
-            <div class="mb-4">
-              <label for="timeSlot" class="form-label fw-semibold" style="color: #4DB8FF;">
-                Preferred Time Slot
-              </label>
-              <select id="timeSlot" class="form-select form-select-lg border-2" required style="border-color: #4DB8FF;">
-                <option value="">-- Select Your Preferred Time --</option>
-                <option value="09:00 AM">09:00 AM - 10:00 AM</option>
-                <option value="10:00 AM">10:00 AM - 11:00 AM</option>
-                <option value="11:00 AM">11:00 AM - 12:00 PM</option>
-                <option value="01:00 PM">01:00 PM - 02:00 PM</option>
-                <option value="02:00 PM">02:00 PM - 03:00 PM</option>
-                <option value="03:00 PM">03:00 PM - 04:00 PM</option>
-                <option value="04:00 PM">04:00 PM - 05:00 PM</option>
-              </select>
-            </div>
+            <div class="row">
+              <!-- Time Slot Selection -->
+              <div class="col-md-6 mb-4">
+                <label for="timeSlot" class="form-label">
+                  <i class="fas fa-clock"></i> Preferred Time Slot
+                </label>
+                <select id="timeSlot" class="form-select" required>
+                  <option value="">-- Select Your Preferred Time --</option>
+                  <option value="09:00 AM">09:00 AM - 10:00 AM</option>
+                  <option value="10:00 AM">10:00 AM - 11:00 AM</option>
+                  <option value="11:00 AM">11:00 AM - 12:00 PM</option>
+                  <option value="01:00 PM">01:00 PM - 02:00 PM</option>
+                  <option value="02:00 PM">02:00 PM - 03:00 PM</option>
+                  <option value="03:00 PM">03:00 PM - 04:00 PM</option>
+                  <option value="04:00 PM">04:00 PM - 05:00 PM</option>
+                </select>
+              </div>
 
-            <!-- Consultation Type -->
-            <div class="mb-4">
-              <label for="consultationType" class="form-label fw-semibold" style="color: #4DB8FF;">
-                Consultation Type
-              </label>
-              <select id="consultationType" class="form-select border-2" style="border-color: #4DB8FF;">
-                <option value="">-- Select Consultation Type --</option>
-                <option value="IT Strategy">IT Strategy Consultation</option>
-                <option value="Digital Transformation">Digital Transformation</option>
-                <option value="Software Development">Software Development Planning</option>
-                <option value="Data Analytics">Data Analytics Review</option>
-                <option value="General">General Business Consultation</option>
-              </select>
+              <!-- Consultation Type -->
+              <div class="col-md-6 mb-4">
+                <label for="consultationType" class="form-label">
+                  <i class="fas fa-briefcase"></i> Consultation Type
+                </label>
+                <select id="consultationType" class="form-select">
+                  <option value="">-- Select Consultation Type --</option>
+                  <option value="IT Strategy">IT Strategy Consultation</option>
+                  <option value="Digital Transformation">Digital Transformation</option>
+                  <option value="Software Development">Software Development Planning</option>
+                  <option value="Data Analytics">Data Analytics Review</option>
+                  <option value="General">General Business Consultation</option>
+                </select>
+              </div>
             </div>
 
             <!-- Notes -->
             <div class="mb-3">
-              <label for="notes" class="form-label fw-semibold" style="color: #4DB8FF;">
-                Additional Notes <span class="text-muted">(Optional)</span>
+              <label for="notes" class="form-label">
+                <i class="fas fa-sticky-note"></i> Additional Notes <span class="text-muted">(Optional)</span>
               </label>
               <textarea 
                 id="notes" 
-                class="form-control border-2" 
+                class="form-control" 
                 rows="4" 
-                placeholder="Please provide any specific topics you'd like to discuss..."
-                style="border-color: #4DB8FF;">
+                placeholder="Please provide any specific topics you'd like to discuss or special requirements...">
               </textarea>
             </div>
           </div>
 
-          <div class="modal-footer bg-light p-4">
-            <button type="button" class="btn btn-outline-secondary btn-lg me-2" data-bs-dismiss="modal">
-              Cancel
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              <i class="fas fa-times"></i> Cancel
             </button>
-            <button type="submit" class="btn btn-lg px-4 text-white" style="background: #4DB8FF; border: none;">
-              Confirm Booking
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-check"></i> Confirm Booking
             </button>
           </div>
         </form>
@@ -597,23 +876,24 @@
     </div>
   </div>
 
-  <!-- Cancel Appointment Modal -->
+  <!-- Enhanced Cancel Appointment Modal -->
   <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
         <!-- Header with warning/danger styling -->
-        <div class="modal-header text-white" style="background: linear-gradient(135deg, #dc3545, #c82333) !important;">
-          <h5 class="modal-title fw-bold" id="cancelModalLabel">
+        <div class="modal-header" style="background: linear-gradient(135deg, #dc3545, #c82333) !important;">
+          <h5 class="modal-title" id="cancelModalLabel">
+            <i class="fas fa-exclamation-triangle"></i>
             Cancel Appointment
           </h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         
-        <div class="modal-body p-4">
+        <div class="modal-body">
           <!-- Appointment Details Display -->
-          <div class="alert alert-warning border-warning mb-4">
-            <h6 class="fw-bold text-warning mb-3">
-              Appointment Details
+          <div class="alert alert-warning">
+            <h6 class="fw-bold mb-3">
+              <i class="fas fa-info-circle"></i> Appointment Details
             </h6>
             <div id="cancelAppointmentDetails">
               <!-- Details will be populated by JavaScript -->
@@ -621,51 +901,52 @@
           </div>
 
           <!-- Warning Message -->
-          <div class="alert alert-danger border-danger mb-4">
-            <h6 class="fw-bold text-danger mb-2">
-              Cancellation Warning
+          <div class="alert alert-danger">
+            <h6 class="fw-bold mb-2">
+              <i class="fas fa-exclamation-triangle"></i> Cancellation Warning
             </h6>
-            <p class="mb-0 text-danger">
+            <p class="mb-0">
               This action cannot be undone. Once cancelled, you'll need to book a new appointment if you wish to reschedule.
             </p>
           </div>
 
-          <!-- Cancellation Reason (Optional) -->
-          <div class="mb-3">
-            <label for="cancellationReason" class="form-label fw-semibold" style="color: #dc3545;">
-              Reason for Cancellation <span class="text-muted">(Optional)</span>
-            </label>
-            <select id="cancellationReason" class="form-select border-2" style="border-color: #dc3545;">
-              <option value="">-- Select Reason --</option>
-              <option value="Schedule Conflict">Schedule Conflict</option>
-              <option value="Personal Emergency">Personal Emergency</option>
-              <option value="Need to Reschedule">Need to Reschedule</option>
-              <option value="No Longer Needed">No Longer Needed</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+          <div class="row">
+            <!-- Cancellation Reason -->
+            <div class="col-md-6 mb-3">
+              <label for="cancellationReason" class="form-label">
+                <i class="fas fa-question-circle"></i> Reason for Cancellation <span class="text-muted">(Optional)</span>
+              </label>
+              <select id="cancellationReason" class="form-select">
+                <option value="">-- Select Reason --</option>
+                <option value="Schedule Conflict">Schedule Conflict</option>
+                <option value="Personal Emergency">Personal Emergency</option>
+                <option value="Need to Reschedule">Need to Reschedule</option>
+                <option value="No Longer Needed">No Longer Needed</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
-          <!-- Additional Notes -->
-          <div class="mb-3">
-            <label for="cancellationNotes" class="form-label fw-semibold" style="color: #dc3545;">
-              Additional Notes <span class="text-muted">(Optional)</span>
-            </label>
-            <textarea 
-              id="cancellationNotes" 
-              class="form-control border-2" 
-              rows="3" 
-              placeholder="Any additional comments about the cancellation..."
-              style="border-color: #dc3545;">
-            </textarea>
+            <!-- Additional Notes -->
+            <div class="col-md-6 mb-3">
+              <label for="cancellationNotes" class="form-label">
+                <i class="fas fa-comment"></i> Additional Notes <span class="text-muted">(Optional)</span>
+              </label>
+              <textarea 
+                id="cancellationNotes" 
+                class="form-control" 
+                rows="3" 
+                placeholder="Any additional comments...">
+              </textarea>
+            </div>
           </div>
         </div>
 
-        <div class="modal-footer bg-light p-4">
-          <button type="button" class="btn btn-outline-secondary btn-lg me-2" data-bs-dismiss="modal">
-            Keep Appointment
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-arrow-left"></i> Keep Appointment
           </button>
-          <button type="button" id="confirmCancelBtn" class="btn btn-danger btn-lg px-4">
-            Yes, Cancel Appointment
+          <button type="button" id="confirmCancelBtn" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Yes, Cancel Appointment
           </button>
         </div>
       </div>
