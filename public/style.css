@@ -552,3 +552,7 @@ nav a:hover {
 .login-page header nav a {
   position: inherit !important;
 }
+
+main {
+  margin-top: 40px; /* Adjust if your header is taller */
+}

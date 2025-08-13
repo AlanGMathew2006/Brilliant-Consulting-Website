@@ -26,36 +26,63 @@
     <div class="stats-section">
       <h2>Key Metrics</h2>
       <div class="stats-grid">
+        <!-- Total Users Card -->
         <div class="stat-card">
           <div class="stat-icon">
             <i class="fas fa-users"></i>
           </div>
           <div class="stat-content">
-            <h3>Total Users</h3>
-            <div class="stat-number" data-count="247">0</div>
+            <h3>TOTAL USERS</h3>
+            <div class="stat-number" data-count="<%= stats.totalUsers %>"><%= stats.totalUsers %></div>
             <p>Registered accounts</p>
           </div>
         </div>
 
+        <!-- Total Appointments Card -->
         <div class="stat-card">
           <div class="stat-icon">
             <i class="fas fa-calendar-alt"></i>
           </div>
           <div class="stat-content">
-            <h3>Total Appointments</h3>
-            <div class="stat-number" data-count="89">0</div>
+            <h3>TOTAL APPOINTMENTS</h3>
+            <div class="stat-number" data-count="<%= stats.totalAppointments %>"><%= stats.totalAppointments %></div>
             <p>All appointments</p>
           </div>
         </div>
 
+        <!-- Booked Appointments Card -->
         <div class="stat-card">
           <div class="stat-icon">
             <i class="fas fa-calendar-check"></i>
           </div>
           <div class="stat-content">
-            <h3>Booked Appointments</h3>
-            <div class="stat-number" data-count="56">0</div>
+            <h3>BOOKED APPOINTMENTS</h3>
+            <div class="stat-number" data-count="<%= stats.bookedAppointments %>"><%= stats.bookedAppointments %></div>
             <p>Confirmed bookings</p>
+          </div>
+        </div>
+
+        <!-- Canceled Appointments Card -->
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-times"></i>
+          </div>
+          <div class="stat-content">
+            <h3>CANCELED APPOINTMENTS</h3>
+            <div class="stat-number" data-count="<%= stats.canceledAppointments %>"><%= stats.canceledAppointments %></div>
+            <p>Cancelled bookings</p>
+          </div>
+        </div>
+
+        <!-- Completed Appointments Card -->
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-content">
+            <h3>COMPLETED APPOINTMENTS</h3>
+            <div class="stat-number" data-count="<%= stats.completedAppointments %>"><%= stats.completedAppointments %></div>
+            <p>Finished bookings</p>
           </div>
         </div>
       </div>

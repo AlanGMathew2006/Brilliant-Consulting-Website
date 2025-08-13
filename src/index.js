@@ -3,6 +3,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { connectDB } = require('./config');
+const Appointment = require('./models/Appointment');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -110,6 +111,70 @@ connectDB().then(() => {
       userName: req.session.userName || req.session.user?.userName || null 
     });
   });
+
+  // User appointments route - for loading existing appointments
+app.get('/user/appointments', async (req, res) => {
+  try {
+    console.log('📋 Loading appointments for user:', req.session.userName);
+    
+    if (!req.session.userName) {
+      return res.status(401).json({
+        success: false,
+        error: 'Not logged in'
+      });
+    }
+
+    const userAppointments = await Appointment.find({ 
+      userName: req.session.userName 
+    }).sort({ createdAt: -1 });
+
+    console.log(`Found ${userAppointments.length} appointments for ${req.session.userName}`);
+
+    res.json({
+      success: true,
+      appointments: userAppointments
+    });
+
+  } catch (error) {
+    console.error('❌ Error loading user appointments:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to load appointments'
+    });
+  }
+});
+
+// Alternative route path (in case your frontend calls this)
+app.get('/appointments/user', async (req, res) => {
+  try {
+    if (!req.session.user && !req.session.userName) {
+      return res.status(401).json({
+        success: false,
+        error: 'Not logged in'
+      });
+    }
+
+    const userName = req.session.userName || req.session.user.userName;
+    
+    const userAppointments = await Appointment.find({ 
+      userName: userName 
+    }).sort({ createdAt: -1 });
+
+    console.log(`📋 User ${userName} has ${userAppointments.length} appointments`);
+
+    res.json({
+      success: true,
+      appointments: userAppointments
+    });
+
+  } catch (error) {
+    console.error('❌ Error loading appointments:', error);
+    res.json({
+      success: false,
+      error: 'Failed to load appointments'
+    });
+  }
+});
 
   // 404 handler - MUST BE LAST!
   app.use((req, res) => {

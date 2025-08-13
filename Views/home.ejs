@@ -762,7 +762,7 @@
       }
 
       try {
-        const res = await fetch('/appointments', {
+        const res = await fetch('/appointments/book', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ date, timeSlot, notes, consultationType })

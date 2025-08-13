@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getCollection } = require('../config');
+const Appointment = require('../models/Appointment');
+const mongoose = require('mongoose');
+
+console.log('🔧 Appointment routes loaded!');
 
 // GET: Fetch user's appointments
 router.get('/', async (req, res) => {
@@ -9,19 +12,17 @@ router.get('/', async (req, res) => {
   if (!userName) return res.status(401).json({ error: 'Login required' });
 
   try {
-    const appointments = getCollection('appointments');
-    
-    // Get all appointments for the logged-in user
-    const userAppointments = await appointments.find({
+    // Get all appointments for the logged-in user (not cancelled)
+    const userAppointments = await Appointment.find({
       userName: userName,
-      status: { $ne: 'cancelled' } // Don't show cancelled appointments
-    }).toArray();
+      status: { $ne: 'cancelled' }
+    });
 
     // Format appointments for FullCalendar
     const events = userAppointments.map(appointment => ({
       id: appointment._id.toString(),
       title: appointment.timeSlot,
-      start: appointment.date.toISOString().split('T')[0], // Format as YYYY-MM-DD
+      start: appointment.date, // Assuming date is already in YYYY-MM-DD format
       backgroundColor: '#4DB8FF',
       borderColor: '#4DB8FF',
       extendedProps: {
@@ -39,37 +40,32 @@ router.get('/', async (req, res) => {
 });
 
 // POST: Book an appointment
-router.post('/', async (req, res) => {
-  const { date, timeSlot, notes, consultationType } = req.body;
-  const userName = req.session.userName;
-
-  if (!userName) return res.status(401).send('Login required');
-
+router.post('/book', async (req, res) => {
   try {
-    const appointments = getCollection('appointments');
-
-    // Check for conflict on same date + time slot
-    const conflict = await appointments.findOne({
-      date: new Date(date),
-      timeSlot: timeSlot
-    });
-
-    if (conflict) return res.status(400).send('That time slot is already booked.');
-
-    await appointments.insertOne({
-      userName,
-      date: new Date(date),
+    const { date, timeSlot, notes, consultationType } = req.body;
+    if (!req.session.userName) {
+      return res.status(401).json({ success: false, error: 'Not logged in' });
+    }
+    const newAppointment = new Appointment({
+      userName: req.session.userName,
+      date,
       timeSlot,
       notes: notes || '',
       consultationType: consultationType || 'General',
-      status: 'confirmed',
-      createdAt: new Date()
+      status: 'booked'
     });
-
-    res.send('Appointment booked successfully!');
-  } catch (err) {
-    console.error('Booking error:', err);
-    res.status(500).send('Internal server error');
+    const savedAppointment = await newAppointment.save();
+    res.json({
+      success: true,
+      message: 'Appointment booked successfully!',
+      appointment: savedAppointment
+    });
+  } catch (error) {
+    console.error('❌ Appointment booking error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to book appointment: ' + error.message
+    });
   }
 });
 
@@ -81,11 +77,8 @@ router.delete('/:id', async (req, res) => {
   if (!userName) return res.status(401).send('Login required');
 
   try {
-    const appointments = getCollection('appointments');
-    const { ObjectId } = require('mongodb');
-
-    const result = await appointments.updateOne(
-      { _id: new ObjectId(id), userName: userName },
+    const result = await Appointment.updateOne(
+      { _id: new mongoose.Types.ObjectId(id), userName: userName },
       { $set: { status: 'cancelled' } }
     );
 

@@ -3,7 +3,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const { getCollection } = require('../config');
+
+const User = require('../models/User');
 
 // Test database connection and operations
 router.get('/test-db', async (req, res) => {
@@ -73,15 +74,13 @@ router.post('/login', async (req, res) => {
     console.log('Username from form:', userName);
     console.log('Password provided:', !!password);
 
-    const users = getCollection('users');
-    
-    // Find user in database
-    const user = await users.findOne({ userName: userName });
+    // Use Mongoose instead of getCollection
+    const user = await User.findOne({ userName: userName });
     console.log('Database search result:', user ? 'FOUND' : 'NOT FOUND');
     
     if (user) {
       console.log('Found user details:', {
-        role: user.role,  // ← This shows the role exists
+        role: user.role,
       });
     }
     
@@ -149,10 +148,8 @@ router.post('/signup', async (req, res) => {
 
   try {
     console.log('\n=== SIGNUP ATTEMPT DEBUG ===');
-    console.log('Raw req.body:', req.body);
     console.log('Username extracted:', userName);
     console.log('Email extracted:', email);
-    console.log('Password extracted:', password ? '[PROVIDED]' : '[MISSING]');
 
     if (!userName || !email || !password) {
       console.log('❌ Missing required fields');
@@ -162,10 +159,8 @@ router.post('/signup', async (req, res) => {
       });
     }
 
-    const users = getCollection('users');
-    
-    // Check if user already exists
-    const existingUser = await users.findOne({ 
+    // Check if user already exists using Mongoose
+    const existingUser = await User.findOne({ 
       $or: [{ userName: userName }, { email: email }] 
     });
     
@@ -181,41 +176,29 @@ router.post('/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log('✅ Password hashed successfully');
 
-    // Prepare user object
-    const newUser = {
+    // Create new user using Mongoose
+    const newUser = new User({
       userName: userName,
       email: email,
       password: hashedPassword,
-      role: 'user',  // Default role for new signups
-      createdAt: new Date()
-    };
-
-    // Save user to database
-    const result = await users.insertOne(newUser);
-    console.log('✅ User saved to database:', result.insertedId);
-
-    // Verify what was actually saved
-    const savedUser = await users.findOne({ _id: result.insertedId });
-    console.log('✅ Verification - saved user:', {
-      _id: savedUser._id,
-      userName: savedUser.userName,
-      email: savedUser.email,
-      role: savedUser.role,
-      hasPassword: !!savedUser.password
+      role: 'user'
     });
 
-    // Set FULL session with user object including role
+    // Save user to database
+    const savedUser = await newUser.save();
+    console.log('✅ User saved to database:', savedUser._id);
+
+    // Set session
     req.session.user = {
       userName: savedUser.userName,
       email: savedUser.email,
       role: savedUser.role
     };
-    req.session.userName = userName; // Keep for backward compatibility
+    req.session.userName = userName;
     
     console.log('✅ Session created for:', userName, 'with role:', savedUser.role);
-    console.log('=== END SIGNUP DEBUG ===\n');
 
-    // Redirect based on role (though new signups will always be 'user')
+    // Redirect based on role
     if (savedUser.role === 'admin') {
       res.redirect('/admin');
     } else {
