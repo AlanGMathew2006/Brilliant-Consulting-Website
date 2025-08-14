@@ -76,4 +76,44 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Delete user route (AJAX)
+router.delete('/user/:id', verifyAdmin, async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Failed to delete user.' });
+  }
+});
+
+// Update user info
+router.put('/user/:id', verifyAdmin, async (req, res) => {
+  try {
+    const {
+      fullName, email, phoneNumber, companyName,
+      serviceInterest, projectDescription, role, notes
+    } = req.body;
+    await User.findByIdAndUpdate(req.params.id, {
+      fullName, email, phoneNumber, companyName,
+      serviceInterest, projectDescription, role, notes
+    });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Failed to update user.' });
+  }
+});
+
+// Reset password (send reset email or set temp password)
+router.post('/user/:id/reset-password', verifyAdmin, async (req, res) => {
+  try {
+    // Example: set a temporary password (or integrate with your email system)
+    const tempPassword = Math.random().toString(36).slice(-8);
+    await User.findByIdAndUpdate(req.params.id, { password: tempPassword });
+    // TODO: Send email to user with tempPassword (integrate with nodemailer)
+    res.json({ success: true, tempPassword }); // Remove tempPassword in production!
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Failed to reset password.' });
+  }
+});
+
 module.exports = router;

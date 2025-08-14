@@ -6,6 +6,296 @@
     <title>Sign Up</title>
     <link rel="stylesheet" href="/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+        }
+        .signup-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 0;
+            width: 100vw;
+        }
+        .form-container {
+            background: #fff;
+            border-radius: 18px;
+            padding: 2.5rem 2.5rem 2rem 2.5rem;
+            box-shadow: 0 12px 40px rgba(77, 184, 255, 0.10);
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            max-width: 950px;
+            position: relative;
+            margin: 2rem 0;
+        }
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4DB8FF, #3A9CE8);
+            border-radius: 18px 18px 0 0;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.2rem;
+        }
+        .logo-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            background: linear-gradient(135deg, #4DB8FF, #3A9CE8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 25px rgba(77, 184, 255, 0.18);
+        }
+        .form-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        .form-header p {
+            color: #64748b;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .form-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4DB8FF;
+            margin-bottom: 0.7rem;
+            margin-top: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+        .form-row {
+            display: flex;
+            gap: 2.5rem;
+            width: 100%;
+        }
+        .form-col {
+            flex: 1;
+            min-width: 270px;
+        }
+        .form-group {
+            margin-bottom: 1.3rem;
+        }
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.45rem;
+            font-size: 1rem;
+        }
+        .required-asterisk {
+            color: #e74c3c;
+            font-size: 1.1em;
+            margin-left: 2px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.85rem 1.1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f9fafb;
+            color: #374151;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4DB8FF;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.08);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #9ca3af;
+        }
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4DB8FF, #3A9CE8);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.08rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.2rem;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(77, 184, 255, 0.18);
+        }
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .form-footer p {
+            color: #6b7280;
+            margin: 0;
+        }
+        .form-footer a {
+            color: #4DB8FF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        .terms-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            margin-bottom: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        .terms-group input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: #4DB8FF;
+            transform: scale(1.2);
+        }
+        .terms-group label {
+            font-weight: 400;
+            color: #374151;
+            font-size: 1rem;
+            margin-bottom: 0;
+            display: inline;
+        }
+        .terms-group a {
+            color: #4DB8FF;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        @media (max-width: 1100px) {
+            .form-container {
+                max-width: 98vw;
+            }
+        }
+        @media (max-width: 900px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 1.2rem;
+            }
+            .terms-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+            .terms-label {
+                font-size: 0.97rem;
+            }
+        }
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+        .modal-box h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        .modal-content {
+            font-size: 0.95rem;
+            color: #374151;
+            line-height: 1.6;
+        }
+        #closeTermsModal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            color: #374151;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .terms-row {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 1.2rem 0 0.5rem 0;
+        }
+        .terms-label {
+            font-weight: 500;
+            color: #1e293b !important;
+            font-size: 1rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .terms-label a {
+            color: #4DB8FF;
+            text-decoration: underline;
+            font-weight: 500;
+            margin: 0 2px;
+        }
+        .terms-label input[type="checkbox"] {
+            accent-color: #4DB8FF;
+            transform: scale(1.15);
+            margin: 0 8px 0 0;
+        }
+        @media (max-width: 900px) {
+            .terms-row {
+                justify-content: flex-start;
+            }
+        }
+        @media (max-width: 600px) {
+            .terms-row {
+                justify-content: flex-start;
+            }
+            .terms-label {
+                font-size: 0.97rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="signup-content">
@@ -17,27 +307,86 @@
                 <h2>Sign Up</h2>
                 <p>Create your account to get started</p>
             </div>
-            <form action="/auth/signup" method="POST">
-                <div class="form-group">
-                    <label for="username">
-                        <i class="fas fa-user"></i>
-                        Username:
-                    </label>
-                    <input type="text" id="username" name="userName" placeholder="Enter Username Here" required autocomplete="off"/>
+            <form action="/auth/signup" method="POST" autocomplete="off">
+                <div class="form-section-title">Personal Information</div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="fullName">
+                                <i class="fas fa-user"></i>
+                                Full Name <span class="required-asterisk">*</span>
+                            </label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">
+                                <i class="fas fa-envelope"></i>
+                                Email Address <span class="required-asterisk">*</span>
+                            </label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">
+                                <i class="fas fa-phone"></i>
+                                Phone Number <span class="required-asterisk">*</span>
+                            </label>
+                            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="companyName">
+                                <i class="fas fa-building"></i>
+                                Company Name
+                            </label>
+                            <input type="text" id="companyName" name="companyName" placeholder="Enter your company name (optional)" />
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="serviceInterest">
+                                <i class="fas fa-briefcase"></i>
+                                Service Interest <span class="required-asterisk">*</span>
+                            </label>
+                            <select id="serviceInterest" name="serviceInterest" required>
+                                <option value="">Select Service</option>
+                                <option value="Consulting">Consulting</option>
+                                <option value="Development">Development</option>
+                                <option value="Data Analytics">Data Analytics</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectDescription">
+                                <i class="fas fa-align-left"></i>
+                                Brief Project Description
+                            </label>
+                            <textarea id="projectDescription" name="projectDescription" placeholder="Describe your project (optional)" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">
+                                <i class="fas fa-lock"></i>
+                                Password <span class="required-asterisk">*</span>
+                            </label>
+                            <input type="password" id="password" name="password" placeholder="Enter password" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">
+                                <i class="fas fa-lock"></i>
+                                Confirm Password <span class="required-asterisk">*</span>
+                            </label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required />
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">
-                        <i class="fas fa-envelope"></i>
-                        Email:
+                <!-- Terms and Conditions: Right-aligned, compact, and professional -->
+                <div class="terms-row">
+                    <label class="terms-label">
+                        <input type="checkbox" id="agreedToTerms" name="agreedToTerms" required style="margin-right:8px;vertical-align:middle;" />
+                        <span style="color:#1e293b; font-weight:500;">
+                            I agree to the 
+                            <a href="/terms" target="_blank" style="color:#4DB8FF;text-decoration:underline;font-weight:600;">Terms & Privacy Policy</a>
+                            <span class="required-asterisk">*</span>
+                        </span>
                     </label>
-                    <input type="email" id="email" name="email" placeholder="Enter Email Here" required autocomplete="off"/>
-                </div>
-                <div class="form-group">
-                    <label for="password">
-                        <i class="fas fa-lock"></i>
-                        Password:
-                    </label>
-                    <input type="password" id="password" name="password" placeholder="Enter Password Here" required />
                 </div>
                 <button type="submit" class="submit-btn">
                     <span>Sign Up</span>
@@ -50,192 +399,6 @@
         </div>
     </div>
 
-    <style>
-        /* Professional signup styling with #4DB8FF color scheme */
-        body {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        .signup-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .form-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
-            width: 100%;
-            max-width: 450px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .form-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #4DB8FF, #3A9CE8);
-        }
-
-        .form-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo-icon {
-            width: 4rem;
-            height: 4rem;
-            background: linear-gradient(135deg, #4DB8FF, #3A9CE8);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 auto 1rem;
-            box-shadow: 0 8px 25px rgba(77, 184, 255, 0.3);
-        }
-
-        .form-header h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-header p {
-            color: #64748b;
-            font-size: 1rem;
-            margin: 0;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #f9fafb;
-            box-sizing: border-box;
-            color: #374151;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #4DB8FF;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(77, 184, 255, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .form-group input::placeholder {
-            color: #9ca3af;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #4DB8FF, #3A9CE8);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(77, 184, 255, 0.4);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn i {
-            transition: transform 0.3s ease;
-        }
-
-        .submit-btn:hover i {
-            transform: translateX(3px);
-        }
-
-        .form-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .form-footer p {
-            color: #6b7280;
-            margin: 0;
-        }
-
-        .form-footer a {
-            color: #4DB8FF;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .signup-content {
-                padding: 1rem;
-            }
-
-            .form-container {
-                padding: 2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .form-container {
-                padding: 1.5rem;
-            }
-
-            .logo-icon {
-                width: 3rem;
-                height: 3rem;
-                font-size: 1.25rem;
-            }
-        }
-    </style>
+  
 </body>
 </html>

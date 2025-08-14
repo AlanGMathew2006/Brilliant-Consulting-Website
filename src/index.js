@@ -38,14 +38,14 @@ connectDB().then(() => {
   });
 
   // Import routes
+  const adminRoutes = require('./routes/admin');
   const authRoutes = require('./routes/auth'); 
   const appointmentRoutes = require('./routes/appointments');
-  const adminRoutes = require('./routes/admin');  // Add this line
 
   // Use route modules FIRST
+  app.use('/admin', adminRoutes);
   app.use('/auth', authRoutes);
   app.use('/appointments', appointmentRoutes);
-  app.use('/admin', adminRoutes);  // Add this line
 
   // Main routes
   app.get('/', (req, res) => {
@@ -175,6 +175,10 @@ app.get('/appointments/user', async (req, res) => {
     });
   }
 });
+
+  app.get('/terms', (req, res) => {
+    res.render('terms');
+  });
 
   // 404 handler - MUST BE LAST!
   app.use((req, res) => {

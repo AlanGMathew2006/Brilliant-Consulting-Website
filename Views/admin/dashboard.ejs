@@ -149,8 +149,21 @@
                 <td><%= user.email %></td>
                 <td><%= user.role %></td>
                 <td>
-                  <button class="dashboard-btn" style="background:#4DB8FF;">Edit</button>
-                  <button class="dashboard-btn danger">Delete</button>
+                  <button class="dashboard-btn edit-user-btn"
+    data-id="<%= user._id %>"
+    data-fullname="<%= user.fullName %>"
+    data-email="<%= user.email %>"
+    data-phonenumber="<%= user.phoneNumber %>"
+    data-companyname="<%= user.companyName %>"
+    data-serviceinterest="<%= user.serviceInterest %>"
+    data-projectdescription="<%= user.projectDescription %>"
+    data-role="<%= user.role %>"
+    data-notes="<%= user.notes ? user.notes.replace(/"/g, '&quot;') : '' %>">
+    <i class="fas fa-edit"></i> Edit
+  </button>
+  <button class="dashboard-btn danger delete-user-btn" data-id="<%= user._id %>">
+    <i class="fas fa-trash"></i> Delete
+  </button>
                 </td>
               </tr>
             <% }) %>
@@ -209,6 +222,87 @@
     </main>
   </div>
 
+  <!-- Delete User Modal -->
+  <div id="deleteUserModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <h2>Delete User</h2>
+      <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="confirmDeleteUser" class="modal-btn danger">Delete</button>
+        <button id="cancelDeleteUser" class="modal-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div id="editUserModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box" style="max-width:540px;">
+      <div class="modal-icon">
+        <i class="fas fa-user-edit"></i>
+      </div>
+      <h2 style="margin-bottom:1.5rem;">Edit User</h2>
+      <form id="editUserForm" autocomplete="off">
+        <input type="hidden" id="editUserId">
+        <div class="modal-row" style="display:flex;gap:1.2rem;">
+          <div class="modal-col" style="flex:1;">
+            <div class="modal-field">
+              <label for="editFullName" style="color:#1e293b;font-weight:600;">Full Name <span style="color:#e74c3c;">*</span></label>
+              <input type="text" id="editFullName" required>
+            </div>
+            <div class="modal-field">
+              <label for="editEmail" style="color:#1e293b;font-weight:600;">Email Address <span style="color:#e74c3c;">*</span></label>
+              <input type="email" id="editEmail" required>
+            </div>
+            <div class="modal-field">
+              <label for="editPhoneNumber" style="color:#1e293b;font-weight:600;">Phone Number <span style="color:#e74c3c;">*</span></label>
+              <input type="text" id="editPhoneNumber" required>
+            </div>
+            <div class="modal-field">
+              <label for="editCompanyName" style="color:#1e293b;font-weight:600;">Company Name</label>
+              <input type="text" id="editCompanyName">
+            </div>
+          </div>
+          <div class="modal-col" style="flex:1;">
+            <div class="modal-field">
+              <label for="editServiceInterest" style="color:#1e293b;font-weight:600;">Service Interest <span style="color:#e74c3c;">*</span></label>
+              <select id="editServiceInterest" required>
+                <option value="">Select Service</option>
+                <option value="Consulting">Consulting</option>
+                <option value="Development">Development</option>
+                <option value="Data Analytics">Data Analytics</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="modal-field">
+              <label for="editProjectDescription" style="color:#1e293b;font-weight:600;">Brief Project Description</label>
+              <textarea id="editProjectDescription" rows="3"></textarea>
+            </div>
+            <div class="modal-field">
+              <label for="editRole" style="color:#4DB8FF;font-weight:600;">Role <span style="color:#e74c3c;">*</span></label>
+              <select id="editRole" required>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="modal-field">
+              <label for="editNotes" style="color:#1e293b;font-weight:600;">Admin Notes</label>
+              <textarea id="editNotes" rows="2" placeholder="Add special notes for this user..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions" style="margin:1.5rem 0 0.5rem 0;display:flex;justify-content:space-between;gap:1rem;">
+          <button type="button" id="resetPasswordBtn" class="modal-btn" style="background:#4DB8FF;">Reset Password</button>
+          <div style="display:flex;gap:0.7rem;">
+            <button type="button" id="cancelEditUser" class="modal-btn" style="background:#e5e7eb;color:#1e293b;">Cancel</button>
+            <button type="submit" class="modal-btn" style="background:#4DB8FF;">Save Changes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
   <style>
     /* Dashboard styles with updated color scheme */
     .dashboard-header {
@@ -442,6 +536,79 @@
       color: #4DB8FF;
     }
 
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 30, 0.7);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 28px 24px 28px;
+      text-align: center;
+      box-shadow: 0 8px 32px 0 rgba(77, 184, 255, 0.18);
+      min-width: 320px;
+      max-width: 540px;
+      width: 100%;
+      position: relative;
+    }
+
+    .modal-icon {
+      color: #4DB8FF;
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .modal-box h2 {
+      color: #222;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .modal-box p {
+      color: #555;
+      margin-bottom: 24px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .modal-btn {
+      background: #4DB8FF;
+      color: #fff;
+      border: none;
+      padding: 10px 32px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .modal-btn.danger {
+      background: #e74c3c;
+    }
+
+    .modal-btn:hover {
+      background: #2196f3;
+    }
+
+    .modal-btn.danger:hover {
+      background: #c0392b;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .dashboard-header {
@@ -474,17 +641,126 @@
         flex-direction: column;
         gap: 1rem;
       }
-    }
-  </style>
 
+      .modal-box {
+        padding: 1.5rem;
+      }
+
+      .modal-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+      }
+
+      .modal-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    #editUserModal .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 28px 24px 28px;
+      text-align: left;
+      box-shadow: 0 8px 32px 0 rgba(77, 184, 255, 0.18);
+      min-width: 320px;
+      max-width: 540px;
+      width: 100%;
+      position: relative;
+    }
+    #editUserModal .modal-field {
+      margin-bottom: 1.1rem;
+    }
+    #editUserModal .modal-field label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+    #editUserModal .modal-field input,
+    #editUserModal .modal-field select,
+    #editUserModal .modal-field textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #f9fafb;
+      color: #374151;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    #editUserModal .modal-field input:focus,
+    #editUserModal .modal-field select:focus,
+    #editUserModal .modal-field textarea:focus {
+      outline: none;
+      border-color: #4DB8FF;
+      background: #fff;
+      box-shadow: 0 0 0 2px rgba(77, 184, 255, 0.10);
+    }
+    #editUserModal .modal-field textarea {
+      min-height: 50px;
+      resize: vertical;
+    }
+    #editUserModal .modal-actions .modal-btn {
+      min-width: 120px;
+      font-size: 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      padding: 0.7rem 1.2rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    #editUserModal .modal-actions .modal-btn:hover {
+      filter: brightness(0.95);
+    }
+    @media (max-width: 700px) {
+      #editUserModal .modal-row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      #editUserModal .modal-box {
+        padding: 18px 8px 18px 8px;
+      }
+    }
+
+    .dashboard-btn {
+  background: #4DB8FF;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  margin-bottom: 0.2rem;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(77, 184, 255, 0.08);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.dashboard-btn:last-child {
+  margin-right: 0;
+}
+.dashboard-btn:hover {
+  background: #2196f3;
+}
+.dashboard-btn.danger {
+  background: #e74c3c;
+}
+.dashboard-btn.danger:hover {
+  background: #c0392b;
+}
+  </style>
   <script>
     // Smooth number animation
     function animateNumbers() {
       document.querySelectorAll('.stat-number').forEach(numberElement => {
         const finalNumber = parseInt(numberElement.getAttribute('data-count'));
         let currentNumber = 0;
-        const increment = finalNumber / 80; // Smoother animation
-        
+        const increment = finalNumber / 80;
         const timer = setInterval(() => {
           currentNumber += increment;
           if (currentNumber >= finalNumber) {
@@ -510,6 +786,136 @@
         if(section) section.scrollIntoView({ behavior: 'smooth' });
       });
     });
+
+    let userIdToDelete = null;
+
+    document.querySelectorAll('.delete-user-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        userIdToDelete = this.getAttribute('data-id');
+        document.getElementById('deleteUserModal').style.display = 'flex';
+      });
+    });
+
+    const cancelDeleteBtn = document.getElementById('cancelDeleteUser');
+    if (cancelDeleteBtn) {
+      cancelDeleteBtn.onclick = function() {
+        document.getElementById('deleteUserModal').style.display = 'none';
+        userIdToDelete = null;
+      };
+    }
+
+    const confirmDeleteBtn = document.getElementById('confirmDeleteUser');
+    if (confirmDeleteBtn) {
+      confirmDeleteBtn.onclick = function() {
+        if (!userIdToDelete) return;
+        fetch(`/admin/user/${userIdToDelete}`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('deleteUserModal').style.display = 'none';
+          userIdToDelete = null;
+          if (data.success) {
+            location.reload();
+          } else {
+            alert('Failed to delete user.');
+          }
+        })
+        .catch(() => {
+          document.getElementById('deleteUserModal').style.display = 'none';
+          userIdToDelete = null;
+          alert('Failed to delete user.');
+        });
+      };
+    }
+
+    // Edit User functionality (no localStorage)
+    let userIdToEdit = null;
+
+    document.querySelectorAll('.edit-user-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        userIdToEdit = this.getAttribute('data-id');
+        document.getElementById('editUserId').value = userIdToEdit;
+        document.getElementById('editFullName').value = this.getAttribute('data-fullname') || '';
+        document.getElementById('editEmail').value = this.getAttribute('data-email') || '';
+        document.getElementById('editPhoneNumber').value = this.getAttribute('data-phonenumber') || '';
+        document.getElementById('editCompanyName').value = this.getAttribute('data-companyname') || '';
+        document.getElementById('editServiceInterest').value = this.getAttribute('data-serviceinterest') || '';
+        document.getElementById('editProjectDescription').value = this.getAttribute('data-projectdescription') || '';
+        document.getElementById('editRole').value = this.getAttribute('data-role') || 'user';
+        document.getElementById('editNotes').value = this.getAttribute('data-notes') || '';
+        document.getElementById('editUserModal').style.display = 'flex';
+      });
+    });
+
+    const cancelEditBtn = document.getElementById('cancelEditUser');
+    if (cancelEditBtn) {
+      cancelEditBtn.onclick = function() {
+        document.getElementById('editUserModal').style.display = 'none';
+        userIdToEdit = null;
+      };
+    }
+
+    const editUserForm = document.getElementById('editUserForm');
+    if (editUserForm) {
+      editUserForm.onsubmit = function(e) {
+        e.preventDefault();
+        const id = document.getElementById('editUserId').value;
+        const fullName = document.getElementById('editFullName').value;
+        const email = document.getElementById('editEmail').value;
+        const phoneNumber = document.getElementById('editPhoneNumber').value;
+        const companyName = document.getElementById('editCompanyName').value;
+        const serviceInterest = document.getElementById('editServiceInterest').value;
+        const projectDescription = document.getElementById('editProjectDescription').value;
+        const role = document.getElementById('editRole').value;
+        const notes = document.getElementById('editNotes').value;
+
+        fetch(`/admin/user/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fullName, email, phoneNumber, companyName, serviceInterest, projectDescription, role, notes })
+        })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('editUserModal').style.display = 'none';
+          userIdToEdit = null;
+          if (data.success) {
+            location.reload();
+          } else {
+            alert('Failed to update user.');
+          }
+        })
+        .catch(() => {
+          document.getElementById('editUserModal').style.display = 'none';
+          userIdToEdit = null;
+          alert('Failed to update user.');
+        });
+      };
+    }
+
+    const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+    if (resetPasswordBtn) {
+      resetPasswordBtn.onclick = function() {
+        const id = document.getElementById('editUserId').value;
+        if (!id) return;
+        if (confirm('Send a password reset email to this user?')) {
+          fetch(`/admin/user/${id}/reset-password`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              alert('Password reset email sent.');
+            } else {
+              alert('Failed to send reset email.');
+            }
+          })
+          .catch(() => alert('Failed to send reset email.'));
+        }
+      };
+    }
   </script>
 </body>
 </html>

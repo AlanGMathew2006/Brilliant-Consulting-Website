@@ -178,15 +178,17 @@ router.post('/signup', async (req, res) => {
 
     // Create new user using Mongoose
     const newUser = new User({
-      userName: userName,
-      email: email,
-      password: hashedPassword,
-      role: 'user'
+      fullName: req.body.fullName,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      companyName: req.body.companyName,
+      serviceInterest: req.body.serviceInterest,
+      projectDescription: req.body.projectDescription,
+      password: hashedPassword, // Make sure to hash the password!
+      role: 'user',
+      agreedToTerms: req.body.agreedToTerms === 'on'
     });
-
-    // Save user to database
-    const savedUser = await newUser.save();
-    console.log('✅ User saved to database:', savedUser._id);
+    await newUser.save();
 
     // Set session
     req.session.user = {
