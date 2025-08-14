@@ -259,12 +259,12 @@ router.get('/test-bcrypt/:password', async (req, res) => {
 
 // Logout routes
 router.get('/logout', (req, res) => {
-  console.log('Logging out user:', req.session.userName);
-  req.session.destroy((err) => {
+  req.session.destroy(err => {
     if (err) {
       console.error('Logout error:', err);
+      // Still redirect to login even if error
     }
-    res.redirect('/'); // Redirect to login page
+    res.redirect('/login'); // or res.redirect('/') if your login is at /
   });
 });
 

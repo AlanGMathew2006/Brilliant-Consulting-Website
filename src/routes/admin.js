@@ -27,6 +27,17 @@ router.get('/', async (req, res) => {
       const canceledAppointments = await Appointment.countDocuments({ status: 'cancelled' });
       const completedAppointments = await Appointment.countDocuments({ status: 'completed' });
 
+      // New sections
+      const recentAppointments = await Appointment.find().sort({ createdAt: -1 }).limit(10);
+      const users = await User.find();
+      const allAppointments = await Appointment.find();
+      const thisMonthAppointments = await Appointment.countDocuments({
+        createdAt: { $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) }
+      });
+      const thisMonthUsers = await User.countDocuments({
+        createdAt: { $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) }
+      });
+
       console.log('Database results:', { totalUsers, totalAppointments, bookedAppointments });
 
       // Render dashboard with real data
@@ -38,8 +49,13 @@ router.get('/', async (req, res) => {
           totalAppointments: totalAppointments || 0,
           bookedAppointments: bookedAppointments || 0,
           canceledAppointments: canceledAppointments || 0,
-          completedAppointments: completedAppointments || 0
-        }
+          completedAppointments: completedAppointments || 0,
+          thisMonthAppointments: thisMonthAppointments || 0,
+          thisMonthUsers: thisMonthUsers || 0
+        },
+        recentAppointments,
+        users,
+        allAppointments
       });
     } catch(error) {
       console.error('❌ Database error:', error);

@@ -8,86 +8,206 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <div class="logo">Brilliant <span>Consulting</span></div>
+  <header class="admin-header">
+    <div class="logo">Brilliant <span style="color:#4DB8FF;">Consulting</span></div>
     <nav>
-      <span>Welcome, Admin <%= userName %>!</span>
-      <a href="/auth/logout" class="logout-btn">Logout</a>
+      <a href="/admin" class="nav-link">Dashboard</a>
+      <a href="/auth/logout" class="nav-link logout-btn">Logout</a>
     </nav>
   </header>
 
-  <main>
-    <div class="dashboard-header">
-      <h1>Admin Dashboard</h1>
-      <p>Welcome to the admin control panel!</p>
-    </div>
-    
-    <!-- Stats Cards -->
-    <div class="stats-section">
-      <h2>Key Metrics</h2>
-      <div class="stats-grid">
-        <!-- Total Users Card -->
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-users"></i>
-          </div>
-          <div class="stat-content">
-            <h3>TOTAL USERS</h3>
-            <div class="stat-number" data-count="<%= stats.totalUsers %>"><%= stats.totalUsers %></div>
-            <p>Registered accounts</p>
-          </div>
-        </div>
+  <div class="admin-dashboard-container">
+    <!-- Sidebar Navigation -->
+    <nav class="admin-sidebar">
+      <ul>
+        <li><a href="#stats-section" class="sidebar-link">Stats</a></li>
+        <li><a href="#recent-appointments" class="sidebar-link">Recent Appointments</a></li>
+        <li><a href="#user-management" class="sidebar-link">User Management</a></li>
+        <li><a href="#appointment-management" class="sidebar-link">Appointment Management</a></li>
+        <li><a href="#analytics-section" class="sidebar-link">Analytics</a></li>
+      </ul>
+    </nav>
 
-        <!-- Total Appointments Card -->
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-calendar-alt"></i>
+    <!-- Main Content -->
+    <main class="admin-main-content">
+      <div class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome to the admin control panel!</p>
+      </div>
+      
+      <!-- Stats Cards -->
+      <div class="stats-section" id="stats-section">
+        <h2>Key Metrics</h2>
+        <div class="stats-grid">
+          <!-- Total Users Card -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+              <h3>TOTAL USERS</h3>
+              <div class="stat-number" data-count="<%= stats.totalUsers %>"><%= stats.totalUsers %></div>
+              <p>Registered accounts</p>
+            </div>
           </div>
-          <div class="stat-content">
-            <h3>TOTAL APPOINTMENTS</h3>
-            <div class="stat-number" data-count="<%= stats.totalAppointments %>"><%= stats.totalAppointments %></div>
-            <p>All appointments</p>
-          </div>
-        </div>
 
-        <!-- Booked Appointments Card -->
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-calendar-check"></i>
+          <!-- Total Appointments Card -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-content">
+              <h3>TOTAL APPOINTMENTS</h3>
+              <div class="stat-number" data-count="<%= stats.totalAppointments %>"><%= stats.totalAppointments %></div>
+              <p>All appointments</p>
+            </div>
           </div>
-          <div class="stat-content">
-            <h3>BOOKED APPOINTMENTS</h3>
-            <div class="stat-number" data-count="<%= stats.bookedAppointments %>"><%= stats.bookedAppointments %></div>
-            <p>Confirmed bookings</p>
-          </div>
-        </div>
 
-        <!-- Canceled Appointments Card -->
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-calendar-times"></i>
+          <!-- Booked Appointments Card -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stat-content">
+              <h3>BOOKED APPOINTMENTS</h3>
+              <div class="stat-number" data-count="<%= stats.bookedAppointments %>"><%= stats.bookedAppointments %></div>
+              <p>Confirmed bookings</p>
+            </div>
           </div>
-          <div class="stat-content">
-            <h3>CANCELED APPOINTMENTS</h3>
-            <div class="stat-number" data-count="<%= stats.canceledAppointments %>"><%= stats.canceledAppointments %></div>
-            <p>Cancelled bookings</p>
-          </div>
-        </div>
 
-        <!-- Completed Appointments Card -->
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-calendar-check"></i>
+          <!-- Canceled Appointments Card -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-calendar-times"></i>
+            </div>
+            <div class="stat-content">
+              <h3>CANCELED APPOINTMENTS</h3>
+              <div class="stat-number" data-count="<%= stats.canceledAppointments %>"><%= stats.canceledAppointments %></div>
+              <p>Cancelled bookings</p>
+            </div>
           </div>
-          <div class="stat-content">
-            <h3>COMPLETED APPOINTMENTS</h3>
-            <div class="stat-number" data-count="<%= stats.completedAppointments %>"><%= stats.completedAppointments %></div>
-            <p>Finished bookings</p>
+
+          <!-- Completed Appointments Card -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stat-content">
+              <h3>COMPLETED APPOINTMENTS</h3>
+              <div class="stat-number" data-count="<%= stats.completedAppointments %>"><%= stats.completedAppointments %></div>
+              <p>Finished bookings</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
+
+      <!-- Recent Appointments Table -->
+      <section class="dashboard-section" id="recent-appointments">
+        <h2 class="dashboard-title">Recent Appointments</h2>
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Date</th>
+              <th>Time Slot</th>
+              <th>Type</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentAppointments.forEach(function(app) { %>
+              <tr>
+                <td><%= app.userName %></td>
+                <td><%= app.date %></td>
+                <td><%= app.timeSlot %></td>
+                <td><%= app.consultationType %></td>
+                <td>
+                  <span class="status <%= app.status %>"><%= app.status.charAt(0).toUpperCase() + app.status.slice(1) %></span>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- User Management -->
+      <section class="dashboard-section" id="user-management">
+        <h2 class="dashboard-title">User Management</h2>
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(function(user) { %>
+              <tr>
+                <td><%= user.userName %></td>
+                <td><%= user.email %></td>
+                <td><%= user.role %></td>
+                <td>
+                  <button class="dashboard-btn" style="background:#4DB8FF;">Edit</button>
+                  <button class="dashboard-btn danger">Delete</button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Appointment Management -->
+      <section class="dashboard-section" id="appointment-management">
+        <h2 class="dashboard-title">Appointment Management</h2>
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Date</th>
+              <th>Time Slot</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% allAppointments.forEach(function(app) { %>
+              <tr>
+                <td><%= app.userName %></td>
+                <td><%= app.date %></td>
+                <td><%= app.timeSlot %></td>
+                <td>
+                  <span class="status <%= app.status %>"><%= app.status.charAt(0).toUpperCase() + app.status.slice(1) %></span>
+                </td>
+                <td>
+                  <button class="dashboard-btn" style="background:#4DB8FF;">Complete</button>
+                  <button class="dashboard-btn danger">Cancel</button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Basic Analytics -->
+      <section class="dashboard-section analytics-section" id="analytics-section">
+        <h2 class="dashboard-title">Analytics</h2>
+        <div class="analytics-cards">
+          <div class="analytics-card">
+            <h3>Appointments This Month</h3>
+            <div class="analytics-value" style="color:#4DB8FF;"><%= stats.thisMonthAppointments %></div>
+          </div>
+          <div class="analytics-card">
+            <h3>New Users This Month</h3>
+            <div class="analytics-value" style="color:#4DB8FF;"><%= stats.thisMonthUsers %></div>
+          </div>
+        </div>
+        <!-- Chart.js example (optional) -->
+        <canvas id="appointmentsChart" width="400" height="120"></canvas>
+      </section>
+    </main>
+  </div>
 
   <style>
     /* Dashboard styles with updated color scheme */
@@ -203,6 +323,125 @@
       font-weight: 500;
     }
 
+    /* Table styles */
+    .dashboard-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem 1rem;
+    }
+
+    .dashboard-title {
+      margin-bottom: 1.5rem;
+      color: #333;
+      font-size: 1.8rem;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+
+    .dashboard-title::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: linear-gradient(90deg, #4DB8FF, #3A9CE8);
+    }
+
+    .dashboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-table th,
+    .dashboard-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .dashboard-table th {
+      background: #f9f9f9;
+      color: #333;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .dashboard-table th::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: linear-gradient(90deg, #4DB8FF, #3A9CE8);
+    }
+
+    .dashboard-table td {
+      color: #555;
+      font-weight: 500;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      text-transform: capitalize;
+    }
+
+    .status.pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status.confirmed {
+      background: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .status.cancelled {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .analytics-section {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .analytics-cards {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .analytics-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #f0f0f0;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .analytics-card h3 {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .analytics-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #4DB8FF;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .dashboard-header {
@@ -230,6 +469,11 @@
       .stat-number {
         font-size: 2.5rem;
       }
+
+      .analytics-cards {
+        flex-direction: column;
+        gap: 1rem;
+      }
     }
   </style>
 
@@ -255,6 +499,16 @@
     // Start animation when page loads
     window.addEventListener('load', () => {
       setTimeout(animateNumbers, 400);
+    });
+
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        const section = document.querySelector(this.getAttribute('href'));
+        if(section) section.scrollIntoView({ behavior: 'smooth' });
+      });
     });
   </script>
 </body>
