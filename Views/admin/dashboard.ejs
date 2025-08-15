@@ -194,8 +194,12 @@
                   <span class="status <%= app.status %>"><%= app.status.charAt(0).toUpperCase() + app.status.slice(1) %></span>
                 </td>
                 <td>
-                  <button class="dashboard-btn" style="background:#4DB8FF;">Complete</button>
-                  <button class="dashboard-btn danger">Cancel</button>
+                  <button class="dashboard-btn complete-user-btn" data-id="<%= app._id %>">
+  <i class="fas fa-check"></i> Complete
+</button>
+<button class="dashboard-btn danger cancel-user-btn" data-id="<%= app._id %>">
+  <i class="fas fa-times"></i> Cancel
+</button>
                 </td>
               </tr>
             <% }) %>
@@ -303,6 +307,19 @@
       </form>
     </div>
   </div>
+
+  <!-- Cancel Appointment Modal -->
+  <div id="cancelUserModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box" style="max-width:400px;">
+    <h3 style="margin-bottom:1.2rem;">Cancel Appointment?</h3>
+    <p>Are you sure you want to cancel this appointment? This action cannot be undone.</p>
+    <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:2rem;">
+      <button id="cancelCancelUser" class="modal-btn" style="background:#e5e7eb;color:#1e293b;">No</button>
+      <button id="confirmCancelUser" class="modal-btn danger" style="background:#e74c3c;">Yes, Cancel</button>
+    </div>
+  </div>
+</div>
+
   <style>
     /* Dashboard styles with updated color scheme */
     .dashboard-header {
@@ -753,6 +770,17 @@
 .dashboard-btn.danger:hover {
   background: #c0392b;
 }
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.slide-fade-out {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
   </style>
   <script>
     // Smooth number animation
@@ -916,6 +944,93 @@
         }
       };
     }
+
+    let appointmentIdToCancel = null;
+
+    // Complete Appointment
+    document.querySelectorAll('.complete-user-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const appointmentId = this.getAttribute('data-id');
+        const row = this.closest('tr');
+        fetch(`/admin/appointment/${appointmentId}/status`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'completed' })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            // Animation: show checkmark
+            const icon = this.querySelector('i');
+            if (icon) {
+              icon.className = 'fas fa-check-circle';
+              icon.style.color = '#27ae60';
+              this.disabled = true;
+            }
+            // Fade out the row
+            if (row) {
+              row.classList.add('slide-fade-out');
+              setTimeout(() => row.remove(), 550);
+            }
+          } else {
+            alert('Failed to complete appointment.');
+          }
+        })
+        .catch(() => alert('Failed to complete appointment.'));
+      });
+    });
+
+    // Cancel Appointment
+    document.querySelectorAll('.cancel-user-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        appointmentIdToCancel = this.getAttribute('data-id');
+        document.getElementById('cancelUserModal').style.display = 'flex';
+      });
+    });
+
+    document.getElementById('cancelCancelUser').onclick = function() {
+      document.getElementById('cancelUserModal').style.display = 'none';
+      appointmentIdToCancel = null;
+    };
+
+    document.getElementById('confirmCancelUser').onclick = function() {
+      if (!appointmentIdToCancel) return;
+      const btn = document.querySelector(`.cancel-user-btn[data-id="${appointmentIdToCancel}"]`);
+      const row = btn ? btn.closest('tr') : null;
+      fetch(`/admin/appointment/${appointmentIdToCancel}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'cancelled' })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('cancelUserModal').style.display = 'none';
+        if (data.success) {
+          // Animation: show X
+          if (btn) {
+            const icon = btn.querySelector('i');
+            if (icon) {
+              icon.className = 'fas fa-times-circle';
+              icon.style.color = '#e74c3c';
+              btn.disabled = true;
+            }
+          }
+          // Fade out the row
+          if (row) {
+            row.classList.add('slide-fade-out');
+            setTimeout(() => row.remove(), 550);
+          }
+        } else {
+          alert('Failed to cancel appointment.');
+        }
+        appointmentIdToCancel = null;
+      })
+      .catch(() => {
+        document.getElementById('cancelUserModal').style.display = 'none';
+        appointmentIdToCancel = null;
+        alert('Failed to cancel appointment.');
+      });
+    };
   </script>
 </body>
 </html>

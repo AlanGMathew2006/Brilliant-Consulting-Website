@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
@@ -7,7 +6,7 @@ const appointmentSchema = new mongoose.Schema({
   timeSlot: { type: String, required: true },
   notes: { type: String, default: '' },
   consultationType: { type: String, default: 'General' },
-  status: { type: String, enum: ['booked', 'cancelled', 'completed'], default: 'booked' }
+  status: { type: String, enum: ['pending', 'confirmed', 'completed', 'cancelled'], default: 'pending' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Appointment', appointmentSchema);

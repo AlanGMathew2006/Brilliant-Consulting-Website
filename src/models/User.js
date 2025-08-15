@@ -45,6 +45,11 @@ const userSchema = new mongoose.Schema({
   notes: {
     type: String,
     default: ''
+  },
+  status: {
+    type: String,
+    enum: ['active', 'completed', 'cancelled'],
+    default: 'active'
   }
 }, {
   timestamps: true

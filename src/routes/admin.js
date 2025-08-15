@@ -116,4 +116,26 @@ router.post('/user/:id/reset-password', verifyAdmin, async (req, res) => {
   }
 });
 
+// Update user status
+router.put('/user/:id/status', verifyAdmin, async (req, res) => {
+  try {
+    const { status } = req.body;
+    await User.findByIdAndUpdate(req.params.id, { status });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Failed to update status.' });
+  }
+});
+
+// Update appointment status
+router.put('/appointment/:id/status', verifyAdmin, async (req, res) => {
+  try {
+    const { status } = req.body;
+    await Appointment.findByIdAndUpdate(req.params.id, { status });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Failed to update appointment status.' });
+  }
+});
+
 module.exports = router;
