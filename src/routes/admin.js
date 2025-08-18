@@ -2,10 +2,13 @@
 const express = require('express');
 const router = express.Router();
 const { verifyAdmin } = require('../middlewares/authMiddleware');
+const sendMail = require('../utils/mailer');
 
 // Model imports
 const User = require('../models/User');
 const Appointment = require('../models/Appointment');
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 console.log('🔧 Admin routes loaded!' );
 
@@ -136,17 +139,63 @@ router.put('/user/:id/status', verifyAdmin, async (req, res) => {
 
 // Update appointment status
 router.put('/appointment/:id/status', async (req, res) => {
+  const { id } = req.params;
   const { status } = req.body;
-  try {
-    if (status === 'completed' || status === 'cancelled') {
-      await Appointment.findByIdAndDelete(req.params.id);
-    } else {
-      await Appointment.findByIdAndUpdate(req.params.id, { status });
-    }
-    res.json({ success: true });
-  } catch (err) {
-    res.json({ success: false });
+
+  const appointment = await Appointment.findByIdAndUpdate(
+    id,
+    { status },
+    { new: true }
+  ).populate('user');
+
+  if (!appointment) {
+    return res.json({ success: false, message: 'Appointment not found' });
   }
+
+  // Send email if cancelled
+  if (status === 'cancelled') {
+    try {
+      await sendMail({
+        to: [appointment.user.email, process.env.ADMIN_EMAIL],
+        subject: 'Appointment Cancelled by Admin',
+        text: `An appointment for ${appointment.user.fullName} on ${appointment.date} at ${appointment.timeSlot} was cancelled by the admin.`,
+        html: `<p>An appointment for <b>${appointment.user.fullName}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b> was cancelled by the admin.</p>`
+      });
+    } catch (err) {
+      console.error('Email send error:', err);
+    }
+  }
+
+  res.json({ success: true });
+});
+
+router.post('/appointments/:id/cancel', async (req, res) => {
+  const { id } = req.params;
+  const appointment = await Appointment.findByIdAndUpdate(
+    id,
+    { status: 'cancelled' },
+    { new: true }
+  ).populate('user');
+
+  if (!appointment) {
+    return res.status(404).send('Appointment not found');
+  }
+
+  // Send email to user and admin
+  console.log('Sending admin cancellation email to:', appointment.user.email, ADMIN_EMAIL);
+  try {
+    await sendMail({
+      to: [appointment.user.email, ADMIN_EMAIL],
+      subject: 'Appointment Cancelled by Admin',
+      text: `An appointment for ${appointment.user.fullName} on ${appointment.date} at ${appointment.timeSlot} was cancelled by the admin.`,
+      html: `<p>An appointment for <b>${appointment.user.fullName}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b> was cancelled by the admin.</p>`
+    });
+    console.log('Email sent!');
+  } catch (err) {
+    console.error('Email send error:', err);
+  }
+
+  res.send('Appointment cancelled by admin!');
 });
 
 module.exports = router;

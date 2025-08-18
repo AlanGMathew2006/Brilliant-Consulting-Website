@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Appointment = require('../models/Appointment');
 const mongoose = require('mongoose');
+const sendMail = require('../utils/mailer');
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 console.log('🔧 Appointment routes loaded!');
 
@@ -42,6 +45,16 @@ router.post('/book', async (req, res) => {
     consultationType: req.body.consultationType
   });
   await appointment.save();
+
+  // Send confirmation email
+  const user = req.session.user; // Assuming user info is stored in session
+  await sendMail({
+    to: [user.email, ADMIN_EMAIL],
+    subject: 'Appointment Booked',
+    text: `Appointment booked for ${user.fullName} on ${appointment.date} at ${appointment.timeSlot}.`,
+    html: `<p>Appointment booked for <b>${user.fullName}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b>.</p>`
+  });
+
   res.send('Appointment booked!');
 });
 
@@ -61,6 +74,16 @@ router.delete('/:id', async (req, res) => {
     if (result.matchedCount === 0 && result.n === 0) {
       return res.status(404).send('Appointment not found');
     }
+
+    // Send cancellation email
+    const appointment = await Appointment.findById(id); // Fetch appointment details
+    const user = req.session.user;
+    await sendMail({
+      to: [user.email, ADMIN_EMAIL],
+      subject: 'Appointment Cancelled',
+      text: `Appointment cancelled for ${user.fullName} on ${appointment.date} at ${appointment.timeSlot}.`,
+      html: `<p>Appointment cancelled for <b>${user.fullName}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b>.</p>`
+    });
 
     res.send('Appointment cancelled successfully');
   } catch (err) {
