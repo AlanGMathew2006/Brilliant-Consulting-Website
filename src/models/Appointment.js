@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-  userName: { type: String, required: true },
-  date: { type: String, required: true },
-  timeSlot: { type: String, required: true },
-  notes: { type: String, default: '' },
-  consultationType: { type: String, default: 'General' },
-  status: { type: String, enum: ['pending', 'confirmed', 'completed', 'cancelled'], default: 'pending' }
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // <-- This is required!
+  date: Date,
+  timeSlot: String,
+  status: String,
+  notes: String,
+  consultationType: String
 }, { timestamps: true });
 
 module.exports = mongoose.model('Appointment', appointmentSchema);

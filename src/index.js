@@ -3,7 +3,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { connectDB } = require('./config');
-const Appointment = require('./models/Appointment');
+const Appointment = require('./models/Appointment'); // Make sure this is required
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -40,12 +40,12 @@ connectDB().then(() => {
   // Import routes
   const adminRoutes = require('./routes/admin');
   const authRoutes = require('./routes/auth'); 
-  const appointmentRoutes = require('./routes/appointments');
+  const appointmentsRouter = require('./routes/appointments');
 
   // Use route modules FIRST
   app.use('/admin', adminRoutes);
   app.use('/auth', authRoutes);
-  app.use('/appointments', appointmentRoutes);
+  app.use('/appointments', appointmentsRouter);
 
   // Main routes
   app.get('/', (req, res) => {
@@ -71,19 +71,14 @@ connectDB().then(() => {
   });
 
   // Home route (protected)
-  app.get('/home', (req, res) => {
-    console.log('🏠 Home route accessed');
-    console.log('   - Session user:', req.session.user);
-    console.log('   - Username in session:', req.session.userName);
-    
-    if (!req.session.userName && !req.session.user) {
-      console.log('❌ User not logged in, redirecting to login');
-      return res.redirect('/');
+  app.get('/home', async (req, res) => {
+    if (!req.session.user || !req.session.user._id) {
+      return res.redirect('/'); // or '/login'
     }
-    
-    console.log('✅ User logged in, rendering home page');
-    res.render('home', { 
-      userName: req.session.userName || req.session.user.userName 
+    const appointments = await Appointment.find({ user: req.session.user._id });
+    res.render('home', {
+      userName: req.session.userName || req.session.user.userName,
+      appointments
     });
   });
 

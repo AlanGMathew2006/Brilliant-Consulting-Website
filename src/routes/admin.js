@@ -28,9 +28,9 @@ router.get('/', async (req, res) => {
       const completedAppointments = await Appointment.countDocuments({ status: 'completed' });
 
       // New sections
-      const recentAppointments = await Appointment.find().sort({ createdAt: -1 }).limit(10);
+      const allAppointments = await Appointment.find({ status: 'booked' }).populate('user');
+      const recentAppointments = await Appointment.find().sort({ createdAt: -1 }).limit(10).populate('user');
       const users = await User.find();
-      const allAppointments = await Appointment.find();
       const thisMonthAppointments = await Appointment.countDocuments({
         createdAt: { $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) }
       });
@@ -66,8 +66,15 @@ router.get('/', async (req, res) => {
         stats: {
           totalUsers: 0,
           totalAppointments: 0,
-          bookedAppointments: 0
-        }
+          bookedAppointments: 0,
+          canceledAppointments: 0,
+          completedAppointments: 0,
+          thisMonthAppointments: 0,
+          thisMonthUsers: 0
+        },
+        recentAppointments: [], // <-- Add this
+        users: [],              // <-- Add this
+        allAppointments: []     // <-- Add this
       });
     }
   } else {
@@ -128,13 +135,17 @@ router.put('/user/:id/status', verifyAdmin, async (req, res) => {
 });
 
 // Update appointment status
-router.put('/appointment/:id/status', verifyAdmin, async (req, res) => {
+router.put('/appointment/:id/status', async (req, res) => {
+  const { status } = req.body;
   try {
-    const { status } = req.body;
-    await Appointment.findByIdAndUpdate(req.params.id, { status });
+    if (status === 'completed' || status === 'cancelled') {
+      await Appointment.findByIdAndDelete(req.params.id);
+    } else {
+      await Appointment.findByIdAndUpdate(req.params.id, { status });
+    }
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ success: false, error: 'Failed to update appointment status.' });
+    res.json({ success: false });
   }
 });
 

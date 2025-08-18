@@ -595,8 +595,11 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+
+    
+
+    </div> <!-- end stacked-container -->
+  </div> <!-- end hero-section -->
 
   <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -604,6 +607,7 @@
     var currentCancelEvent = null; // Store the event being cancelled
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
+      timeZone: 'local',
       initialView: 'dayGridMonth',
       selectable: true,
       selectMirror: true,
@@ -679,6 +683,10 @@
         // Show the cancel modal
         const cancelModal = new bootstrap.Modal(document.getElementById('cancelModal'));
         cancelModal.show();
+      },
+
+      eventContent: function(arg) {
+        return { html: arg.event.title }; // Only the time slot
       }
     });
 
@@ -751,8 +759,8 @@
     document.getElementById('bookingForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      const date = document.getElementById('bookingDate').value;
-      const timeSlot = document.getElementById('timeSlot').value;
+      const dateStr = document.getElementById('bookingDate').value; // e.g. "2025-08-18"
+      const timeSlot = document.getElementById('timeSlot').value;   // e.g. "04:00 PM"
       const notes = document.getElementById('notes').value;
       const consultationType = document.getElementById('consultationType')?.value || 'General';
 
@@ -761,18 +769,32 @@
         return;
       }
 
+      // Convert timeSlot to 24-hour format
+      function to24Hour(time12h) {
+        const [time, modifier] = time12h.split(' ');
+        let [hours, minutes] = time.split(':');
+        if (modifier === 'PM' && hours !== '12') hours = String(Number(hours) + 12);
+        if (modifier === 'AM' && hours === '12') hours = '00';
+        return `${hours.padStart(2, '0')}:${minutes}`;
+      }
+      const time24 = to24Hour(timeSlot);
+
+      // Combine date and time into ISO string in local time
+      const localDateTime = new Date(`${dateStr}T${time24}:00`);
+      const isoDateTime = localDateTime.toISOString();
+
       try {
         const res = await fetch('/appointments/book', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ date, timeSlot, notes, consultationType })
+          body: JSON.stringify({ date: isoDateTime, timeSlot, notes, consultationType })
         });
 
         const msg = await res.text();
-        
+
         if (res.ok) {
           alert('✅ ' + msg);
-          
+
           // Refresh calendar to show new appointment
           calendar.refetchEvents();
 
@@ -823,13 +845,13 @@
                 </label>
                 <select id="timeSlot" class="form-select" required>
                   <option value="">-- Select Your Preferred Time --</option>
-                  <option value="09:00 AM">09:00 AM - 10:00 AM</option>
+                  <option value="09:00 AM">9:00 AM - 10:00 AM</option>
                   <option value="10:00 AM">10:00 AM - 11:00 AM</option>
                   <option value="11:00 AM">11:00 AM - 12:00 PM</option>
-                  <option value="01:00 PM">01:00 PM - 02:00 PM</option>
-                  <option value="02:00 PM">02:00 PM - 03:00 PM</option>
-                  <option value="03:00 PM">03:00 PM - 04:00 PM</option>
-                  <option value="04:00 PM">04:00 PM - 05:00 PM</option>
+                  <option value="01:00 PM">1:00 PM - 2:00 PM</option>
+                  <option value="02:00 PM">2:00 PM - 3:00 PM</option>
+                  <option value="03:00 PM">3:00 PM - 4:00 PM</option>
+                  <option value="04:00 PM">4:00 PM - 5:00 PM</option>
                 </select>
               </div>
 

@@ -109,12 +109,8 @@ router.post('/login', async (req, res) => {
       console.log('🔍 User role from database:', user.role);
       
       // Set session with FULL user object including role
-      req.session.user = {
-        userName: user.userName,
-        email: user.email,
-        role: user.role || 'user'
-      };
-      req.session.userName = userName;
+      req.session.user = user; // user is the user object from DB
+      req.session.userName = user.userName; // or user.fullName, etc.
 
       console.log('✅ Session created for:', userName, 'with role:', user.role || 'user');
 
@@ -179,26 +175,23 @@ router.post('/signup', async (req, res) => {
     // Create new user using Mongoose
     const newUser = new User({
       fullName: req.body.fullName,
+      userName: req.body.userName, // <-- Make sure to include this!
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       companyName: req.body.companyName,
       serviceInterest: req.body.serviceInterest,
       projectDescription: req.body.projectDescription,
-      password: hashedPassword, // Make sure to hash the password!
+      password: hashedPassword,
       role: 'user',
       agreedToTerms: req.body.agreedToTerms === 'on'
     });
-    await newUser.save();
+    const savedUser = await newUser.save();
 
-    // Set session
-    req.session.user = {
-      userName: savedUser.userName,
-      email: savedUser.email,
-      role: savedUser.role
-    };
-    req.session.userName = userName;
-    
-    console.log('✅ Session created for:', userName, 'with role:', savedUser.role);
+    // Set session with the full user object
+    req.session.user = savedUser;
+    req.session.userName = savedUser.userName;
+
+    console.log('✅ Session created for:', savedUser.userName, 'with role:', savedUser.role);
 
     // Redirect based on role
     if (savedUser.role === 'admin') {

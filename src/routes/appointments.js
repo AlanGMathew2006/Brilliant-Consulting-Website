@@ -7,82 +7,58 @@ console.log('🔧 Appointment routes loaded!');
 
 // GET: Fetch user's appointments
 router.get('/', async (req, res) => {
-  const userName = req.session.userName;
-
-  if (!userName) return res.status(401).json({ error: 'Login required' });
-
-  try {
-    // Get all appointments for the logged-in user (not cancelled)
-    const userAppointments = await Appointment.find({
-      userName: userName,
-      status: { $ne: 'cancelled' }
-    });
-
-    // Format appointments for FullCalendar
-    const events = userAppointments.map(appointment => ({
-      id: appointment._id.toString(),
-      title: appointment.timeSlot,
-      start: appointment.date, // Assuming date is already in YYYY-MM-DD format
-      backgroundColor: '#4DB8FF',
-      borderColor: '#4DB8FF',
-      extendedProps: {
-        notes: appointment.notes,
-        status: appointment.status,
-        timeSlot: appointment.timeSlot
-      }
-    }));
-
-    res.json(events);
-  } catch (err) {
-    console.error('Fetch appointments error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+  if (!req.session.user || !req.session.user._id) {
+    return res.status(401).json([]);
   }
+  const appointments = await Appointment.find({
+    user: req.session.user._id,
+    status: 'booked'
+  });
+
+  // Convert to FullCalendar event format
+  const events = appointments.map(app => ({
+    id: app._id,
+    title: app.timeSlot, // <-- Just the time slot, no extra formatting
+    start: app.date,
+    consultationType: app.consultationType,
+    notes: app.notes,
+    status: app.status
+  }));
+
+  res.json(events);
 });
 
 // POST: Book an appointment
 router.post('/book', async (req, res) => {
-  try {
-    const { date, timeSlot, notes, consultationType } = req.body;
-    if (!req.session.userName) {
-      return res.status(401).json({ success: false, error: 'Not logged in' });
-    }
-    const newAppointment = new Appointment({
-      userName: req.session.userName,
-      date,
-      timeSlot,
-      notes: notes || '',
-      consultationType: consultationType || 'General',
-      status: 'booked'
-    });
-    const savedAppointment = await newAppointment.save();
-    res.json({
-      success: true,
-      message: 'Appointment booked successfully!',
-      appointment: savedAppointment
-    });
-  } catch (error) {
-    console.error('❌ Appointment booking error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to book appointment: ' + error.message
-    });
+  if (!req.session.user || !req.session.user._id) {
+    return res.status(401).send('Not logged in');
   }
+  const appointment = new Appointment({
+    user: req.session.user._id,
+    date: req.body.date,
+    timeSlot: req.body.timeSlot,
+    status: 'booked',
+    notes: req.body.notes,
+    consultationType: req.body.consultationType
+  });
+  await appointment.save();
+  res.send('Appointment booked!');
 });
 
 // DELETE: Cancel an appointment
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  const userName = req.session.userName;
-
-  if (!userName) return res.status(401).send('Login required');
+  if (!req.session.user || !req.session.user._id) {
+    return res.status(401).send('Login required');
+  }
 
   try {
     const result = await Appointment.updateOne(
-      { _id: new mongoose.Types.ObjectId(id), userName: userName },
+      { _id: new mongoose.Types.ObjectId(id), user: req.session.user._id },
       { $set: { status: 'cancelled' } }
     );
 
-    if (result.matchedCount === 0) {
+    if (result.matchedCount === 0 && result.n === 0) {
       return res.status(404).send('Appointment not found');
     }
 

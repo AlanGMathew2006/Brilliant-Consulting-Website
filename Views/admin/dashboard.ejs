@@ -117,7 +117,7 @@
           <tbody>
             <% recentAppointments.forEach(function(app) { %>
               <tr>
-                <td><%= app.userName %></td>
+                <td><%= app.user && app.user.fullName ? app.user.fullName : 'No Name' %></td>
                 <td><%= app.date %></td>
                 <td><%= app.timeSlot %></td>
                 <td><%= app.consultationType %></td>
@@ -187,7 +187,7 @@
           <tbody>
             <% allAppointments.forEach(function(app) { %>
               <tr>
-                <td><%= app.userName %></td>
+                <td><%= app.user && app.user.fullName ? app.user.fullName : 'No Name' %></td>
                 <td><%= app.date %></td>
                 <td><%= app.timeSlot %></td>
                 <td>
