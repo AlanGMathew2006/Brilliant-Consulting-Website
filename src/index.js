@@ -41,11 +41,13 @@ connectDB().then(() => {
   const adminRoutes = require('./routes/admin');
   const authRoutes = require('./routes/auth'); 
   const appointmentsRouter = require('./routes/appointments');
+  const paymentRouter = require('./routes/payment');
 
   // Use route modules FIRST
   app.use('/admin', adminRoutes);
   app.use('/auth', authRoutes);
   app.use('/appointments', appointmentsRouter);
+  app.use('/payments', paymentRouter); // or '/payment' if that's your route
 
   // Main routes
   app.get('/', (req, res) => {

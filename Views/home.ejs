@@ -784,25 +784,16 @@
       const isoDateTime = localDateTime.toISOString();
 
       try {
-        const res = await fetch('/appointments/book', {
+        const res = await fetch('/payments/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ date: isoDateTime, timeSlot, notes, consultationType })
         });
-
-        const msg = await res.text();
-
-        if (res.ok) {
-          alert('✅ ' + msg);
-
-          // Refresh calendar to show new appointment
-          calendar.refetchEvents();
-
-          // Hide modal and reset form
-          bootstrap.Modal.getInstance(document.getElementById('bookingModal')).hide();
-          document.getElementById('bookingForm').reset();
+        const data = await res.json();
+        if (data.url) {
+          window.location = data.url; // Redirect to Stripe Checkout
         } else {
-          alert('❌ Error: ' + msg);
+          alert('❌ Error: Invalid response from server');
         }
       } catch (error) {
         console.error('Booking failed:', error);
