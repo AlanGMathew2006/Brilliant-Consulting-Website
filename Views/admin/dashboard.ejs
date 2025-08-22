@@ -122,7 +122,9 @@
                 <td><%= app.timeSlot %></td>
                 <td><%= app.consultationType %></td>
                 <td>
-                  <span class="status <%= app.status %>"><%= app.status.charAt(0).toUpperCase() + app.status.slice(1) %></span>
+                  <span class="status <%= app.status || '' %>">
+  <%= app.status ? (app.status.charAt(0).toUpperCase() + app.status.slice(1)) : 'N/A' %>
+</span>
                 </td>
               </tr>
             <% }) %>

@@ -596,7 +596,7 @@
         </div>
       </div>
 
-    
+     
 
     </div> <!-- end stacked-container -->
   </div> <!-- end hero-section -->
@@ -759,8 +759,8 @@
     document.getElementById('bookingForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      const dateStr = document.getElementById('bookingDate').value; // e.g. "2025-08-18"
-      const timeSlot = document.getElementById('timeSlot').value;   // e.g. "04:00 PM"
+      const dateStr = document.getElementById('bookingDate').value;
+      const timeSlot = document.getElementById('timeSlot').value;
       const notes = document.getElementById('notes').value;
       const consultationType = document.getElementById('consultationType')?.value || 'General';
 
@@ -778,26 +778,28 @@
         return `${hours.padStart(2, '0')}:${minutes}`;
       }
       const time24 = to24Hour(timeSlot);
-
-      // Combine date and time into ISO string in local time
       const localDateTime = new Date(`${dateStr}T${time24}:00`);
       const isoDateTime = localDateTime.toISOString();
 
-      try {
-        const res = await fetch('/payments/create-checkout-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ date: isoDateTime, timeSlot, notes, consultationType })
-        });
-        const data = await res.json();
-        if (data.url) {
-          window.location = data.url; // Redirect to Stripe Checkout
-        } else {
-          alert('❌ Error: Invalid response from server');
-        }
-      } catch (error) {
-        console.error('Booking failed:', error);
-        alert('❌ Booking failed. Please try again.');
+      // 1. Book appointment (store in session)
+      const bookRes = await fetch('/appointments/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date: isoDateTime, timeSlot, notes, consultationType })
+      });
+
+      if (!bookRes.ok) {
+        alert('❌ Error: Could not save booking info.');
+        return;
+      }
+
+      // 2. Create Stripe session
+      const payRes = await fetch('/payments/create-checkout-session', { method: 'POST' });
+      const data = await payRes.json();
+      if (data.url) {
+        window.location = data.url; // Redirect to Stripe Checkout
+      } else {
+        alert('❌ Error: Invalid response from server');
       }
     });
   });
@@ -968,6 +970,21 @@
 
   <!-- Include Footer -->
   <%- include('partials/footer') %>
+  <script src="/script.js"></script>
+
+  <!-- Cancel Appointment Script -->
+  <script>
+    async function cancelAppointment(id) {
+      if (!confirm('Are you sure you want to cancel this appointment?')) return;
+      const res = await fetch(`/appointments/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        alert('Appointment cancelled');
+        location.reload();
+      } else {
+        alert('Failed to cancel appointment');
+      }
+    }
+  </script>
 </body>
 </html>
 

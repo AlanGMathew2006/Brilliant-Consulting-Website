@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -21,14 +22,9 @@ connectDB().then(() => {
 
   // Session configuration - IMPORTANT!
   app.use(session({
-    secret: 'yourSecretKey_' + Date.now(),
+    secret: 'your-secret',
     resave: false,
-    saveUninitialized: false,
-    cookie: { 
-      secure: false,
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
+    saveUninitialized: false
   }));
 
   // Add request logging middleware
@@ -40,13 +36,13 @@ connectDB().then(() => {
   // Import routes
   const adminRoutes = require('./routes/admin');
   const authRoutes = require('./routes/auth'); 
-  const appointmentsRouter = require('./routes/appointments');
+  const appointmentRoutes = require('./routes/appointments');
   const paymentRouter = require('./routes/payment');
 
   // Use route modules FIRST
   app.use('/admin', adminRoutes);
   app.use('/auth', authRoutes);
-  app.use('/appointments', appointmentsRouter);
+  app.use('/', appointmentRoutes);
   app.use('/payments', paymentRouter); // or '/payment' if that's your route
 
   // Main routes
@@ -199,3 +195,4 @@ app.get('/appointments/user', async (req, res) => {
   console.error('❌ Failed to start server:', err);
   process.exit(1);
 });
+

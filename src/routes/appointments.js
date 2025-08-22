@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Appointment = require('../models/Appointment');
 const mongoose = require('mongoose');
-const sendMail = require('../utils/mailer');
+const sendEmail  = require('../utils/mailer');
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
@@ -31,31 +31,21 @@ router.get('/', async (req, res) => {
   res.json(events);
 });
 
-// POST: Book an appointment
-router.post('/book', async (req, res) => {
+// POST: Book an appointment (store pending booking for payment)
+router.post('/appointments/book', (req, res) => {
   if (!req.session.user || !req.session.user._id) {
     return res.status(401).send('Not logged in');
   }
-  const appointment = new Appointment({
+  req.session.pendingBooking = {
     user: req.session.user._id,
     date: req.body.date,
     timeSlot: req.body.timeSlot,
-    status: 'booked',
     notes: req.body.notes,
-    consultationType: req.body.consultationType
-  });
-  await appointment.save();
-
-  // Send confirmation email
-  const user = req.session.user; // Assuming user info is stored in session
-  await sendMail({
-    to: [user.email, ADMIN_EMAIL],
-    subject: 'Appointment Booked',
-    text: `Appointment booked for ${user.fullName} on ${appointment.date} at ${appointment.timeSlot}.`,
-    html: `<p>Appointment booked for <b>${user.fullName}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b>.</p>`
-  });
-
-  res.send('Appointment booked!');
+    consultationType: req.body.consultationType,
+    userEmail: req.session.user.email,
+    userFullName: req.session.user.fullName
+  };
+  res.json({ success: true });
 });
 
 // DELETE: Cancel an appointment
@@ -78,7 +68,7 @@ router.delete('/:id', async (req, res) => {
     // Send cancellation email
     const appointment = await Appointment.findById(id); // Fetch appointment details
     const user = req.session.user;
-    await sendMail({
+    await sendEmail({
       to: [user.email, ADMIN_EMAIL],
       subject: 'Appointment Cancelled',
       text: `Appointment cancelled for ${user.fullName} on ${appointment.date} at ${appointment.timeSlot}.`,
@@ -89,6 +79,65 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     console.error('Cancel appointment error:', err);
     res.status(500).send('Internal server error');
+  }
+});
+
+// GET: Load calendar view
+router.get('/calendar', async (req, res) => {
+  try {
+    const appointments = await Appointment.find({});
+    res.render('calendar', { appointments });
+  } catch (err) {
+    console.error('Calendar error:', err);
+    res.status(500).send('Error loading calendar');
+  }
+});
+
+// Return appointments as JSON for FullCalendar
+router.get('/appointments', async (req, res) => {
+  try {
+    const appointments = await Appointment.find({ user: req.session.user._id }); // or {} for all
+    // Map to FullCalendar event format
+    const events = appointments.map(app => ({
+      id: app._id,
+      title: app.timeSlot,
+      start: app.date,
+      consultationType: app.consultationType,
+      notes: app.notes,
+      status: app.status,
+    }));
+    res.json(events);
+  } catch (err) {
+    console.error('Failed to load appointments:', err);
+    res.status(500).json({ error: 'Failed to load appointments' });
+  }
+});
+
+// Cancel appointment
+router.delete('/appointments/:id', async (req, res) => {
+  try {
+    const appointment = await Appointment.findOneAndDelete({
+      _id: req.params.id,
+      user: req.session.user._id // Only allow user to delete their own
+    });
+    if (!appointment) return res.status(404).json({ error: 'Appointment not found' });
+
+    // Send cancellation email
+    await sendEmail(
+      appointment.userEmail,
+      'Appointment Cancelled',
+      `Your appointment on ${appointment.date} at ${appointment.timeSlot} has been cancelled.`
+    );
+    await sendEmail(
+      process.env.ADMIN_EMAIL,
+      'Appointment Cancelled',
+      `Appointment for ${appointment.userEmail} on ${appointment.date} at ${appointment.timeSlot} was cancelled.`
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Cancel error:', err);
+    res.status(500).json({ error: 'Failed to cancel appointment' });
   }
 });
 
