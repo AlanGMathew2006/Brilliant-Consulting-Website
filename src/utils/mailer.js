@@ -8,12 +8,13 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-async function sendEmail(to, subject, text) {
+async function sendEmail({ to, subject, text, html }) {
   await transporter.sendMail({
     from: `"Brilliant Consulting" <${process.env.EMAIL_USER}>`,
     to,
     subject,
-    text
+    text,
+    html
   });
 }
 

@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { verifyAdmin } = require('../middlewares/authMiddleware');
-const sendMail = require('../utils/mailer');
+const sendEmail = require('../utils/mailer');
 
 // Model imports
 const User = require('../models/User');
@@ -86,6 +86,13 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Example admin dashboard route
+router.get('/dashboard', async (req, res) => {
+  const appointments = await Appointment.find({}); // Should fetch ALL appointments
+  // ...other stats logic...
+  res.render('admin/dashboard', { appointments });
+});
+
 // Delete user route (AJAX)
 router.delete('/user/:id', verifyAdmin, async (req, res) => {
   try {
@@ -155,11 +162,11 @@ router.put('/appointment/:id/status', async (req, res) => {
   // Send email if cancelled
   if (status === 'cancelled') {
     try {
-      await sendMail({
-        to: [appointment.user.email, process.env.ADMIN_EMAIL],
+      await sendEmail({
+        to: [appointment.user?.email || appointment.userEmail, ADMIN_EMAIL].filter(Boolean),
         subject: 'Appointment Cancelled by Admin',
-        text: `An appointment for ${appointment.user.fullName} on ${appointment.date} at ${appointment.timeSlot} was cancelled by the admin.`,
-        html: `<p>An appointment for <b>${appointment.user.fullName}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b> was cancelled by the admin.</p>`
+        text: `An appointment for ${appointment.user?.fullName || appointment.userFullName || appointment.userEmail} on ${appointment.date} at ${appointment.timeSlot} was cancelled by the admin.`,
+        html: `<p>An appointment for <b>${appointment.user?.fullName || appointment.userFullName || appointment.userEmail}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b> was cancelled by the admin.</p>`
       });
     } catch (err) {
       console.error('Email send error:', err);
@@ -184,8 +191,8 @@ router.post('/appointments/:id/cancel', async (req, res) => {
   // Send email to user and admin
   console.log('Sending admin cancellation email to:', appointment.user.email, ADMIN_EMAIL);
   try {
-    await sendMail({
-      to: [appointment.user.email, ADMIN_EMAIL],
+    await sendEmail({
+      to: [appointment.user.email, ADMIN_EMAIL].filter(Boolean),
       subject: 'Appointment Cancelled by Admin',
       text: `An appointment for ${appointment.user.fullName} on ${appointment.date} at ${appointment.timeSlot} was cancelled by the admin.`,
       html: `<p>An appointment for <b>${appointment.user.fullName}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b> was cancelled by the admin.</p>`

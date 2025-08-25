@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Appointment = require('../models/Appointment');
-const { sendEmail } = require('../utils/mailer');
+const sendEmail = require('../utils/mailer');
 
 router.post('/create-checkout-session', async (req, res) => {
   if (!req.session.user || !req.session.user._id) {
@@ -34,7 +34,7 @@ router.post('/create-checkout-session', async (req, res) => {
     success_url: `${process.env.BASE_URL}/payments/payment-success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.BASE_URL}/home`,
     metadata: {
-      user: req.session.user._id, // This should be req.session.user._id
+      user: req.session.user._id,
       date: pending.date,
       timeSlot: pending.timeSlot,
       notes: pending.notes,
@@ -71,7 +71,7 @@ router.get('/payment-success', async (req, res) => {
       consultationType: session.metadata.consultationType,
       userEmail: session.metadata.userEmail,
       paymentStatus: 'paid',
-      status: 'confirmed'
+      status: 'booked'
     });
 
     // Generate call link (example: Jitsi)
@@ -79,25 +79,37 @@ router.get('/payment-success', async (req, res) => {
     appointment.callLink = callLink;
     await appointment.save();
 
-    // Send emails
-    await sendEmail(
-      session.metadata.userEmail,
-      'Your Appointment is Confirmed',
-      `Your appointment is booked! Join your call here: ${callLink}`
-    );
-    await sendEmail(
-      process.env.ADMIN_EMAIL,
-      'New Appointment Booked',
-      `A new appointment was booked. Join link: ${callLink}`
-    );
+    // Send confirmation email to user
+    const userEmail = session.metadata.userEmail;
+    console.log('userEmail:', userEmail); // Debug log
+    if (userEmail && userEmail.includes('@')) {
+      await sendEmail({
+        to: userEmail,
+        subject: 'Your Appointment is Confirmed',
+        text: `Your appointment is booked! Join your call here: ${callLink}`
+      });
+    } else {
+      console.error('No valid user email found for appointment confirmation!');
+    }
 
-    // Redirect to calendar
-    res.redirect('/home');
+    // Send notification email to admin
+    const adminEmail = process.env.ADMIN_EMAIL;
+    console.log('adminEmail:', adminEmail); // Debug log
+    if (adminEmail && adminEmail.includes('@')) {
+      await sendEmail({
+        to: adminEmail,
+        subject: 'New Appointment Booked',
+        text: `A new appointment was booked. Join link: ${callLink}`
+      });
+    } else {
+      console.error('No valid admin email found for appointment notification!');
+    }
+
+    return res.redirect('/home');
   } catch (err) {
     console.error('Payment success error:', err);
-    res.redirect('/home?error=payment'); // also update this line
+    return res.redirect('/home?error=payment');
   }
 });
-
 
 module.exports = router;

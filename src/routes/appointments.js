@@ -2,26 +2,26 @@ const express = require('express');
 const router = express.Router();
 const Appointment = require('../models/Appointment');
 const mongoose = require('mongoose');
-const sendEmail  = require('../utils/mailer');
+const sendEmail = require('../utils/mailer');
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 console.log('🔧 Appointment routes loaded!');
 
-// GET: Fetch user's appointments
+// GET: Fetch user's appointments (for calendar)
 router.get('/', async (req, res) => {
   if (!req.session.user || !req.session.user._id) {
     return res.status(401).json([]);
   }
   const appointments = await Appointment.find({
     user: req.session.user._id,
-    status: 'booked'
+    status: { $nin: ['cancelled'] } // <-- Exclude cancelled
   });
 
   // Convert to FullCalendar event format
   const events = appointments.map(app => ({
     id: app._id,
-    title: app.timeSlot, // <-- Just the time slot, no extra formatting
+    title: app.timeSlot,
     start: app.date,
     consultationType: app.consultationType,
     notes: app.notes,
@@ -49,7 +49,7 @@ router.post('/appointments/book', (req, res) => {
 });
 
 // DELETE: Cancel an appointment
-router.delete('/:id', async (req, res) => {
+router.delete('/appointments/:id', async (req, res) => {
   const { id } = req.params;
   if (!req.session.user || !req.session.user._id) {
     return res.status(401).send('Login required');
@@ -65,14 +65,28 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).send('Appointment not found');
     }
 
-    // Send cancellation email
-    const appointment = await Appointment.findById(id); // Fetch appointment details
+    // Fetch appointment details
+    const appointment = await Appointment.findById(id);
     const user = req.session.user;
+
+    const recipients = [
+      user?.email,
+      appointment?.userEmail,
+      process.env.ADMIN_EMAIL
+    ].filter(Boolean);
+
+    if (recipients.length === 0) {
+      console.error('No valid recipients for cancellation email');
+      // Optionally: skip sending email, but still return success
+      return res.send('Appointment cancelled successfully');
+    }
+
+    // Always use a valid recipient
     await sendEmail({
-      to: [user.email, ADMIN_EMAIL],
+      to: recipients,
       subject: 'Appointment Cancelled',
-      text: `Appointment cancelled for ${user.fullName} on ${appointment.date} at ${appointment.timeSlot}.`,
-      html: `<p>Appointment cancelled for <b>${user.fullName}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b>.</p>`
+      text: `Appointment cancelled for ${user?.fullName || appointment.userFullName || appointment.userEmail} on ${appointment.date} at ${appointment.timeSlot}.`,
+      html: `<p>Appointment cancelled for <b>${user?.fullName || appointment.userFullName || appointment.userEmail}</b> on <b>${appointment.date}</b> at <b>${appointment.timeSlot}</b>.</p>`
     });
 
     res.send('Appointment cancelled successfully');
@@ -96,7 +110,10 @@ router.get('/calendar', async (req, res) => {
 // Return appointments as JSON for FullCalendar
 router.get('/appointments', async (req, res) => {
   try {
-    const appointments = await Appointment.find({ user: req.session.user._id }); // or {} for all
+    const appointments = await Appointment.find({
+      user: req.session.user._id,
+      status: { $nin: ['cancelled'] } // <-- Exclude cancelled
+    });
     // Map to FullCalendar event format
     const events = appointments.map(app => ({
       id: app._id,
@@ -113,32 +130,6 @@ router.get('/appointments', async (req, res) => {
   }
 });
 
-// Cancel appointment
-router.delete('/appointments/:id', async (req, res) => {
-  try {
-    const appointment = await Appointment.findOneAndDelete({
-      _id: req.params.id,
-      user: req.session.user._id // Only allow user to delete their own
-    });
-    if (!appointment) return res.status(404).json({ error: 'Appointment not found' });
 
-    // Send cancellation email
-    await sendEmail(
-      appointment.userEmail,
-      'Appointment Cancelled',
-      `Your appointment on ${appointment.date} at ${appointment.timeSlot} has been cancelled.`
-    );
-    await sendEmail(
-      process.env.ADMIN_EMAIL,
-      'Appointment Cancelled',
-      `Appointment for ${appointment.userEmail} on ${appointment.date} at ${appointment.timeSlot} was cancelled.`
-    );
-
-    res.json({ success: true });
-  } catch (err) {
-    console.error('Cancel error:', err);
-    res.status(500).json({ error: 'Failed to cancel appointment' });
-  }
-});
 
 module.exports = router;

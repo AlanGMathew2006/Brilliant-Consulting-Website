@@ -73,7 +73,10 @@ connectDB().then(() => {
     if (!req.session.user || !req.session.user._id) {
       return res.redirect('/'); // or '/login'
     }
-    const appointments = await Appointment.find({ user: req.session.user._id });
+    const appointments = await Appointment.find({ 
+      user: req.session.user._id, 
+      status: { $ne: 'cancelled' } 
+    });
     res.render('home', {
       userName: req.session.userName || req.session.user.userName,
       appointments

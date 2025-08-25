@@ -974,9 +974,9 @@
 
   <!-- Cancel Appointment Script -->
   <script>
-    async function cancelAppointment(id) {
+    async function cancelAppointment(appointmentId) {
       if (!confirm('Are you sure you want to cancel this appointment?')) return;
-      const res = await fetch(`/appointments/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/appointments/${appointmentId}`, { method: 'DELETE' });
       if (res.ok) {
         alert('Appointment cancelled');
         location.reload();
