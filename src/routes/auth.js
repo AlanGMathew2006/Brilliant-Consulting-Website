@@ -61,7 +61,7 @@ router.get('/test-db', async (req, res) => {
 });
 
 // GET: login page
-router.get('/', (req, res) => {
+router.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
 
