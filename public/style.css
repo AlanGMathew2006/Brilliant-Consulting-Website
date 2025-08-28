@@ -952,19 +952,18 @@ section {
 
 /* SaaS Card Bullet Points and Spacing */
 .saas-card ul {
-  margin: 0.7rem 0 0 1.2rem;
-  padding-left: 1.2rem;
+  margin: 0.5rem 0 0 1.1rem;
+  padding-left: 1.1rem;
   list-style: disc;
-  color: #e6f7ff;
-  font-size: 1.08rem;
+  color: #183b56;
+  font-size: 1.04rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 .saas-card ul li {
-  margin-bottom: 0.5rem;
-  color: #e6f7ff;
-}
-.saas-card p:last-child,
-.saas-card ul:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0.4rem;
+  color: #183b56;
+  font-weight: 500;
 }
 
 /* Remove or override backgrounds for these sections on product, about, and services pages */
@@ -993,4 +992,104 @@ section {
   align-self: flex-start; /* Align image to the left */
 }
 
+/* --- Compact Services Section --- */
+.saas-section.compact {
+  padding: 30px 0 20px 0;
+  margin-top: 90px;
+}
 
+.saas-section-title {
+  margin-bottom: 1.5rem;
+  font-size: 2.4rem;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.saas-card-row.compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.saas-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(77,184,255,0.10);
+  border: 1.5px solid #4DB8FF;
+  padding: 1.3rem 1.1rem 1.1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  height: 100%;
+  transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
+  color: #183b56;
+}
+
+.saas-card:hover, .saas-card:focus-within {
+  box-shadow: 0 8px 32px 0 #00eaff44, 0 1.5px 0 #4DB8FF;
+  border-color: #00eaff;
+  transform: translateY(-6px) scale(1.03);
+  z-index: 2;
+}
+
+.saas-card .card-icon {
+  font-size: 2.2rem;
+  color: #4DB8FF;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.saas-card h3 {
+  color: #4DB8FF;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.saas-card p {
+  color: #183b56;
+  font-size: 1.02rem;
+  margin-bottom: 0.5rem;
+}
+
+.saas-card ul {
+  margin: 0.5rem 0 0 1.1rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+  color: #183b56;
+  font-size: 1.04rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.saas-card ul li {
+  margin-bottom: 0.4rem;
+  color: #183b56;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .saas-section.compact {
+    padding: 15px 0 10px 0;
+    margin-top: 70px;
+  }
+  .saas-section-title {
+    font-size: 1.5rem;
+  }
+  .saas-card-row.compact {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .saas-card {
+    padding: 1rem 0.7rem;
+  }
+
+}
