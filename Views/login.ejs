@@ -6,10 +6,168 @@
   <title>Brilliant Consulting - Login</title>
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/css/footer.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      background: #0a192f;
+      overflow-x: hidden;
+    }
+    #particle-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0;
+      background: linear-gradient(135deg, #0a192f 0%, #4DB8FF 100%);
+      display: block;
+      pointer-events: none;
+    }
+    .hero-section.login-page {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .content {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+      gap: 3rem;
+      position: relative;
+      z-index: 3;
+    }
+    .left {
+      background: rgba(77, 184, 255, 0.10);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px 0 rgba(77,184,255,0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 3rem 2.5rem;
+      max-width: 420px;
+      color: #fff;
+      z-index: 4;
+      border: 1.5px solid rgba(77,184,255,0.25);
+      margin-right: 1rem;
+    }
+    .left h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+    .left h1 span {
+      color: #4DB8FF;
+    }
+    .left p {
+      font-size: 1.1rem;
+      color: #e6f7ff;
+      margin-bottom: 2rem;
+    }
+    .left button {
+      background: linear-gradient(90deg, #4DB8FF 0%, #00eaff 100%);
+      color: #0a192f;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(77,184,255,0.15);
+      transition: background 0.2s;
+    }
+    .left button:hover {
+      background: linear-gradient(90deg, #00eaff 0%, #4DB8FF 100%);
+      color: #0a192f;
+    }
+    .form-container {
+      background: rgba(10, 25, 47, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+      padding: 2.5rem 2rem;
+      min-width: 320px;
+      z-index: 4;
+      border: 1.5px solid rgba(77,184,255,0.18);
+    }
+    .form-container h2 {
+      color: #4DB8FF;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .form-container input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: 1px solid #4DB8FF;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .form-container input:focus {
+      border: 1.5px solid #00eaff;
+      background: rgba(77,184,255,0.08);
+    }
+    .form-container button {
+      width: 100%;
+      background: linear-gradient(90deg, #4DB8FF 0%, #00eaff 100%);
+      color: #0a192f;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .form-container button:hover {
+      background: linear-gradient(90deg, #00eaff 0%, #4DB8FF 100%);
+      color: #0a192f;
+    }
+    .form-container p {
+      color: #e6f7ff;
+      margin-top: 1.2rem;
+      font-size: 0.97rem;
+    }
+    .form-container a {
+      color: #4DB8FF;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+    .error-message {
+      background: #ff4d4f;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.97rem;
+    }
+    @media (max-width: 900px) {
+      .content {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: stretch;
+      }
+      .left, .form-container {
+        margin: 0 auto;
+        max-width: 95vw;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Add login-page class to hero-section -->
+  <canvas id="particle-bg"></canvas>
   <div class="hero-section login-page">
     <header>
       <div class="logo">Brilliant <span>Consulting</span></div>
@@ -53,5 +211,101 @@
 
   <!-- Include Footer -->
   <%- include('partials/footer') %>
+
+  <script>
+    // SaaS-style animated particles
+    const canvas = document.getElementById('particle-bg');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const colors = ['#4DB8FF', '#00eaff', '#fff', '#b3e6ff', '#1a5a99'];
+    const particleCount = 90;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function randomBetween(a, b) {
+      return a + Math.random() * (b - a);
+    }
+
+    function createParticle() {
+      return {
+        x: randomBetween(0, canvas.width),
+        y: randomBetween(0, canvas.height),
+        r: randomBetween(2, 4.5),
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: randomBetween(-0.7, 0.7),
+        vy: randomBetween(-0.7, 0.7),
+        alpha: randomBetween(0.5, 1),
+        glow: Math.random() > 0.7
+      };
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(createParticle());
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Draw lines between close particles
+      for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        if (p.glow) {
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = 16;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+        // Draw lines to nearby particles
+        for (let j = i + 1; j < particles.length; j++) {
+          let q = particles[j];
+          let dx = p.x - q.x;
+          let dy = p.y - q.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 110) {
+            ctx.save();
+            ctx.globalAlpha = 0.10;
+            ctx.strokeStyle = "#4DB8FF";
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function updateParticles() {
+      for (let p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      }
+    }
+
+    function animate() {
+      drawParticles();
+      updateParticles();
+      requestAnimationFrame(animate);
+    }
+
+    initParticles();
+    animate();
+  </script>
 </body>
 </html>

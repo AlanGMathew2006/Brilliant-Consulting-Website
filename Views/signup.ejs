@@ -8,9 +8,21 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+            background: #0a192f;
+            overflow-x: hidden;
+        }
+        #particle-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            background: linear-gradient(135deg, #0a192f 0%, #4DB8FF 100%);
+            display: block;
+            pointer-events: none;
         }
         .signup-content {
             display: flex;
@@ -19,24 +31,27 @@
             min-height: 100vh;
             padding: 2rem 0;
             width: 100vw;
+            position: relative;
+            z-index: 2;
         }
         .form-container {
-            background: #fff;
+            background: rgba(10, 25, 47, 0.95);
             border-radius: 18px;
             padding: 2.5rem 2.5rem 2rem 2.5rem;
             box-shadow: 0 12px 40px rgba(77, 184, 255, 0.10);
-            border: 1px solid #e2e8f0;
+            border: 1.5px solid rgba(77,184,255,0.18);
             width: 100%;
             max-width: 950px;
             position: relative;
             margin: 2rem 0;
+            z-index: 3;
         }
         .form-container::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #4DB8FF, #3A9CE8);
+            background: linear-gradient(90deg, #4DB8FF, #00eaff);
             border-radius: 18px 18px 0 0;
         }
         .form-header {
@@ -46,7 +61,7 @@
         .logo-icon {
             width: 3.5rem;
             height: 3.5rem;
-            background: linear-gradient(135deg, #4DB8FF, #3A9CE8);
+            background: linear-gradient(135deg, #4DB8FF, #00eaff);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -59,11 +74,11 @@
         .form-header h2 {
             font-size: 2rem;
             font-weight: 700;
-            color: #1e293b;
+            color: #fff;
             margin-bottom: 0.5rem;
         }
         .form-header p {
-            color: #64748b;
+            color: #e6f7ff;
             font-size: 1rem;
             margin: 0;
         }
@@ -92,10 +107,12 @@
             align-items: center;
             gap: 0.4rem;
             font-weight: 600;
-            color: #374151;
+            color: #e6f7ff;
             margin-bottom: 0.45rem;
             font-size: 1rem;
         }
+
+
         .required-asterisk {
             color: #e74c3c;
             font-size: 1.1em;
@@ -106,54 +123,74 @@
         .form-group textarea {
             width: 100%;
             padding: 0.85rem 1.1rem;
-            border: 2px solid #e5e7eb;
+            border: 1.5px solid #4DB8FF;
             border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s;
-            background: #f9fafb;
-            color: #374151;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+        }
+        .form-group select {
+          background: #112240;
+          color: #fff;
+          border: 1.5px solid #4DB8FF;
+        }
+
+        /* Style the dropdown options for better contrast */
+        .form-group select option {
+          background: #112240;
+          color: #fff;
+        }
+
+        /* Optional: Remove the gray highlight on the first option */
+        .form-group select option[value=""] {
+          color: #b3e6ff;
         }
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #4DB8FF;
-            background: #fff;
+            border-color: #00eaff;
+            background: rgba(77,184,255,0.08);
             box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.08);
         }
         .form-group input::placeholder,
         .form-group textarea::placeholder {
-            color: #9ca3af;
+            color: #b3e6ff;
         }
         .submit-btn {
             width: 100%;
-            background: linear-gradient(135deg, #4DB8FF, #3A9CE8);
-            color: white;
+            background: linear-gradient(90deg, #00eaff 0%, #4DB8FF 100%);
+            color: #0a192f;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            font-size: 1.08rem;
+            padding: 0.8rem 2rem;
+            border-radius: 16px;
+            font-size: 2rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
             margin-top: 1.2rem;
+            box-shadow: 0 2px 8px rgba(77,184,255,0.15);
+            letter-spacing: 1px;
         }
         .submit-btn:hover {
-            transform: translateY(-2px);
+            background: linear-gradient(90deg, #4DB8FF 0%, #00eaff 100%);
+            color: #0a192f;
             box-shadow: 0 8px 25px rgba(77, 184, 255, 0.18);
+            transform: translateY(-2px);
         }
         .form-footer {
             text-align: center;
             margin-top: 1.5rem;
             padding-top: 1.2rem;
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid #1a5a99;
         }
         .form-footer p {
-            color: #6b7280;
+            color: #b3e6ff;
             margin: 0;
         }
         .form-footer a {
@@ -178,7 +215,7 @@
         }
         .terms-group label {
             font-weight: 400;
-            color: #374151;
+            color: #e6f7ff;
             font-size: 1rem;
             margin-bottom: 0;
             display: inline;
@@ -187,6 +224,33 @@
             color: #4DB8FF;
             text-decoration: underline;
             font-weight: 500;
+        }
+        .terms-row {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 1.2rem 0 0.5rem 0;
+        }
+        .terms-label {
+            font-weight: 500;
+            color: #e6f7ff !important;
+            font-size: 1rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .terms-label a {
+            color: #4DB8FF;
+            text-decoration: underline;
+            font-weight: 500;
+            margin: 0 2px;
+        }
+        .terms-label input[type="checkbox"] {
+            accent-color: #4DB8FF;
+            transform: scale(1.15);
+            margin: 0 8px 0 0;
         }
         @media (max-width: 1100px) {
             .form-container {
@@ -197,6 +261,12 @@
             .form-row {
                 flex-direction: column;
                 gap: 0;
+            }
+            .terms-row {
+                justify-content: flex-start;
+            }
+            .form-container {
+                padding: 1.2rem;
             }
         }
         @media (max-width: 600px) {
@@ -212,7 +282,7 @@
                 font-size: 0.97rem;
             }
         }
-        /* Modal Styles */
+        /* Modal Styles (unchanged) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -255,49 +325,10 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
-        .terms-row {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin: 1.2rem 0 0.5rem 0;
-        }
-        .terms-label {
-            font-weight: 500;
-            color: #1e293b !important;
-            font-size: 1rem;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .terms-label a {
-            color: #4DB8FF;
-            text-decoration: underline;
-            font-weight: 500;
-            margin: 0 2px;
-        }
-        .terms-label input[type="checkbox"] {
-            accent-color: #4DB8FF;
-            transform: scale(1.15);
-            margin: 0 8px 0 0;
-        }
-        @media (max-width: 900px) {
-            .terms-row {
-                justify-content: flex-start;
-            }
-        }
-        @media (max-width: 600px) {
-            .terms-row {
-                justify-content: flex-start;
-            }
-            .terms-label {
-                font-size: 0.97rem;
-            }
-        }
     </style>
 </head>
 <body>
+    <canvas id="particle-bg"></canvas>
     <div class="signup-content">
         <div class="form-container" id="login-form">
             <div class="form-header">
@@ -381,7 +412,7 @@
                 <div class="terms-row">
                     <label class="terms-label">
                         <input type="checkbox" id="agreedToTerms" name="agreedToTerms" required style="margin-right:8px;vertical-align:middle;" />
-                        <span style="color:#1e293b; font-weight:500;">
+                        <span style="color:#e6f7ff; font-weight:500;">
                             I agree to the 
                             <a href="/terms" target="_blank" style="color:#4DB8FF;text-decoration:underline;font-weight:600;">Terms & Privacy Policy</a>
                             <span class="required-asterisk">*</span>
@@ -399,6 +430,100 @@
         </div>
     </div>
 
-  
+    <script>
+    // SaaS-style animated particles (same as login page)
+    const canvas = document.getElementById('particle-bg');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const colors = ['#4DB8FF', '#00eaff', '#fff', '#b3e6ff', '#1a5a99'];
+    const particleCount = 90;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function randomBetween(a, b) {
+      return a + Math.random() * (b - a);
+    }
+
+    function createParticle() {
+      return {
+        x: randomBetween(0, canvas.width),
+        y: randomBetween(0, canvas.height),
+        r: randomBetween(2, 4.5),
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: randomBetween(-0.7, 0.7),
+        vy: randomBetween(-0.7, 0.7),
+        alpha: randomBetween(0.5, 1),
+        glow: Math.random() > 0.7
+      };
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(createParticle());
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Draw lines between close particles
+      for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        if (p.glow) {
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = 16;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+        // Draw lines to nearby particles
+        for (let j = i + 1; j < particles.length; j++) {
+          let q = particles[j];
+          let dx = p.x - q.x;
+          let dy = p.y - q.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 110) {
+            ctx.save();
+            ctx.globalAlpha = 0.10;
+            ctx.strokeStyle = "#4DB8FF";
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function updateParticles() {
+      for (let p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      }
+    }
+
+    function animate() {
+      drawParticles();
+      updateParticles();
+      requestAnimationFrame(animate);
+    }
+
+    initParticles();
+    animate();
+    </script>
 </body>
 </html>
