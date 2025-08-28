@@ -6,25 +6,128 @@
   <title>Brilliant Consulting - About Us</title>
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .about-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 110px 0 60px 0;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .about-hero-title {
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #183b56;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+    }
+    .about-hero-title span {
+      color: #4DB8FF;
+    }
+    .about-hero-desc {
+      color: #183b56;
+      font-size: 1.15rem;
+      margin-bottom: 2.2rem;
+      font-weight: 500;
+    }
+    .about-story-section {
+      max-width: 900px;
+      margin: 0 auto 3rem auto;
+      padding: 0 1rem;
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+      border: 1.5px solid #4DB8FF;
+      padding: 2.5rem 2rem;
+    }
+    .story-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4DB8FF;
+      margin-bottom: 1.2rem;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .story-desc {
+      color: #183b56;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .about-leader-section {
+      max-width: 500px;
+      margin: 0 auto 3rem auto;
+      padding: 0 1rem;
+      text-align: center;
+    }
+    .leader-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+      border: 1.5px solid #00eaff;
+      padding: 2rem 1.2rem 1.2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.18s;
+    }
+    .leader-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 12px 32px rgba(0,234,255,0.18);
+      border-color: #4DB8FF;
+    }
+    .leader-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 3px solid #4DB8FF;
+      background: #f7fbff;
+      box-shadow: 0 2px 8px rgba(77,184,255,0.08);
+    }
+    .leader-card h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #183b56;
+      margin-bottom: 0.2rem;
+    }
+    .leader-role {
+      color: #4DB8FF;
+      font-size: 1.05rem;
+      margin-bottom: 0.7rem;
+      font-weight: 600;
+    }
+    .leader-card p {
+      color: #183b56;
+      font-size: 1.02rem;
+      margin-bottom: 0;
+    }
+    @media (max-width: 900px) {
+      .about-hero {
+        padding: 80px 0 30px 0;
+      }
+    }
+  </style>
 </head>
-
 <body>
   <div class="hero-section">
     <header>
       <div class="logo">Brilliant <span>Consulting</span></div>
       <nav>
         <% if (userName) { %>
-          <!-- User is logged in - show full navigation -->
           <a href="/home">Home</a>
           <a href="/services">Services</a>
-          <a href="/products">Products</a>
           <a href="/about">About</a>
           <a href="/contact">Contact</a>
           <a href="/auth/logout" class="logout-btn">Logout</a>
         <% } else { %>
-          <!-- User is NOT logged in - show limited navigation -->
           <a href="/services">Services</a>
-          <a href="/products">Products</a>
           <a href="/about">About</a>
           <a href="/contact">Contact</a>
           <a href="/login">Login</a>
@@ -33,119 +136,33 @@
       </nav>
     </header>
 
-    <div class="stacked-container">
-      <section class="content-block" id="AboutHeader">
-        <h1><strong>ABOUT US</strong></h1>
-      </section>
-
-      <section class="content-block" id="AboutUs">
-        <div class="side-by-side reverse">
-          <div class="text-side">
-            <h2>We Are A Team Of Strategists, Designers, Architects, And Engineers.</h2>
-            <p>We specialize in integrating Business, Technology, Services, and Processes to enhance the end-user experience in today’s digital landscape.</p>
-            <p>Our work spans Automation, Service Delivery, Digital Business, AI, NLP, and accelerating innovation to deliver next-generation services.</p>
-          </div>
-          <div class="image-side">
-            <img src="https://i.pinimg.com/736x/39/47/d7/3947d7f29d52431aec8b48e2374f1007.jpg" alt="about us">
-          </div>
+    <section>
+      <div class="about-hero">
+        <h1 class="about-hero-title">About <span>Brilliant Consulting</span></h1>
+        <div class="about-hero-desc">
+          Brilliant Consulting is a boutique technology consulting firm dedicated to delivering innovative solutions and personalized service for every client.
         </div>
-      </section>
-
-      <section class="content-block" id="OurMission">
-        <h2>Our Mission</h2>
-        <p>At Brilliant Consulting, our mission is to empower organizations to achieve their goals through innovative solutions and expert guidance. We are committed to delivering exceptional value and driving positive change for our clients.</p>
-      </section>
-
-      <section class="content-block" id="PRC">
-        <div class="side-by-side">
-          <div class="text-side">
-            <h2>Process Consulting</h2>
-            <p>Brilliant Consulting offers a comprehensive suite of process consulting services to clients. These services encompass:</p>
-            <ul>
-              <li><strong>Process Analysis:</strong> We analyze existing processes to identify inefficiencies and areas for improvement.</li>
-              <li><strong>Process Design:</strong> We design optimized processes that align with business objectives and enhance operational efficiency.</li>
-              <li><strong>Implementation Support:</strong> We provide support during the implementation phase to ensure smooth transitions and successful adoption of new processes.</li>
-              <li><strong>Continuous Improvement:</strong> We help organizations establish a culture of continuous improvement to sustain process excellence over time.</li>
-            </ul>
-          </div>
-          <div class="image-side">
-            <img src="https://img.freepik.com/premium-vector/advice-consultant-consulting-icon-simple-editable-vector-graphics_965649-13295.jpg" alt="process consulting">
-          </div>
+      </div>
+      <div class="about-story-section">
+        <div class="story-title">Our Story</div>
+        <div class="story-desc">
+          Founded with a passion for technology and a commitment to client success, Brilliant Consulting partners with businesses to help them navigate the ever-changing digital landscape. We believe in building long-term relationships, offering expert guidance, and delivering measurable results for every project—no matter the size.
         </div>
-      </section>
-
-      <section class="content-block" id="IS">
-        <div class="side-by-side reverse">
-          <div class="text-side">
-            <h2>Information Security</h2>
-            <p>Information security is paramount in today’s interconnected world. Brilliant Consulting takes a proactive approach by implementing robust security measures. These include:</p>
-            <ul>
-              <li><strong>Risk Assessment:</strong> Identifying and evaluating potential security risks to the organization.</li>
-              <li><strong>Security Architecture:</strong> Designing secure systems and networks to protect sensitive information.</li>
-              <li><strong>Incident Response:</strong> Developing plans and protocols to respond to security breaches effectively.</li>
-              <li><strong>Compliance Management:</strong> Ensuring adherence to industry regulations and standards.</li>
-            </ul>
-          </div>
-          <div class="image-side">
-            <img src="https://img.freepik.com/premium-vector/computer-locked-icon-simple-editable-vector-illustration_965649-12847.jpg" alt="application development">
-          </div>
+      </div>
+      <div class="about-leader-section">
+        <div class="story-title">Leadership</div>
+        <div class="leader-card">
+          <img src="https://mail-attachment.googleusercontent.com/attachment/u/0/?ui=2&ik=abbedc0509&attid=0.1&permmsgid=msg-a:r1103209682236354152&th=198f26b8da6338c0&view=att&zw&disp=safe&saddbat=ANGjdJ-ZzfHS5m1HU_-SGyqUyEvaCvS-aZ6r9gtpesSegc-7iVjOIVpOXUlI1WFKYU-bv5ovuZmM1Hs66fPRADrG0jowbxNEtO1Z6nFk-P4zS47XKB-SzxvZfNMiXqCz_hwAizHIgQ9EUgCKKLMU6Ao8QDHJt5pz7XF0TSNeVIqJqBlEGgGa7DOlU0YkgMftopbDyh5rVBNbCWo7S8B9SBSD9Ma3qvJyxwy6V26xUZqL9DpDaBgVg5Uu_Qq8qMRU7Np-dQCokQcTGetsiKvKZBOQWvbU8f7mhaxK9lIyTZ7BqmS3td7uuVyxbrNiY27MRcphvTRUo1eW4N6siLXy4nXy5Ze7ycW6z_CWLEqsWyeN7a4CWOFpNrnHlM0FARXLgmvzIEMHwXOKB1Ftad548S1X3Im6n3ENcYSYXUONucD1TxK0pvKZEJgOxUK8NJ4v2iO8Q_smQ-FT7jNrsuK31u6o_HS5ii8HTm8QLl-I6bj4KQI9b3cC0r8kAlvbAOLSiokG00g4EAVXuzQjgUqPBXkomwkcH8bR6FKMRUx_Bw0LmlapUzAg1W7uAjtazzDRez6Hqr8cQOE9O0jLeziHsYeX6lUYpDwygu93fUrHnX0ggTJL1hvyuCZKMi-2pQ9aLpB8Q0NYTsEsQnEmUNyREUOm5UdxPESVGM5fyXdzLVweThb9UtMos7jP8vJhLa2dJuokRIar2kl2syRJGI0Fj_sLhxkO5HoUb4RrZEQYTPTjWsw-dco3WCeKZtx9hltjYJqI_Ywq_MoInAKD5ScfZwthUzJogWE8jrMfdNe2uGlSCi7SCUwlOgtpYmZYcEIxcDv3FCeayyLKc3ZuxdqgsUfh9LCr8TxLVYPD1qF6_2D--PW3xuIngOyxCBpB1HzqKJ3zwC6J7W6d-DARRdrkuaNzPqpr_djmsHZXc0zltW75nvOqW7SW8VHW_q579XlRgW0UKMAHAfZZsDyGM6m5NLtuKumGb8LCq3oaSCC6Y0KsYQouBWFbJd8yCfL2Ks_9x4sJ1ZYA_rtC5wtnnQchO76yorQ32G5U6WPihgX1Uw" alt="Founder & Principal Consultant" class="leader-avatar" />
+          <h4>Saji George</h4>
+          <div class="leader-role">Founder & Principal Consultant</div>
+          <p>
+            With decades of experience in technology and business consulting, Saji George leads Brilliant Consulting with a hands-on approach and a dedication to client success. His expertise spans IT strategy, digital transformation, and delivering tailored solutions that drive real business value.
+          </p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="content-block" id="WeListen">
-        <div class="side-by-side">
-          <div class="text-side">
-            <h2>We Listen</h2>
-            <p>Active listening, open discussion, and honest advice form the bedrock of our approach. When you share your business ideas, plans, and objectives, we pay attention. Your insights drive our strategies and solutions.</p>
-            <p>Our commitment is to find the optimal solution that aligns seamlessly with your needs. If a project isn’t the right fit, we’ll candidly communicate that from the start. Transparency and tailored solutions—that’s our promise!</p>
-          </div>
-          <div class="image-side">
-            <img src="https://img.freepik.com/premium-vector/man-woman-are-standing-each-other-consulting-work-workers-consult-each-other-work-simple-minimalist-flat-vector-illustration_538213-54019.jpg" alt="applications">
-          </div>
-        </div>
-      </section>
-
-      <section class="content-block" id="QUA">
-        <div class="side-by-side reverse">
-          <div class="text-side">
-            <h2>Quality Assurance</h2>
-            <p>At Brilliant Consulting, we understand that quality is paramount. Our quality assurance services include:</p>
-            <ul>
-              <li><strong>Quality Audits:</strong> Comprehensive assessments to ensure processes meet established standards.</li>
-              <li><strong>Testing Services:</strong> Rigorous testing of applications and systems to identify and resolve issues.</li>
-              <li><strong>Continuous Monitoring:</strong> Ongoing oversight to maintain quality and compliance over time.</li>
-              <li><strong>Training and Support:</strong> Empowering teams with the knowledge and tools to uphold quality standards.</li>
-            </ul>
-          </div>
-          <div class="image-side">
-            <img src="https://img.freepik.com/premium-vector/checklist-icon-simple-vector-design_1178600-538.jpg" alt="quality assurance">
-          </div>
-        </div>
-      </section>
-
-      <section class="content-block" id="Benefits">
-        <div class="side-by-side">
-          <div class="text-side">
-            <h2>Benefits of Working with Us</h2>
-            <p>Our value additions extend to optimizing outsourced systems, minimizing issues, and enhancing stability. Rigorous process implementation and a systematic, process-driven approach are at the core of our success.</p>
-          </div>
-          <div class="image-side">
-            <img src="https://media.istockphoto.com/id/1257101256/vector/happy-people-jumping-celebrating-victory-flat-cartoon-characters-illustration.jpg?s=612x612&w=0&k=20&c=mjajhkk2Ylq69UaJMIKZRlF27qHuWJMcZPb9LxmUxqs=" alt="benefits">
-          </div>
-        </div>
-      </section>
-
-    </div>
+    <%- include('partials/footer') %>
   </div>
-
-  <!-- Font Awesome for icons -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    </div>
-  </div>
-
-  <!-- Font Awesome for icons -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <!-- Include Footer -->
-  <%- include('partials/footer') %>
 </body>
 </html>

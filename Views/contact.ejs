@@ -6,75 +6,75 @@
   <title>Brilliant Consulting - Contact</title>
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
-    <div class="hero-section">
-        <header>
-        <div class="logo">Brilliant <span>Consulting</span></div>
-        <nav>
-          <% if (userName) { %>
-            <!-- User is logged in - show full navigation -->
-            <a href="/home">Home</a>
-            <a href="/services">Services</a>
-            <a href="/products">Products</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-            <a href="/auth/logout" class="logout-btn">Logout</a>
-          <% } else { %>
-            <!-- User is NOT logged in - show limited navigation -->
-            <a href="/services">Services</a>
-            <a href="/products">Products</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-            <a href="/login">Login</a>
-            <a href="/signup">Sign Up</a>
-          <% } %>
-        </nav>
-        </header>
-    
-        <section class="contact-section">
-            <h2>Contact Us</h2>
-            <p>If you have any questions or need help, feel free to contact with our team.</p>
+  <div class="hero-section">
+    <header>
+      <div class="logo">Brilliant <span>Consulting</span></div>
+      <nav>
+        <% if (userName) { %>
+          <a href="/home">Home</a>
+          <a href="/services">Services</a>
+          <a href="/products">Products</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/auth/logout" class="logout-btn">Logout</a>
+        <% } else { %>
+          <a href="/services">Services</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/login">Login</a>
+          <a href="/signup">Sign Up</a>
+        <% } %>
+      </nav>
+    </header>
 
-            <form class="contact-form" action="#" method="post">
-                <div class="input-row">
-                    <input type="email" placeholder="Enter a valid email address" required />
-                    <input type="text" placeholder="Enter your Name" required />
-                </div>
-                <div class="input-row">
-                    <input type="text" placeholder="Enter your Message" required />
-                </div>
-                <button type="submit">SUBMIT</button>
-            </form>
+    <section class="contact-modern">
+      <div class="contact-modern-content">
+        <div class="contact-modern-left">
+          <h2 class="contact-modern-title">Contact <span>Us</span></h2>
+          <p class="contact-modern-desc">
+            Need to get in touch with us? Fill out the form or use the details below to reach the right department.
+          </p>
+          <img src="https://tse3.mm.bing.net/th/id/OIP.PQPJFxwrp7sFF-_Kkr9ljgAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Contact Illustration" class="contact-illustration">
+        </div>
+        <form class="contact-modern-form" action="#" method="post">
+          <input type="text" placeholder="Name" required />
+          <input type="email" placeholder="Email" required />
+          <input type="text" placeholder="Phone number" />
+          <textarea placeholder="Message" required></textarea>
+          <button type="submit">
+            Contact us now
+          </button>
+        </form>
+      </div>
+      <div class="contact-modern-infobar">
+        <div class="infobar-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <div>
+            <div class="infobar-label">Location</div>
+            <div class="infobar-value">524 Castilian Ct, Roseville, CA</div>
+          </div>
+        </div>
+        <div class="infobar-item">
+          <i class="fas fa-envelope"></i>
+          <div>
+            <div class="infobar-label">Email</div>
+            <div class="infobar-value">hr@brilliantconsulting.us</div>
+          </div>
+        </div>
+        <div class="infobar-item">
+          <i class="fas fa-phone"></i>
+          <div>
+            <div class="infobar-label">Phone</div>
+            <div class="infobar-value">(916) 750-0575</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="info-section">
-                <div class="info-box">
-                    <div class="icon circle-bg">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h3>Email Us</h3>
-                    <p>hr@brilliantconsulting.us</p>
-                </div>
-                <div class="info-box">
-                    <div class="icon circle-bg">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <h3>Call Us</h3>
-                    <p></p>(916)750-0575</p>
-                </div>
-                <div class="info-box">
-                    <div class="icon circle-bg">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <h3>OUR OFFICE LOCATION</h3>
-                    <p>Roseville, CA<br>Office Address: Roseville, CA, 524 Castilian Ct</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Include Footer -->
-        <%- include('partials/footer') %>
-    </div>
+    <%- include('partials/footer') %>
+  </div>
 </body>
 </html>
