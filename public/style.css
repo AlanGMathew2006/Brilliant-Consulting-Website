@@ -2141,3 +2141,304 @@ section {
             font-size: 1.2rem;
             cursor: pointer;
         }
+
+/* Calendar Styles */
+ body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding-top: 80px;
+    }
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      width: 100%;
+      z-index: 1000;
+      background: #1a1a1a;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+    .logo { color: #fff; font-weight: 700; font-size: 1.5rem; }
+    .logo span { color: #4DB8FF; }
+    nav a { color: #fff; margin-right: 18px; text-decoration: none; font-weight: 500; }
+    nav a.logout-btn { color: white; }
+    nav a:hover { color: #4DB8FF; }
+    .calendly-ui-container {
+      display: flex;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(77,184,255,0.10);
+      border: 1.5px solid #e6f6ff;
+      max-width: 1100px;
+      margin: 60px auto 40px auto;
+      min-height: 540px;
+      overflow: hidden;
+      gap: 0;
+    }
+    .calendly-ui-sidebar {
+      flex: 0 0 320px;
+      background: #f8fafc;
+      padding: 40px 32px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      border-right: 1.5px solid #e6f6ff;
+      min-height: 100%;
+    }
+    .calendly-ui-account {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    .calendly-ui-avatar {
+      font-size: 3rem;
+      color: #4DB8FF;
+    }
+    .calendly-ui-account-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .calendly-ui-account-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #183b56;
+    }
+    .calendly-ui-account-label {
+      font-size: 0.98rem;
+      color: #4DB8FF;
+    }
+    .calendly-ui-service-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #4DB8FF;
+      margin-bottom: 8px;
+    }
+    .calendly-ui-service-duration,
+    .calendly-ui-service-price {
+      font-size: 1rem;
+      color: #183b56;
+      margin-bottom: 6px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .calendly-ui-service-note {
+      font-size: 0.97rem;
+      color: #64748b;
+      margin-top: 18px;
+    }
+    .calendly-ui-main {
+      flex: 1 1 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 40px 32px 32px 32px;
+    }
+    .calendly-ui-header {
+      margin-bottom: 20px;
+    }
+    .calendly-ui-header h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #183b56;
+      margin: 0;
+    }
+    .calendly-ui-calendar-area {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      align-items: flex-start;
+      min-height: 400px;
+      width: 100%;
+    }
+    #calendly-calendar {
+      flex: 1 1 0;
+      min-width: 420px;
+      max-width: 520px;
+      height: 480px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(77,184,255,0.06);
+      border: 1.5px solid #e6f6ff;
+      margin-bottom: 0;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+    .calendly-ui-timeslot-panel {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-top: 10px;
+      display: none;
+      animation: slideIn 0.4s ease-out forwards;
+    }
+    .calendly-ui-timeslot-panel.active {
+      display: block;
+    }
+    .calendly-ui-timeslot-placeholder {
+      display: block;
+      color: #64748b;
+      font-size: 1.08rem;
+      text-align: center;
+      margin-top: 60px;
+      opacity: 0.8;
+      letter-spacing: 0.2px;
+    }
+    .calendly-ui-timeslot-panel.active .calendly-ui-timeslot-placeholder {
+      display: none;
+    }
+    .calendly-ui-timeslot-header {
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 15px;
+    }
+    .calendly-ui-timeslot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .calendly-ui-timeslot-btn {
+      background: white;
+      border: 2px solid #4DB8FF;
+      color: #4DB8FF;
+      border-radius: 7px;
+      padding: 12px 0;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      width: 100%;
+      text-align: center;
+    }
+    .calendly-ui-timeslot-btn:hover, .calendly-ui-timeslot-btn.selected {
+      background: #4DB8FF;
+      color: #fff;
+      border-color: #4DB8FF;
+    }
+    .calendly-ui-timeslot-form .form-label {
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 8px;
+      font-size: 0.98rem;
+    }
+    .calendly-ui-timeslot-form .form-control, .calendly-ui-timeslot-form .form-select {
+      border: 2px solid #e6f6ff;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.98rem;
+      background: #fff;
+      color: #183b56;
+      margin-bottom: 10px;
+      transition: border-color 0.2s;
+    }
+    .calendly-ui-timeslot-form .form-control:focus, .calendly-ui-timeslot-form .form-select:focus {
+      border-color: #4DB8FF;
+      box-shadow: 0 0 0 3px rgba(77,184,255,0.10);
+    }
+    .calendly-ui-timeslot-form .btn {
+      border-radius: 8px;
+      font-weight: 700;
+      padding: 10px 22px;
+      font-size: 1rem;
+      letter-spacing: 0.2px;
+      box-shadow: 0 2px 8px rgba(77,184,255,0.08);
+      transition: all 0.18s;
+    }
+    .calendly-ui-timeslot-form .btn-primary {
+      background: linear-gradient(90deg, #4DB8FF 0%, #00eaff 100%);
+      border: none;
+      color: #fff;
+    }
+    .calendly-ui-timeslot-form .btn-primary:hover {
+      background: linear-gradient(90deg, #00eaff 0%, #4DB8FF 100%);
+    }
+    .calendly-ui-timeslot-form .btn-outline-secondary {
+      border: 2px solid #e6f6ff;
+      color: #4DB8FF;
+      background: #fff;
+    }
+    .calendly-ui-timeslot-form .btn-outline-secondary:hover {
+      background: #eaf6fd;
+      border-color: #4DB8FF;
+      color: #183b56;
+    }
+    /* FullCalendar toolbar buttons */
+    .fc .fc-button,
+    .fc .fc-button-primary,
+    .fc .fc-button-active {
+      background: #4DB8FF !important;
+      color: #fff !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    .fc .fc-button:hover,
+    .fc .fc-button-primary:hover,
+    .fc .fc-button-active:hover {
+      background: #2697e8 !important;
+      color: #fff !important;
+    }
+
+    /* Make "today" button match */
+    .fc .fc-button.fc-today-button {
+      background: #4DB8FF !important;
+      color: #fff !important;
+    }
+
+    /* Calendar header text (month/week) */
+    .fc .fc-button-group .fc-button {
+      background: #4DB8FF !important;
+      color: #fff !important;
+    }
+
+    /* Subtle date color for day numbers and links */
+    .fc .fc-daygrid-day-number,
+    .fc .fc-col-header-cell-cushion {
+      color: #334155 !important;
+      font-weight: 600;
+      text-decoration: none !important;
+    }
+
+    /* Remove blue underline from day headers */
+    .fc .fc-col-header-cell-cushion {
+      text-decoration: none !important;
+    }
+
+    /* Optional: soften hover on dates */
+    .fc .fc-daygrid-day-number:hover {
+      color: #4DB8FF !important;
+      background: #eaf6fd !important;
+      border-radius: 50%;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 900px) {
+      .calendly-ui-container {
+        flex-direction: column;
+        min-height: unset;
+        border-radius: 12px;
+      }
+      .calendly-ui-sidebar {
+        flex: unset;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1.5px solid #e6f6ff;
+        padding: 32px 18px 18px 18px;
+        border-radius: 12px 12px 0 0;
+      }
+      .calendly-ui-main {
+        padding: 18px 8px 0 8px;
+      }
+      .calendly-ui-timeslot-panel {
+        padding: 15px;
+      }
+    }
