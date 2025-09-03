@@ -6,848 +6,378 @@
   <title>Brilliant Consulting - Home</title>
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/css/footer.css" />
-  
-  <!-- FullCalendar CDN -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap JS Bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Font Awesome for icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
   <style>
-    /* Override split-screen layout from main CSS */
-    .hero-section .content {
-      display: block !important;
-      width: 100% !important;
-    }
-    
-    .hero-section .left,
-    .hero-section .right {
-      display: none !important;
-    }
-
-    /* Make only the header/navbar sticky */
-    header {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      width: 100% !important;
-      z-index: 1000 !important;
-      background: #1a1a1a !important;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
-      backdrop-filter: blur(10px) !important;
-    }
-
-    /* Add top padding to body to account for fixed header */
+    /* Calendly Reference UI Styling */
     body {
-      padding-top: 80px !important;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding-top: 80px;
     }
-
-    /* Professional container styling */
-    .stacked-container {
-      background: transparent;
-      padding: 40px 20px 60px;
-      min-height: calc(100vh - 100px);
-      display: block !important;
-      width: 100% !important;
-      position: static !important;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    /* Enhanced welcome section with professional SaaS styling */
-    .welcome-section {
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
       width: 100%;
-      max-width: 1000px;
-      margin: 0 auto 50px auto;
-      text-align: center;
-      padding: 40px 30px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(100, 149, 237, 0.08);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid #e2e8f0;
-    }
-
-    .welcome-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #6495ed 0%, #4DB8FF 50%, #87ceeb 100%);
-    }
-    
-    .welcome-section h1 {
-      font-size: 2.8rem;
-      background: linear-gradient(135deg, #6495ed 0%, #4DB8FF 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 15px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .welcome-section p {
-      font-size: 1.3rem;
-      color: #64748b;
-      margin-bottom: 0;
-      font-weight: 500;
-    }
-
-    /* Professional calendar container */
-    .calendar-container {
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      border: 1px solid #e2e8f0;
-      position: relative;
-    }
-
-    .calendar-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #6495ed 0%, #4DB8FF 50%, #87ceeb 100%);
-      z-index: 1;
-    }
-
-    /* Professional calendar header */
-    .calendar-header {
-      background: linear-gradient(135deg, #6495ed 0%, #4DB8FF 100%);
-      padding: 30px;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .calendar-title-section h2 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .calendar-title-section p {
-      margin: 5px 0 0 0;
-      opacity: 0.9;
-      font-size: 0.95rem;
-    }
-
-    .calendar-stats {
-      display: flex;
-      gap: 20px;
-    }
-
-    .stat-item {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 12px 20px;
-      border-radius: 12px;
+      z-index: 1000;
+      background: #1a1a1a;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
     }
-
-    .stat-number {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin: 0;
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      opacity: 0.9;
-      margin: 0;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* Enhanced calendar styling */
-    #calendar {
-      padding: 0;
-      background: white;
-    }
-
-    /* Calendar Header Toolbar */
-    .fc-header-toolbar {
-      background: #f8fafc !important;
-      padding: 25px 30px !important;
-      border: none !important;
-      border-bottom: 2px solid #e2e8f0 !important;
-      margin: 0 !important;
-    }
-
-    .fc-toolbar-title {
-      color: #1e293b !important;
-      font-size: 1.6rem !important;
-      font-weight: 700 !important;
-      letter-spacing: -0.5px !important;
-    }
-
-    .fc-button {
-      background: white !important;
-      border: 2px solid #e2e8f0 !important;
-      color: #64748b !important;
-      font-weight: 600 !important;
-      border-radius: 10px !important;
-      padding: 10px 16px !important;
-      transition: all 0.3s ease !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-    }
-
-    .fc-button:hover {
-      background: #4DB8FF !important;
-      border-color: #4DB8FF !important;
-      color: white !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3) !important;
-    }
-
-    .fc-button-active {
-      background: #6495ed !important;
-      border-color: #6495ed !important;
-      color: white !important;
-      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3) !important;
-    }
-
-    /* Calendar Body */
-    .fc-view-harness {
-      background: white !important;
-      padding: 20px;
-    }
-
-    /* Day Headers - Professional styling */
-    .fc-col-header {
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-      border-bottom: 3px solid #4DB8FF !important;
-    }
-
-    .fc-col-header-cell {
-      padding: 20px 0 !important;
-      font-weight: 700 !important;
-      color: #4DB8FF !important;
-      text-transform: uppercase !important;
-      font-size: 0.9rem !important;
-      letter-spacing: 1px !important;
-      border-right: 1px solid #e2e8f0 !important;
-    }
-
-    /* Day Cells - Enhanced professional look */
-    .fc-daygrid-day {
-      border: 1px solid #f1f5f9 !important;
-      transition: all 0.3s ease !important;
-      background: white !important;
-      position: relative !important;
-      min-height: 120px !important;
-    }
-
-    .fc-daygrid-day:hover {
-      background: linear-gradient(135deg, rgba(100, 149, 237, 0.05) 0%, rgba(135, 206, 235, 0.05) 100%) !important;
-      border-color: #4DB8FF !important;
-      transform: scale(1.02) !important;
-      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.1) !important;
-      cursor: pointer;
-      z-index: 2 !important;
-    }
-
-    .fc-daygrid-day-number {
-      padding: 15px !important;
-      font-weight: 600 !important;
-      color: #475569 !important;
-      font-size: 1rem !important;
-      transition: all 0.3s ease !important;
-    }
-
-    /* Today Highlighting - Enhanced */
-    .fc-day-today {
-      background: linear-gradient(135deg, rgba(100, 149, 237, 0.08) 0%, rgba(135, 206, 235, 0.08) 100%) !important;
-      border: 2px solid #4DB8FF !important;
-      position: relative !important;
-    }
-
-    .fc-day-today::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #4DB8FF 0%, #87ceeb 100%);
-    }
-
-    .fc-day-today .fc-daygrid-day-number {
-      background: linear-gradient(135deg, #4DB8FF 0%, #4169e1 100%) !important;
-      color: white !important;
-      border-radius: 12px !important;
-      width: 36px !important;
-      height: 36px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      margin: 8px !important;
-      font-weight: 700 !important;
-      box-shadow: 0 3px 10px rgba(100, 149, 237, 0.4) !important;
-    }
-
-    /* Weekend Styling - Subtle professional look */
-    .fc-day-sat, .fc-day-sun {
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-    }
-
-    /* Events Styling - Professional appearance */
-    .fc-event {
-      border: none !important;
-      background: linear-gradient(135deg, #6495ed 0%, #4DB8FF 100%) !important;
-      border-radius: 8px !important;
-      padding: 6px 12px !important;
-      font-weight: 600 !important;
-      font-size: 0.85rem !important;
-      color: white !important;
-      margin: 2px !important;
-      box-shadow: 0 2px 8px rgba(100, 149, 237, 0.3) !important;
-      transition: all 0.3s ease !important;
-    }
-
-    .fc-event:hover {
-      background: linear-gradient(135deg, #4169e1 0%, #4DB8FF 100%) !important;
-      transform: translateY(-2px) scale(1.05) !important;
-      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.4) !important;
-      cursor: pointer !important;
-    }
-
-    /* Professional Modal Styling */
-    .modal-content {
-      border-radius: 20px !important;
+    .logo { color: #fff; font-weight: 700; font-size: 1.5rem; }
+    .logo span { color: #4DB8FF; }
+    nav a { color: #fff; margin-right: 18px; text-decoration: none; font-weight: 500; }
+    nav a.logout-btn { color: white; }
+    nav a:hover { color: #4DB8FF; }
+    .calendly-ui-container {
+      display: flex;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(77,184,255,0.10);
+      border: 1.5px solid #e6f6ff;
+      max-width: 1100px;
+      margin: 60px auto 40px auto;
+      min-height: 540px;
       overflow: hidden;
-      border: none !important;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+      gap: 0;
     }
-
-    .modal-header {
-      background: linear-gradient(135deg, #6495ed 0%, #4DB8FF 100%) !important;
-      border: none !important;
-      padding: 25px 30px !important;
-    }
-
-    .modal-title {
-      font-size: 1.4rem !important;
-      font-weight: 700 !important;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .modal-body {
-      padding: 30px !important;
+    .calendly-ui-sidebar {
+      flex: 0 0 320px;
       background: #f8fafc;
+      padding: 40px 32px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      border-right: 1.5px solid #e6f6ff;
+      min-height: 100%;
     }
-
-    .modal-footer {
-      background: white !important;
-      border: none !important;
-      padding: 25px 30px !important;
-    }
-
-    /* Enhanced Form Controls */
-    .form-select, .form-control {
-      border: 2px solid #e2e8f0 !important;
-      border-radius: 12px !important;
-      padding: 12px 16px !important;
-      font-size: 0.95rem !important;
-      transition: all 0.3s ease !important;
-      background: white !important;
-    }
-
-    .form-select:focus, .form-control:focus {
-      border-color: #4DB8FF !important;
-      box-shadow: 0 0 0 4px rgba(100, 149, 237, 0.1) !important;
-      transform: translateY(-1px) !important;
-    }
-
-    .form-label {
-      font-weight: 600 !important;
-      color: #334155 !important;
-      margin-bottom: 10px !important;
-      font-size: 0.95rem !important;
-    }
-
-    /* Enhanced Alert Styling */
-    .alert {
-      border-radius: 12px !important;
-      border: none !important;
-      padding: 20px !important;
-      margin-bottom: 25px !important;
-    }
-
-    .alert-info {
-      background: linear-gradient(135deg, rgba(100, 149, 237, 0.08) 0%, rgba(135, 206, 235, 0.08) 100%) !important;
-      color: #4DB8FF !important;
-      border-left: 4px solid #4DB8FF !important;
-    }
-
-    .alert-warning {
-      background: linear-gradient(135deg, rgba(255, 193, 7, 0.08) 0%, rgba(255, 193, 7, 0.08) 100%) !important;
-      color: #f59e0b !important;
-      border-left: 4px solid #f59e0b !important;
-    }
-
-    .alert-danger {
-      background: linear-gradient(135deg, rgba(220, 53, 69, 0.08) 0%, rgba(220, 53, 69, 0.08) 100%) !important;
-      color: #dc3545 !important;
-      border-left: 4px solid #dc3545 !important;
-    }
-
-    /* Enhanced Button Styling */
-    .btn {
-      border-radius: 12px !important;
-      padding: 12px 24px !important;
-      font-weight: 600 !important;
-      transition: all 0.3s ease !important;
-      text-transform: none !important;
-      letter-spacing: 0.3px !important;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px) !important;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #4DB8FF 0%, #4169e1 100%) !important;
-      border: none !important;
-      box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3) !important;
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 6px 20px rgba(100, 149, 237, 0.4) !important;
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
-      border: none !important;
-      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3) !important;
-    }
-
-    .btn-outline-secondary {
-      border: 2px solid #e2e8f0 !important;
-      color: #64748b !important;
-      background: white !important;
-    }
-
-    .btn-outline-secondary:hover {
-      background: #f8fafc !important;
-      border-color: #6CB2EB !important;
-      color: #4DB8FF !important;
-    }
-
-    /* Mobile Responsiveness */
-    @media (max-width: 768px) {
-      body {
-        padding-top: 70px !important;
-      }
-      
-      .welcome-section {
-        padding: 30px 20px;
-        margin-bottom: 30px;
-      }
-      
-      .welcome-section h1 {
-        font-size: 2.2rem;
-      }
-      
-      .calendar-header {
-        padding: 20px;
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .calendar-stats {
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      
-      .fc-header-toolbar {
-        padding: 20px 15px !important;
-      }
-      
-      .fc-toolbar-title {
-        font-size: 1.3rem !important;
-      }
-
-      .fc-daygrid-day {
-        min-height: 80px !important;
-      }
-    }
-
-    @media (max-width: 480px) {
-      body {
-        padding-top: 65px !important;
-      }
-      
-      .welcome-section h1 {
-        font-size: 1.9rem;
-      }
-      
-      .stacked-container {
-        padding: 20px 15px 40px;
-      }
-
-      .modal-body, .modal-footer {
-        padding: 20px !important;
-      }
-    }
-
-    /* Loading Animation */
-    .calendar-loading {
+    .calendly-ui-account {
       display: flex;
       align-items: center;
-      justify-content: center;
-      height: 200px;
-      color: #6495ed;
-      font-size: 1.1rem;
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    .calendly-ui-avatar {
+      font-size: 3rem;
+      color: #4DB8FF;
+    }
+    .calendly-ui-account-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .calendly-ui-account-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #183b56;
+    }
+    .calendly-ui-account-label {
+      font-size: 0.98rem;
+      color: #4DB8FF;
+    }
+    .calendly-ui-service-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #4DB8FF;
+      margin-bottom: 8px;
+    }
+    .calendly-ui-service-duration,
+    .calendly-ui-service-price {
+      font-size: 1rem;
+      color: #183b56;
+      margin-bottom: 6px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .calendly-ui-service-note {
+      font-size: 0.97rem;
+      color: #64748b;
+      margin-top: 18px;
+    }
+    .calendly-ui-main {
+      flex: 1 1 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 40px 32px 32px 32px;
+    }
+    .calendly-ui-header {
+      margin-bottom: 20px;
+    }
+    .calendly-ui-header h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #183b56;
+      margin: 0;
+    }
+    .calendly-ui-calendar-area {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      align-items: flex-start;
+      min-height: 400px;
+      width: 100%;
+    }
+    #calendly-calendar {
+      flex: 1 1 0;
+      min-width: 420px;
+      max-width: 520px;
+      height: 480px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(77,184,255,0.06);
+      border: 1.5px solid #e6f6ff;
+      margin-bottom: 0;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+    .calendly-ui-timeslot-panel {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-top: 10px;
+      display: none;
+      animation: slideIn 0.4s ease-out forwards;
+    }
+    .calendly-ui-timeslot-panel.active {
+      display: block;
+    }
+    .calendly-ui-timeslot-placeholder {
+      display: block;
+      color: #64748b;
+      font-size: 1.08rem;
+      text-align: center;
+      margin-top: 60px;
+      opacity: 0.8;
+      letter-spacing: 0.2px;
+    }
+    .calendly-ui-timeslot-panel.active .calendly-ui-timeslot-placeholder {
+      display: none;
+    }
+    .calendly-ui-timeslot-header {
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 15px;
+    }
+    .calendly-ui-timeslot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .calendly-ui-timeslot-btn {
+      background: white;
+      border: 2px solid #4DB8FF;
+      color: #4DB8FF;
+      border-radius: 7px;
+      padding: 12px 0;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      width: 100%;
+      text-align: center;
+    }
+    .calendly-ui-timeslot-btn:hover, .calendly-ui-timeslot-btn.selected {
+      background: #4DB8FF;
+      color: #fff;
+      border-color: #4DB8FF;
+    }
+    .calendly-ui-timeslot-form .form-label {
       font-weight: 600;
+      color: #334155;
+      margin-bottom: 8px;
+      font-size: 0.98rem;
+    }
+    .calendly-ui-timeslot-form .form-control, .calendly-ui-timeslot-form .form-select {
+      border: 2px solid #e6f6ff;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.98rem;
+      background: #fff;
+      color: #183b56;
+      margin-bottom: 10px;
+      transition: border-color 0.2s;
+    }
+    .calendly-ui-timeslot-form .form-control:focus, .calendly-ui-timeslot-form .form-select:focus {
+      border-color: #4DB8FF;
+      box-shadow: 0 0 0 3px rgba(77,184,255,0.10);
+    }
+    .calendly-ui-timeslot-form .btn {
+      border-radius: 8px;
+      font-weight: 700;
+      padding: 10px 22px;
+      font-size: 1rem;
+      letter-spacing: 0.2px;
+      box-shadow: 0 2px 8px rgba(77,184,255,0.08);
+      transition: all 0.18s;
+    }
+    .calendly-ui-timeslot-form .btn-primary {
+      background: linear-gradient(90deg, #4DB8FF 0%, #00eaff 100%);
+      border: none;
+      color: #fff;
+    }
+    .calendly-ui-timeslot-form .btn-primary:hover {
+      background: linear-gradient(90deg, #00eaff 0%, #4DB8FF 100%);
+    }
+    .calendly-ui-timeslot-form .btn-outline-secondary {
+      border: 2px solid #e6f6ff;
+      color: #4DB8FF;
+      background: #fff;
+    }
+    .calendly-ui-timeslot-form .btn-outline-secondary:hover {
+      background: #eaf6fd;
+      border-color: #4DB8FF;
+      color: #183b56;
+    }
+    /* FullCalendar toolbar buttons */
+    .fc .fc-button,
+    .fc .fc-button-primary,
+    .fc .fc-button-active {
+      background: #4DB8FF !important;
+      color: #fff !important;
+      border: none !important;
+      box-shadow: none !important;
     }
 
-    .spinner-border {
-      width: 2rem;
-      height: 2rem;
-      border-width: 3px;
-      border-color: #6495ed transparent #6495ed transparent;
+    .fc .fc-button:hover,
+    .fc .fc-button-primary:hover,
+    .fc .fc-button-active:hover {
+      background: #2697e8 !important;
+      color: #fff !important;
+    }
+
+    /* Make "today" button match */
+    .fc .fc-button.fc-today-button {
+      background: #4DB8FF !important;
+      color: #fff !important;
+    }
+
+    /* Calendar header text (month/week) */
+    .fc .fc-button-group .fc-button {
+      background: #4DB8FF !important;
+      color: #fff !important;
+    }
+
+    /* Subtle date color for day numbers and links */
+    .fc .fc-daygrid-day-number,
+    .fc .fc-col-header-cell-cushion {
+      color: #334155 !important;
+      font-weight: 600;
+      text-decoration: none !important;
+    }
+
+    /* Remove blue underline from day headers */
+    .fc .fc-col-header-cell-cushion {
+      text-decoration: none !important;
+    }
+
+    /* Optional: soften hover on dates */
+    .fc .fc-daygrid-day-number:hover {
+      color: #4DB8FF !important;
+      background: #eaf6fd !important;
+      border-radius: 50%;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 900px) {
+      .calendly-ui-container {
+        flex-direction: column;
+        min-height: unset;
+        border-radius: 12px;
+      }
+      .calendly-ui-sidebar {
+        flex: unset;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1.5px solid #e6f6ff;
+        padding: 32px 18px 18px 18px;
+        border-radius: 12px 12px 0 0;
+      }
+      .calendly-ui-main {
+        padding: 18px 8px 0 8px;
+      }
+      .calendly-ui-timeslot-panel {
+        padding: 15px;
+      }
     }
   </style>
 </head>
-
 <body>
-  <div class="hero-section">
-    <header>
-      <div class="logo">Brilliant <span>Consulting</span></div>
-      <nav>
-        <% if (userName) { %>
-          <!-- User is logged in - show full navigation -->
-          <a href="/home">Home</a>
-          <a href="/services">Services</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-          <a href="/auth/logout" class="logout-btn">Logout</a>
-        <% } else { %>
-          <!-- User is NOT logged in - show limited navigation -->
-          <a href="/services">Services</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-          <a href="/">Login</a>
-          <a href="/signup">Sign Up</a>
-        <% } %>
-      </nav>
-    </header>
-
-    <div class="stacked-container">
-      <div class="welcome-section">
-        <h1><i class="fas fa-calendar-check"></i> WELCOME, <%= userName %>!</h1>
-        <p><i class="fas fa-handshake"></i> Ready to schedule your next consultation?</p>
-      </div>
-
-      <div class="calendar-container">
-        <div class="calendar-header">
-          <div class="calendar-title-section">
-            <h2><i class="fas fa-calendar-alt"></i> Appointment Scheduler</h2>
-            <p>Select a date to book your consultation or click existing appointments to manage them</p>
-          </div>
-          <div class="calendar-stats">
-            <div class="stat-item">
-              <p class="stat-number" id="totalAppointments">0</p>
-              <p class="stat-label">Total</p>
-            </div>
-            <div class="stat-item">
-              <p class="stat-number" id="thisMonthAppointments">0</p>
-              <p class="stat-label">This Month</p>
-            </div>
-          </div>
+  <header>
+    <div class="logo">Brilliant <span>Consulting</span></div>
+    <nav>
+      <% if (userName) { %>
+        <a href="/home">Home</a>
+        <a href="/services">Services</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/auth/logout" class="logout-btn">Logout</a>
+      <% } else { %>
+        <a href="/services">Services</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/">Login</a>
+        <a href="/signup">Sign Up</a>
+      <% } %>
+    </nav>
+  </header>
+  <div class="calendly-ui-container">
+    <!-- Sidebar: Account & Appointment Info -->
+    <aside class="calendly-ui-sidebar">
+      <div class="calendly-ui-account">
+        <div class="calendly-ui-avatar">
+          <i class="fas fa-user-circle"></i>
         </div>
-        
-        <div id="calendar">
-          <div class="calendar-loading">
-            <div class="spinner-border me-3"></div>
-            Loading your calendar...
-          </div>
+        <div class="calendly-ui-account-details">
+          <div class="calendly-ui-account-name"><%= userName %></div>
+          <div class="calendly-ui-account-label">My account</div>
         </div>
       </div>
-
-     
-
-    </div> <!-- end stacked-container -->
-  </div> <!-- end hero-section -->
-
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar');
-    var currentCancelEvent = null; // Store the event being cancelled
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      timeZone: 'local',
-      initialView: 'dayGridMonth',
-      selectable: true,
-      selectMirror: true,
-      dayMaxEvents: true,
-      weekends: true,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek'
-      },
-      
-      // Load existing appointments from server
-      events: {
-        url: '/appointments',
-        method: 'GET',
-        failure: function() {
-          console.error('Failed to load appointments');
-          alert('Failed to load existing appointments');
-        }
-      },
-
-      // Update stats when events load
-      eventSourceSuccess: function(events) {
-        updateCalendarStats(events);
-      },
-      
-      select: function (info) {
-        document.getElementById('bookingDate').value = info.startStr;
-        const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
-        modal.show();
-        
-        // Update the date display in modal
-        const date = new Date(info.startStr);
-        document.getElementById('selectedDateDisplay').textContent = date.toLocaleDateString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-      },
-
-      eventClick: function(info) {
-        const appointment = info.event;
-        currentCancelEvent = appointment; // Store for cancellation
-        
-        // Populate the cancel modal with appointment details
-        const detailsHtml = `
-          <div class="row">
-            <div class="col-6"><strong>📅 Date:</strong></div>
-            <div class="col-6">${appointment.start.toLocaleDateString('en-US', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}</div>
-          </div>
-          <div class="row">
-            <div class="col-6"><strong>🕐 Time:</strong></div>
-            <div class="col-6">${appointment.title}</div>
-          </div>
-          <div class="row">
-            <div class="col-6"><strong>💼 Type:</strong></div>
-            <div class="col-6">${appointment.extendedProps.consultationType || 'General'}</div>
-          </div>
-          <div class="row">
-            <div class="col-6"><strong>📝 Notes:</strong></div>
-            <div class="col-6">${appointment.extendedProps.notes || 'None'}</div>
-          </div>
-        `;
-        
-        document.getElementById('cancelAppointmentDetails').innerHTML = detailsHtml;
-        
-        // Show the cancel modal
-        const cancelModal = new bootstrap.Modal(document.getElementById('cancelModal'));
-        cancelModal.show();
-      },
-
-      eventContent: function(arg) {
-        return { html: arg.event.title }; // Only the time slot
-      }
-    });
-
-    calendar.render();
-
-    // Function to update calendar statistics
-    function updateCalendarStats(events) {
-      const totalCount = events.length;
-      const currentMonth = new Date().getMonth();
-      const currentYear = new Date().getFullYear();
-      
-      const thisMonthCount = events.filter(event => {
-        const eventDate = new Date(event.start);
-        return eventDate.getMonth() === currentMonth && eventDate.getFullYear() === currentYear;
-      }).length;
-
-      document.getElementById('totalAppointments').textContent = totalCount;
-      document.getElementById('thisMonthAppointments').textContent = thisMonthCount;
-    }
-
-    // Handle confirm cancellation
-    document.getElementById('confirmCancelBtn').addEventListener('click', async function() {
-      if (!currentCancelEvent) return;
-
-      const reason = document.getElementById('cancellationReason').value;
-      const notes = document.getElementById('cancellationNotes').value;
-
-      try {
-        const response = await fetch(`/appointments/${currentCancelEvent.id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            reason: reason,
-            notes: notes
-          })
-        });
-
-        const msg = await response.text();
-        
-        if (response.ok) {
-          // Success - remove from calendar
-          currentCancelEvent.remove();
-          
-          // Hide modal
-          bootstrap.Modal.getInstance(document.getElementById('cancelModal')).hide();
-          
-          // Clear form
-          document.getElementById('cancellationReason').value = '';
-          document.getElementById('cancellationNotes').value = '';
-          
-          // Show success message
-          alert('✅ ' + msg);
-          
-          // Update stats
-          calendar.refetchEvents();
-        } else {
-          alert('❌ Error: ' + msg);
-        }
-      } catch (error) {
-        console.error('Cancel failed:', error);
-        alert('❌ Failed to cancel appointment. Please try again.');
-      }
-
-      currentCancelEvent = null;
-    });
-
-    // Form submission for new appointments
-    document.getElementById('bookingForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const dateStr = document.getElementById('bookingDate').value;
-      const timeSlot = document.getElementById('timeSlot').value;
-      const notes = document.getElementById('notes').value;
-      const consultationType = document.getElementById('consultationType')?.value || 'General';
-
-      if (!timeSlot) {
-        alert('Please select a time slot');
-        return;
-      }
-
-      // Convert timeSlot to 24-hour format
-      function to24Hour(time12h) {
-        const [time, modifier] = time12h.split(' ');
-        let [hours, minutes] = time.split(':');
-        if (modifier === 'PM' && hours !== '12') hours = String(Number(hours) + 12);
-        if (modifier === 'AM' && hours === '12') hours = '00';
-        return `${hours.padStart(2, '0')}:${minutes}`;
-      }
-      const time24 = to24Hour(timeSlot);
-      const localDateTime = new Date(`${dateStr}T${time24}:00`);
-      const isoDateTime = localDateTime.toISOString();
-
-      // 1. Book appointment (store in session)
-      const bookRes = await fetch('/appointments/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ date: isoDateTime, timeSlot, notes, consultationType })
-      });
-
-      if (!bookRes.ok) {
-        alert('❌ Error: Could not save booking info.');
-        return;
-      }
-
-      // 2. Create Stripe session
-      const payRes = await fetch('/payments/create-checkout-session', { method: 'POST' });
-      const data = await payRes.json();
-      if (data.url) {
-        window.location = data.url; // Redirect to Stripe Checkout
-      } else {
-        alert('❌ Error: Invalid response from server');
-      }
-    });
-  });
-  </script>
-
-  <!-- Enhanced Booking Modal -->
-  <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <!-- Header with your cornflower blue gradient -->
-        <div class="modal-header">
-          <h5 class="modal-title" id="bookingModalLabel">
-            <i class="fas fa-calendar-plus"></i>
-            Book Your Consultation
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="calendly-ui-service">
+        <div class="calendly-ui-service-title">Consultation with an Expert</div>
+        <div class="calendly-ui-service-duration">
+          <i class="fas fa-clock"></i> 60 min
         </div>
-        
-        <form id="bookingForm">
-          <div class="modal-body">
-            <input type="hidden" id="bookingDate" name="date" />
-            
-            <!-- Selected Date Display -->
-            <div class="alert alert-info">
-              <h6 class="fw-bold mb-2">
-                <i class="fas fa-calendar-day"></i> Selected Date
-              </h6>
-              <span id="selectedDateDisplay" class="fw-bold"></span>
+        <div class="calendly-ui-service-price">
+          <i class="fas fa-dollar-sign"></i> $50.00
+        </div>
+        <div class="calendly-ui-service-note">
+          You will see the contact information of the consultant after payment.
+        </div>
+      </div>
+    </aside>
+    <!-- Main: Calendar & Time Selection -->
+    <main class="calendly-ui-main">
+      <div class="calendly-ui-header">
+        <h2>Data &amp; Time selection</h2>
+      </div>
+      <!-- Replace your .calendly-ui-calendar-area div with this markup for a true SaaS horizontal layout -->
+      <div class="calendly-ui-calendar-area calendly-ui-flex">
+        <div id="calendly-calendar" class="calendly-ui-calendar"></div>
+        <div class="calendly-ui-timeslot-panel" id="calendly-timeslot-panel">
+          <div class="calendly-ui-timeslot-placeholder">
+            Please select a date from the calendar to view available time slots.
+          </div>
+          <div class="calendly-ui-timeslot-content">
+            <div class="calendly-ui-timeslot-header">
+              <span id="selectedDateLabel"></span>
             </div>
-
-            <div class="row">
-              <!-- Time Slot Selection -->
-              <div class="col-md-6 mb-4">
-                <label for="timeSlot" class="form-label">
-                  <i class="fas fa-clock"></i> Preferred Time Slot
-                </label>
-                <select id="timeSlot" class="form-select" required>
-                  <option value="">-- Select Your Preferred Time --</option>
-                  <option value="09:00 AM">9:00 AM - 10:00 AM</option>
-                  <option value="10:00 AM">10:00 AM - 11:00 AM</option>
-                  <option value="11:00 AM">11:00 AM - 12:00 PM</option>
-                  <option value="01:00 PM">1:00 PM - 2:00 PM</option>
-                  <option value="02:00 PM">2:00 PM - 3:00 PM</option>
-                  <option value="03:00 PM">3:00 PM - 4:00 PM</option>
-                  <option value="04:00 PM">4:00 PM - 5:00 PM</option>
-                </select>
-              </div>
-
-              <!-- Consultation Type -->
-              <div class="col-md-6 mb-4">
+            <form id="bookingForm" class="calendly-ui-timeslot-form">
+              <input type="hidden" id="bookingDate" name="date" />
+              <input type="hidden" id="timeSlot" name="timeSlot" />
+              <div class="calendly-ui-timeslot-list" id="timeslotList"></div>
+              <div class="mb-3">
                 <label for="consultationType" class="form-label">
                   <i class="fas fa-briefcase"></i> Consultation Type
                 </label>
@@ -860,129 +390,268 @@
                   <option value="General">General Business Consultation</option>
                 </select>
               </div>
-            </div>
-
-            <!-- Notes -->
-            <div class="mb-3">
-              <label for="notes" class="form-label">
-                <i class="fas fa-sticky-note"></i> Additional Notes <span class="text-muted">(Optional)</span>
-              </label>
-              <textarea 
-                id="notes" 
-                class="form-control" 
-                rows="4" 
-                placeholder="Please provide any specific topics you'd like to discuss or special requirements...">
-              </textarea>
-            </div>
+              <div class="mb-3">
+                <label for="notes" class="form-label">
+                  <i class="fas fa-sticky-note"></i> Additional Notes <span class="text-muted">(Optional)</span>
+                </label>
+                <textarea 
+                  id="notes" 
+                  class="form-control" 
+                  rows="3" 
+                  placeholder="Please provide any specific topics you'd like to discuss or special requirements...">
+                </textarea>
+              </div>
+              <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-outline-secondary" onclick="hideTimeSlotPanel()">
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Confirm
+                </button>
+              </div>
+            </form>
           </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-              <i class="fas fa-times"></i> Cancel
-            </button>
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-check"></i> Confirm Booking
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Enhanced Cancel Appointment Modal -->
-  <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <!-- Header with warning/danger styling -->
-        <div class="modal-header" style="background: linear-gradient(135deg, #dc3545, #c82333) !important;">
-          <h5 class="modal-title" id="cancelModalLabel">
-            <i class="fas fa-exclamation-triangle"></i>
-            Cancel Appointment
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        
-        <div class="modal-body">
-          <!-- Appointment Details Display -->
-          <div class="alert alert-warning">
-            <h6 class="fw-bold mb-3">
-              <i class="fas fa-info-circle"></i> Appointment Details
-            </h6>
-            <div id="cancelAppointmentDetails">
-              <!-- Details will be populated by JavaScript -->
-            </div>
-          </div>
-
-          <!-- Warning Message -->
-          <div class="alert alert-danger">
-            <h6 class="fw-bold mb-2">
-              <i class="fas fa-exclamation-triangle"></i> Cancellation Warning
-            </h6>
-            <p class="mb-0">
-              This action cannot be undone. Once cancelled, you'll need to book a new appointment if you wish to reschedule.
-            </p>
-          </div>
-
-          <div class="row">
-            <!-- Cancellation Reason -->
-            <div class="col-md-6 mb-3">
-              <label for="cancellationReason" class="form-label">
-                <i class="fas fa-question-circle"></i> Reason for Cancellation <span class="text-muted">(Optional)</span>
-              </label>
-              <select id="cancellationReason" class="form-select">
-                <option value="">-- Select Reason --</option>
-                <option value="Schedule Conflict">Schedule Conflict</option>
-                <option value="Personal Emergency">Personal Emergency</option>
-                <option value="Need to Reschedule">Need to Reschedule</option>
-                <option value="No Longer Needed">No Longer Needed</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            <!-- Additional Notes -->
-            <div class="col-md-6 mb-3">
-              <label for="cancellationNotes" class="form-label">
-                <i class="fas fa-comment"></i> Additional Notes <span class="text-muted">(Optional)</span>
-              </label>
-              <textarea 
-                id="cancellationNotes" 
-                class="form-control" 
-                rows="3" 
-                placeholder="Any additional comments...">
-              </textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            <i class="fas fa-arrow-left"></i> Keep Appointment
-          </button>
-          <button type="button" id="confirmCancelBtn" class="btn btn-danger">
-            <i class="fas fa-trash"></i> Yes, Cancel Appointment
-          </button>
         </div>
       </div>
-    </div>
+      <div class="calendly-ui-timezone">
+        <i class="fas fa-globe"></i> Local Time (<span id="localTime"></span>)
+      </div>
+      <div id="appointmentModal" class="modal fade" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content subtle-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="appointmentModalLabel">
+                <i class="fas fa-calendar-check"></i> Appointment Details
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="appointmentDetails"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="button" class="btn btn-danger" id="cancelAppointmentBtn">
+                Cancel Appointment
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="cancelModal" class="modal fade" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content subtle-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="cancelModalLabel">
+                <i class="fas fa-ban"></i> Cancel Appointment
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-warning mb-3" style="background: #f7f8fa; color: #334155; border-left: 4px solid #eeb8c2;">
+                <strong>Are you sure you want to cancel this appointment?</strong>
+                <div id="cancelAppointmentDetails"></div>
+              </div>
+              <div class="mb-3">
+                <label for="cancellationReason" class="form-label">
+                  Reason for Cancellation <span class="text-muted">(Optional)</span>
+                </label>
+                <select id="cancellationReason" class="form-select">
+                  <option value="">-- Select Reason --</option>
+                  <option value="Schedule Conflict">Schedule Conflict</option>
+                  <option value="Personal Emergency">Personal Emergency</option>
+                  <option value="Need to Reschedule">Need to Reschedule</option>
+                  <option value="No Longer Needed">No Longer Needed</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="cancellationNotes" class="form-label">
+                  Additional Notes <span class="text-muted">(Optional)</span>
+                </label>
+                <textarea id="cancellationNotes" class="form-control" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Keep Appointment
+              </button>
+              <button type="button" class="btn btn-danger" id="confirmCancelBtn">
+                Yes, Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
-
-  <!-- Include Footer -->
   <%- include('partials/footer') %>
-  <script src="/script.js"></script>
-
-  <!-- Cancel Appointment Script -->
   <script>
-    async function cancelAppointment(appointmentId) {
-      if (!confirm('Are you sure you want to cancel this appointment?')) return;
-      const res = await fetch(`/appointments/${appointmentId}`, { method: 'DELETE' });
-      if (res.ok) {
-        alert('Appointment cancelled');
-        location.reload();
-      } else {
-        alert('Failed to cancel appointment');
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('localTime').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      var calendarEl = document.getElementById('calendly-calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        timeZone: 'local',
+        initialView: 'dayGridMonth',
+        selectable: true,
+        selectMirror: true,
+        dayMaxEvents: true,
+        weekends: true,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek'
+        },
+        events: {
+          url: '/appointments',
+          method: 'GET',
+          failure: function() {
+            alert('Failed to load existing appointments');
+          }
+        },
+        select: function (info) {
+          showTimeSlotPanel(info.startStr);
+        },
+        eventClick: function(info) {
+          // Show appointment modal with details
+          const event = info.event;
+          const detailsHtml = `
+            <div class="mb-2"><strong>Date:</strong> ${event.start.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</div>
+            <div class="mb-2"><strong>Time:</strong> ${event.title}</div>
+            <div class="mb-2"><strong>Type:</strong> ${event.extendedProps.consultationType || 'General'}</div>
+            <div class="mb-2"><strong>Notes:</strong> ${event.extendedProps.notes || 'None'}</div>
+          `;
+          document.getElementById('appointmentDetails').innerHTML = detailsHtml;
+          document.getElementById('cancelAppointmentBtn').onclick = function() {
+            showCancelModal(event);
+          };
+          new bootstrap.Modal(document.getElementById('appointmentModal')).show();
+        },
+        eventContent: function(arg) {
+          // Subtle appointment display
+          return { html: `<div class="fc-event-content"><span>${arg.event.title}</span></div>` };
+        }
+      });
+      calendar.render();
+
+      window.showTimeSlotPanel = function(dateStr) {
+        // Parse as local date, not UTC
+        const parts = dateStr.split('-');
+        const localDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+        document.getElementById('selectedDateLabel').textContent = localDate.toLocaleDateString('en-US', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+        document.getElementById('bookingDate').value = dateStr;
+        document.getElementById('calendly-timeslot-panel').classList.add('active');
+        renderTimeSlots();
       }
-    }
+      window.hideTimeSlotPanel = function() {
+        document.getElementById('calendly-timeslot-panel').classList.remove('active');
+        document.getElementById('bookingDate').value = '';
+        document.getElementById('timeSlot').value = '';
+      }
+      window.renderTimeSlots = function() {
+        const slots = [
+          "09:00 AM", "10:00 AM", "11:00 AM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM"
+        ];
+        const list = document.getElementById('timeslotList');
+        list.innerHTML = '';
+        slots.forEach(slot => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'calendly-ui-timeslot-btn';
+          btn.textContent = slot;
+          btn.onclick = () => {
+            document.querySelectorAll('.calendly-ui-timeslot-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('timeSlot').value = slot;
+          };
+          list.appendChild(btn);
+        });
+      }
+
+      // Cancel modal logic
+      let currentCancelEvent = null;
+      window.showCancelModal = function(event) {
+        currentCancelEvent = event;
+        document.getElementById('appointmentModal').querySelector('.btn-close').click();
+        document.getElementById('cancelAppointmentDetails').innerHTML = `
+          <div><strong>Date:</strong> ${event.start.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</div>
+          <div><strong>Time:</strong> ${event.title}</div>
+          <div><strong>Type:</strong> ${event.extendedProps.consultationType || 'General'}</div>
+        `;
+        new bootstrap.Modal(document.getElementById('cancelModal')).show();
+      };
+      document.getElementById('confirmCancelBtn').onclick = async function() {
+        if (!currentCancelEvent) return;
+        const reason = document.getElementById('cancellationReason').value;
+        const notes = document.getElementById('cancellationNotes').value;
+        try {
+          const response = await fetch(`/appointments/${currentCancelEvent.id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reason, notes })
+          });
+          if (response.ok) {
+            currentCancelEvent.remove();
+            bootstrap.Modal.getInstance(document.getElementById('cancelModal')).hide();
+            document.getElementById('cancellationReason').value = '';
+            document.getElementById('cancellationNotes').value = '';
+            calendar.refetchEvents();
+            alert('Appointment cancelled.');
+          } else {
+            alert('Error cancelling appointment.');
+          }
+        } catch (error) {
+          alert('Failed to cancel appointment.');
+        }
+        currentCancelEvent = null;
+      };
+
+      document.getElementById('bookingForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const dateStr = document.getElementById('bookingDate').value;
+        const timeSlot = document.getElementById('timeSlot').value;
+        const notes = document.getElementById('notes').value;
+        const consultationType = document.getElementById('consultationType')?.value || 'General';
+
+        if (!dateStr || !timeSlot) {
+          alert('Please select a date and time slot');
+          return;
+        }
+
+        function to24Hour(time12h) {
+          const [time, modifier] = time12h.split(' ');
+          let [hours, minutes] = time.split(':');
+          if (modifier === 'PM' && hours !== '12') hours = String(Number(hours) + 12);
+          if (modifier === 'AM' && hours === '12') hours = '00';
+          return `${hours.padStart(2, '0')}:${minutes}`;
+        }
+        const time24 = to24Hour(timeSlot);
+        const localDateTime = new Date(`${dateStr}T${time24}:00`);
+        const isoDateTime = localDateTime.toISOString();
+
+        const bookRes = await fetch('/appointments/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ date: isoDateTime, timeSlot, notes, consultationType })
+        });
+
+        if (!bookRes.ok) {
+          alert('❌ Error: Could not save booking info.');
+          return;
+        }
+
+        const payRes = await fetch('/payments/create-checkout-session', { method: 'POST' });
+        const data = await payRes.json();
+        if (data.url) {
+          window.location = data.url;
+        } else {
+          alert('❌ Error: Invalid response from server');
+        }
+      });
+    });
   </script>
+
 </body>
 </html>
 

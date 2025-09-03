@@ -896,11 +896,26 @@ section {
 }
 
 .saas-card-row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 2.5rem;
-  justify-content: center;
+  justify-items: stretch;
+  align-items: stretch;
   margin-top: 2.5rem;
+}
+
+@media (max-width: 1300px) {
+  .saas-card-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .saas-card-row {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
 }
 
 .saas-card {
@@ -916,7 +931,6 @@ section {
     border-color 0.18s;
   position: relative;
   overflow: hidden;
-  width: 320px;
   min-height: 270px;
   display: flex;
   flex-direction: column;
@@ -1012,16 +1026,16 @@ section {
 
 .saas-card-row.compact {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 1.5rem auto 0 auto;
 }
 
 .saas-card {
   background: #fff;
-  border-radius: 18px;
+  border-radius: 7px;
   box-shadow: 0 2px 12px rgba(77,184,255,0.10);
   border: 1.5px solid #4DB8FF;
   padding: 1.3rem 1.1rem 1.1rem 1.1rem;
@@ -1093,3 +1107,566 @@ section {
   }
 
 }
+
+/* --- Perfectly Balanced Calendar & Time Slot Panel --- */
+
+/* Main calendar area: balanced spacing */
+.calendly-ui-calendar-area {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 540px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* Calendar container: wide and tall enough for clarity */
+.calendly-ui-calendar {
+  flex: 1 1 0;
+  min-width: 520px;
+  max-width: 640px;
+  height: 540px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+  border: 1.5px solid #e6f6ff;
+  padding: 28px 28px 8px 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Time slot panel: slightly narrower, but still roomy */
+.calendly-ui-timeslot-panel {
+  flex: 0 0 260px;
+  max-width: 260px;
+  min-width: 220px;
+  height: 540px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+  border: 1.5px solid #e6f6ff;
+  padding: 24px 16px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+/* Time slot buttons: 2 columns, good spacing */
+.calendly-ui-timeslot-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 12px;
+  margin-bottom: 24px;
+}
+
+.calendly-ui-timeslot-btn {
+  background: #f7f8fa;
+  border: 1.5px solid #e2e8f0;
+  color: #183b56;
+  border-radius: 12px;
+  padding: 14px 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.04);
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.calendly-ui-timeslot-btn.selected,
+.calendly-ui-timeslot-btn:hover {
+  background: #4DB8FF;
+  color: #fff;
+  border-color: #4DB8FF;
+  box-shadow: 0 4px 16px rgba(77,184,255,0.10);
+}
+
+/* Form fields and buttons: balanced padding */
+.calendly-ui-timeslot-panel .form-label,
+.calendly-ui-timeslot-panel label {
+  font-weight: 700;
+  color: #183b56;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  display: block;
+}
+
+.calendly-ui-timeslot-panel .form-control,
+.calendly-ui-timeslot-panel .form-select,
+.calendly-ui-timeslot-panel textarea {
+  border: 2px solid #e6f6ff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.98rem;
+  background: #f7f8fa;
+  color: #183b56;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendly-ui-timeslot-panel .form-control:focus,
+.calendly-ui-timeslot-panel .form-select:focus,
+.calendly-ui-timeslot-panel textarea:focus {
+  border-color: #4DB8FF;
+  box-shadow: 0 0 0 3px rgba(77,184,255,0.10);
+}
+
+.calendly-ui-timeslot-panel .btn {
+  border-radius: 10px;
+  font-weight: 700;
+  padding: 10px 20px;
+  font-size: 1rem;
+  letter-spacing: 0.2px;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.08);
+  transition: all 0.18s;
+  margin-right: 8px;
+}
+
+.calendly-ui-timeslot-panel .btn-primary {
+  background: linear-gradient(90deg, #4DB8FF 0%, #00eaff 100%);
+  border: none;
+  color: #fff;
+}
+
+.calendly-ui-timeslot-panel .btn-primary:hover {
+  background: linear-gradient(90deg, #00eaff 0%, #4DB8FF 100%);
+  color: #fff;
+}
+
+.calendly-ui-timeslot-panel .btn-outline-secondary {
+  border: 2px solid #e6f6ff;
+  color: #4DB8FF;
+  background: #fff;
+}
+
+.calendly-ui-timeslot-panel .btn-outline-secondary:hover {
+  background: #eaf6fd;
+  border-color: #4DB8FF;
+  color: #183b56;
+}
+
+/* --- Make Account Details Sidebar Smaller for More Calendar/Timeslot Space --- */
+
+/* Sidebar/account details panel */
+.calendly-ui-sidebar {
+  flex: 0 0 180px;
+  max-width: 220px;
+  min-width: 180px;
+  background: #f8fafc;
+  padding: 32px 16px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-right: 1.5px solid #e6f6ff;
+  box-sizing: border-box;
+}
+
+/* Responsive: even smaller sidebar on mobile */
+@media (max-width: 900px) {
+  .calendly-ui-sidebar {
+    flex: unset;
+    width: 100%;
+    max-width: 100vw;
+    border-right: none;
+    border-bottom: 1.5px solid #e6f6ff;
+    padding: 18px 8px 8px 8px;
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+/* --- Widen Time Slot Panel, Shift Calendar Left --- */
+
+/* Main calendar area: reduce gap, shift calendar left */
+.calendly-ui-calendar-area {
+  display: flex;
+  flex-direction: row;
+  gap: 18px; /* less gap between sidebar and calendar */
+  align-items: flex-start;
+  justify-content: flex-start; /* shift everything left */
+  min-height: 540px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* Calendar container: keep width as is */
+.calendly-ui-calendar {
+  flex: 1 1 0;
+  min-width: 520px;
+  max-width: 640px;
+  height: 540px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+  border: 1.5px solid #e6f6ff;
+  padding: 28px 28px 8px 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Time slot panel: make wider */
+.calendly-ui-timeslot-panel {
+  flex: 0 0 320px;
+  max-width: 320px;
+  min-width: 280px;
+  height: 540px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+  border: 1.5px solid #e6f6ff;
+  padding: 24px 18px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+/* Time slot buttons: keep 2 columns, adjust gap for new width */
+.calendly-ui-timeslot-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 14px;
+  margin-bottom: 24px;
+}
+
+/* --- Professional Calendar UI Styling --- */
+
+/* Calendar container: keep as is for spacing */
+.calendly-ui-calendar {
+  /* ...existing code... */
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+  border: 1.5px solid #e6f6ff;
+  /* ...existing code... */
+}
+
+/* Center the toolbar title and style the arrow buttons smaller with spacing */
+
+/* Center the toolbar title */
+.fc-header-toolbar {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0 !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 30px !important;
+  width: 100%;
+  border-bottom: 1px solid #f0f4f8;
+  position: relative;
+}
+
+/* Place arrows absolutely to the left, title centered */
+.fc-header-toolbar .fc-toolbar-chunk:first-child {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding-bottom: 30px !important;
+}
+
+/* Center the title chunk */
+.fc-header-toolbar .fc-toolbar-chunk:nth-child(2) {
+  flex: 1 1 0;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Title styling (date/month/year) */
+.fc .fc-toolbar-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: #183b56 !important;
+  letter-spacing: 0.5px;
+  margin: 0 !important;
+  text-align: center !important;
+  line-height: 1.1;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Arrow buttons: smaller, round, spaced */
+.fc .fc-button,
+.fc .fc-button-primary,
+.fc .fc-button-active {
+  background: #f7fbff !important;
+  color: #2196f3 !important;
+  border: none !important;
+  border-radius: 50% !important;
+  box-shadow: none !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  padding: 0 !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  margin: 0 4px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, color 0.18s;
+}
+
+.fc .fc-button:hover,
+.fc .fc-button-primary:hover,
+.fc .fc-button-active:hover {
+  background: #e6f7ff !important;
+  color: #183b56 !important;
+}
+
+/* Hide today button */
+.fc-header-toolbar .fc-toolbar-chunk:first-child .fc-today-button {
+  display: none !important;
+}
+
+/* FullCalendar grid/table styling */
+.fc-daygrid-table,
+.fc-scrollgrid,
+.fc-theme-standard .fc-scrollgrid {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 2px 12px rgba(77,184,255,0.07);
+  background: #f7fbff;
+  overflow: hidden;
+}
+
+.fc-daygrid-day {
+  background: transparent;
+  border: none;
+}
+
+.fc-daygrid-day-number {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #183b56;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  background: transparent;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Hover: subtle gray circle */
+.fc-daygrid-day-number:hover {
+  background: #f0f2f5 !important;
+  color: #2196f3 !important;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.08) !important;
+}
+
+/* Today: perfect circle, blue */
+.fc-day-today .fc-daygrid-day-number {
+  background: #2196f3 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.12) !important;
+}
+
+/* Selected: perfect circle, blue */
+.fc-daygrid-day.fc-day-selected .fc-daygrid-day-number,
+.fc-daygrid-day.fc-day-active .fc-daygrid-day-number {
+  background: #2196f3 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.12) !important;
+}
+
+/* Remove any oval/ellipse effect */
+.fc-daygrid-day-number {
+  aspect-ratio: 1 / 1;
+  border-radius: 50% !important;
+  padding: 0 !important;
+}
+
+/* Remove any background highlight from the cell itself */
+.fc-daygrid-day.fc-day-selected,
+.fc-daygrid-day.fc-day-active,
+.fc-daygrid-day.fc-day-today {
+  background: transparent !important;
+}
+
+/* Hide background highlight for selected/active days */
+.fc-daygrid-day.fc-day-selected,
+.fc-daygrid-day.fc-day-active,
+.fc-daygrid-day.fc-day-today {
+  background: transparent !important;
+}
+
+/* Hide event grid lines and background */
+.fc-daygrid-event {
+  background: #4DB8FF !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  border: none !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.10) !important;
+  padding: 4px 0 !important;
+  font-size: 0.98rem !important;
+  margin: 2px 0 !important;
+  text-align: center !important;
+  display: block !important;
+  width: 100% !important;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  letter-spacing: 0.5px;
+}
+
+.fc-daygrid-event:hover {
+  background: #2196f3 !important;
+  color: #fff !important;
+}
+
+/* Hide default focus outline for buttons */
+.fc .fc-button:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #4DB8FF33 !important;
+}
+
+/* --- Clean, Minimal FullCalendar Month View --- */
+
+/* Remove all borders and grid lines */
+.fc-theme-standard .fc-scrollgrid,
+.fc-theme-standard td,
+.fc-theme-standard th,
+.fc-scrollgrid,
+.fc-daygrid-day,
+.fc-daygrid-day-frame,
+.fc-daygrid-day-top,
+.fc-daygrid-day-bg {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Remove header and footer borders */
+.fc-theme-standard .fc-header,
+.fc-theme-standard .fc-footer {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Calendar day numbers: perfect circle, centered, padded */
+.fc-daygrid-day-number {
+  font-family: 'Segoe UI', 'Inter', 'Roboto', Arial, sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  color: #183b56 !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+  background: transparent !important;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  cursor: pointer;
+  padding: 0 !important;
+}
+
+/* Hover: subtle gray circle */
+.fc-daygrid-day-number:hover {
+  background: #f0f2f5 !important;
+  color: #2196f3 !important;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.08) !important;
+}
+
+/* Today: perfect circle, blue */
+.fc-day-today .fc-daygrid-day-number {
+  background: #2196f3 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.12) !important;
+}
+
+/* Selected: perfect circle, blue */
+.fc-daygrid-day.fc-day-selected .fc-daygrid-day-number,
+.fc-daygrid-day.fc-day-active .fc-daygrid-day-number {
+  background: #2196f3 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.12) !important;
+}
+
+/* Remove any background highlight from the cell itself */
+.fc-daygrid-day.fc-day-selected,
+.fc-daygrid-day.fc-day-active,
+.fc-daygrid-day.fc-day-today,
+.fc-daygrid-day:hover {
+  background: transparent !important;
+}
+
+/* Hide all calendar nav except arrows */
+.fc-header-toolbar .fc-toolbar-chunk:first-child .fc-today-button,
+.fc-header-toolbar .fc-toolbar-chunk:last-child {
+  display: none !important;
+}
+
+
+/* --- Event Dot Styling --- */
+.fc-daygrid-dot-event {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 2px !important;
+  margin-bottom: 0 !important;
+  width: 100%;
+}
+
+/* Appointment "dot" and text: small pill background */
+.fc-daygrid-dot-event .fc-event-title {
+  background: #4DB8FF !important;
+  color: #fff !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  padding: 2px 10px !important;
+  margin: 0 !important;
+  display: inline-block !important;
+  max-width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.10);
+  vertical-align: middle;
+}
+
+/* Hide the event dot if you only want the pill */
+.fc-daygrid-event-dot {
+  display: none !important;
+}
+
+/* If you want to keep the dot, uncomment below and adjust size/color
+.fc-daygrid-event-dot {
+  width: 7px !important;
+  height: 7px !important;
+  background: #2196f3 !important;
+  border-radius: 50% !important;
+  display: inline-block !important;
+  margin-right: 5px !important;
+}
+*/
+
