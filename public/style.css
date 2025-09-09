@@ -710,6 +710,46 @@ nav a:hover {
 .admin-dashboard-page .status.completed { background: #2ecc71; }
 .admin-dashboard-page .status.cancelled { background: #e74c3c; }
 
+.admin-dashboard-page .analytics-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+.admin-dashboard-page .analytics-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(77,184,255,0.10);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.18s, transform 0.18s;
+  border: 1.5px solid #e6f6ff;
+}
+
+.admin-dashboard-page .analytics-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #183b56;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.admin-dashboard-page .analytics-value {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #2563eb;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.admin-dashboard-page .analytics-card:hover {
+  box-shadow: 0 12px 32px rgba(77,184,255,0.18);
+  transform: translateY(-4px) scale(1.02);
+}
+
+
 /* === TERMS PAGE === */
 .terms-page .terms-hero {
   background: linear-gradient(90deg, #4DB8FF 0%, #3A9CE8 100%);
@@ -2200,6 +2240,203 @@ nav a:hover {
   color: #374151;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+/* Modal overlay */
+#editUserModal.modal-overlay {
+  background: rgba(24, 59, 86, 0.75);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+}
+
+/* Modal box */
+#editUserModal .modal-box {
+  background: #fff;
+  border-radius: 18px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 540px;
+  width: 95%;
+  box-shadow: 0 12px 40px rgba(77, 184, 255, 0.18);
+  position: relative;
+  animation: modalPopIn 0.25s cubic-bezier(0.4,0,0.2,1);
+  border: 1.5px solid #e6f6ff;
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.98);}
+  to   { opacity: 1; transform: translateY(0) scale(1);}
+}
+
+/* Modal icon */
+#editUserModal .modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #e6f6ff;
+  border-radius: 50%;
+  margin: 0 auto 1.2rem auto;
+  font-size: 2.2rem;
+  color: #4DB8FF;
+}
+
+/* Modal header */
+#editUserModal h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #183b56;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* Modal form grid */
+#editUserModal .modal-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+#editUserModal .modal-col {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Modal field */
+#editUserModal .modal-field {
+  margin-bottom: 1.1rem;
+}
+#editUserModal .modal-field label {
+  display: block;
+  color: #1e293b;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+  letter-spacing: 0.1px;
+}
+#editUserModal .modal-field label[for="editRole"] {
+  color: #4DB8FF;
+}
+
+/* Modal input, select, textarea */
+#editUserModal input,
+#editUserModal select,
+#editUserModal textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 8px;
+  border: 1.5px solid #b8dfff;
+  background-color: #f7fbff;
+  color: #183b56;
+  font-size: 1rem;
+  margin-bottom: 0;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  font-family: inherit;
+  resize: none;
+}
+#editUserModal input:focus,
+#editUserModal select:focus,
+#editUserModal textarea:focus {
+  border-color: #4DB8FF;
+  outline: none;
+}
+
+/* Modal actions */
+#editUserModal .modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+/* Modal buttons */
+#editUserModal .modal-btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.08);
+}
+#editUserModal .modal-btn.cancel {
+  background: #e6f6ff;
+  color: #183b56;
+  border: 1.5px solid #b8dfff;
+}
+#editUserModal .modal-btn.cancel:hover {
+  background: #b8dfff;
+  color: #183b56;
+}
+#editUserModal .modal-btn.save {
+  background: linear-gradient(90deg, #4DB8FF 0%, #00eaff 100%);
+  color: #fff;
+  border: none;
+}
+#editUserModal .modal-btn.save:hover {
+  background: linear-gradient(90deg, #00eaff 0%, #4DB8FF 100%);
+  color: #183b56;
+}
+#editUserModal .modal-btn.reset {
+  background: #4DB8FF;
+  color: #fff;
+  border: none;
+}
+#editUserModal .modal-btn.reset:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.modal-btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(77,184,255,0.08);
+  outline: none;
+}
+
+.modal-btn.cancel {
+  background: #e6f6ff;
+  color: #183b56;
+  border: 1.5px solid #b8dfff;
+}
+.modal-btn.cancel:hover,
+.modal-btn.cancel:focus {
+  background: #b8dfff;
+  color: #183b56;
+}
+
+.modal-btn.danger {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+}
+.modal-btn.danger:hover,
+.modal-btn.danger:focus {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  #editUserModal .modal-box {
+    padding: 1.2rem 0.5rem;
+  }
+  #editUserModal .modal-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
 
 /* === RESPONSIVE (All Views) === */
