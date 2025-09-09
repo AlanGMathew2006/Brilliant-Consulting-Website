@@ -6,8 +6,8 @@
   <title>Brilliant Consulting - Services</title>
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/css/footer.css" />
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,800,900&display=swap" rel="stylesheet">
 </head>
 
 <body class="services-page">
@@ -30,62 +30,61 @@
     </nav>
   </header>
 
-  <section class="saas-section compact">
-    <h2 class="saas-section-title">
-      <span class="saas-title-dark">Our</span> <span class="saas-title-blue">Services</span>
-    </h2>
-    <div class="saas-card-row compact">
-      <div class="saas-card">
-        <span class="card-icon"><i class="fas fa-handshake"></i></span>
-        <h3>IT Consulting</h3>
-        <p>
-          Navigate the digital landscape with expert technology consulting:
-        </p>
-        <ul>
-          <li><strong>Application Modernization:</strong> Accelerate timelines, reduce costs, and adopt new tech.</li>
-          <li><strong>IT Strategy:</strong> Align IT with your business goals.</li>
-          <li><strong>Implementation:</strong> Deploy new technologies efficiently.</li>
-          <li><strong>Ongoing Support:</strong> Continuous guidance for success.</li>
-        </ul>
+  <div class="services-page">
+  <section class="services-section">
+    <h2 class="services-title">The IT Services <span>We Provide</span></h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-image" style="display:flex;align-items:center;justify-content:center;height:350px;">
+          <i class="fas fa-gauge-high" style="font-size:150px;color:#4DB8FF;"></i>
+        </div>
+        <div class="service-card-content">
+          <div class="service-title">Proactive Monitoring & Maintenance</div>
+          <div class="service-desc">
+            We continuously monitor your IT environment to detect and resolve issues before they impact your business.<br>
+            Our proactive maintenance keeps your systems secure, up-to-date, and running at peak performance.
+          </div>
+        </div>
       </div>
-      <div class="saas-card">
-        <span class="card-icon"><i class="fas fa-laptop-code"></i></span>
-        <h3>Application Development</h3>
-        <p>
-          Custom applications tailored to your business needs:
-        </p>
-        <ul>
-          <li>Dedicated professional development team</li>
-          <li>Solutions aligned with your goals</li>
-          <li>Optimum results and scalability</li>
-        </ul>
+      <div class="service-card">
+        <div class="service-image" style="display:flex;align-items:center;justify-content:center;height:350px;">
+          <i class="fas fa-headset" style="font-size:150px;color:#4DB8FF;"></i>
+        </div>
+        <div class="service-card-content">
+          <div class="service-title">IT Help Desk & User Support</div>
+          <div class="service-desc">
+            Get fast, friendly assistance from our expert support team for any technical issue.<br>
+            We offer multi-channel support to ensure your users always have the help they need, when they need it.
+          </div>
+        </div>
       </div>
-      <div class="saas-card">
-        <span class="card-icon"><i class="fas fa-mobile-alt"></i></span>
-        <h3>Mobile App Development</h3>
-        <p>
-          User-friendly and engaging mobile apps for all platforms:
-        </p>
-        <ul>
-          <li>Seamless user experience</li>
-          <li>Business-focused features</li>
-          <li>Cross-platform compatibility</li>
-        </ul>
+      <div class="service-card">
+        <div class="service-image" style="display:flex;align-items:center;justify-content:center;height:350px;">
+          <i class="fas fa-cloud" style="font-size:150px;color:#4DB8FF;"></i>
+        </div>
+        <div class="service-card-content">
+          <div class="service-title">Cloud Solutions</div>
+          <div class="service-desc">
+            Unlock the power of the cloud with scalable, secure, and cost-effective solutions.<br>
+            We help you migrate, manage, and optimize your cloud infrastructure for maximum agility.
+          </div>
+        </div>
       </div>
-      <div class="saas-card">
-        <span class="card-icon"><i class="fas fa-database"></i></span>
-        <h3>Data Analytics</h3>
-        <p>
-          Unlock actionable insights from your data:
-        </p>
-        <ul>
-          <li>Vendor-neutral audits and strategy</li>
-          <li>Online and offline data sources</li>
-          <li>Competitive edge through analytics</li>
-        </ul>
+      <div class="service-card">
+        <div class="service-image" style="display:flex;align-items:center;justify-content:center;height:350px;">
+          <i class="fas fa-shield-halved" style="font-size:150px;color:#4DB8FF;"></i>
+        </div>
+        <div class="service-card-content">
+          <div class="service-title">Cybersecurity</div>
+          <div class="service-desc">
+            Protect your business from evolving cyber threats with advanced security solutions.<br>
+            We safeguard your data, networks, and users with comprehensive protection and ongoing risk management.
+          </div>
+        </div>
       </div>
     </div>
   </section>
+</div>
 
   <%- include('partials/footer') %>
 </body>

@@ -11,7 +11,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,800,900&display=swap" rel="stylesheet">
 </head>
 <body class="home-page">
   <header>
@@ -33,37 +33,32 @@
     </nav>
   </header>
   <div class="calendly-ui-container">
-    <!-- Sidebar: Account & Appointment Info -->
-    <aside class="calendly-ui-sidebar">
-      <div class="calendly-ui-account">
-        <div class="calendly-ui-avatar">
-          <i class="fas fa-user-circle"></i>
-        </div>
-        <div class="calendly-ui-account-details">
-          <div class="calendly-ui-account-name"><%= userName %></div>
-          <div class="calendly-ui-account-label">My account</div>
-        </div>
-      </div>
-      <div class="calendly-ui-service">
-        <div class="calendly-ui-service-title">Consultation with an Expert</div>
-        <div class="calendly-ui-service-duration">
-          <i class="fas fa-clock"></i> 60 min
-        </div>
-        <div class="calendly-ui-service-price">
-          <i class="fas fa-dollar-sign"></i> $50.00
-        </div>
-        <div class="calendly-ui-service-note">
-          You will see the contact information of the consultant after payment.
-        </div>
-      </div>
-    </aside>
-    <!-- Main: Calendar & Time Selection -->
     <main class="calendly-ui-main">
-      <div class="calendly-ui-header">
-        <h2>Data &amp; Time selection</h2>
-      </div>
-      <!-- Replace your .calendly-ui-calendar-area div with this markup for a true SaaS horizontal layout -->
       <div class="calendly-ui-calendar-area calendly-ui-flex">
+        <!-- Sidebar: Account & Appointment Info -->
+        <aside class="calendly-ui-sidebar">
+          <div class="calendly-ui-account">
+            <div class="calendly-ui-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="calendly-ui-account-details">
+              <div class="calendly-ui-account-name"><%= userName %></div>
+              <div class="calendly-ui-account-label">My account</div>
+            </div>
+          </div>
+          <div class="calendly-ui-service">
+            <div class="calendly-ui-service-title">Consultation with an Expert</div>
+            <div class="calendly-ui-service-duration">
+              <i class="fas fa-clock"></i> 60 min
+            </div>
+            <div class="calendly-ui-service-price">
+              <i class="fas fa-dollar-sign"></i> $50.00
+            </div>
+            <div class="calendly-ui-service-note">
+              You will see the contact information of the consultant after payment.
+            </div>
+          </div>
+        </aside>
         <div id="calendly-calendar" class="calendly-ui-calendar"></div>
         <div class="calendly-ui-timeslot-panel" id="calendly-timeslot-panel">
           <div class="calendly-ui-timeslot-placeholder">
@@ -109,13 +104,14 @@
                   Confirm
                 </button>
               </div>
+              <div class="calendly-ui-timezone">
+        <i class="fas fa-globe"></i> Local Time (<span id="localTime"></span>)
+      </div>
             </form>
           </div>
         </div>
       </div>
-      <div class="calendly-ui-timezone">
-        <i class="fas fa-globe"></i> Local Time (<span id="localTime"></span>)
-      </div>
+      
       <div id="appointmentModal" class="modal fade" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content subtle-modal">
@@ -197,9 +193,9 @@
         dayMaxEvents: true,
         weekends: true,
         headerToolbar: {
-          left: 'prev,next today',
+          left: 'prev,next',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek'
+          right: 'today'
         },
         events: {
           url: '/appointments',
@@ -227,13 +223,23 @@
           new bootstrap.Modal(document.getElementById('appointmentModal')).show();
         },
         eventContent: function(arg) {
-          // Subtle appointment display
-          return { html: `<div class="fc-event-content"><span>${arg.event.title}</span></div>` };
+          return {
+            html: `<div class="fc-event-content">
+                     <span class="custom-appointment-tag">${arg.event.title}</span>
+                   </div>`
+          };
         }
       });
       calendar.render();
 
+      // When a date is selected
       window.showTimeSlotPanel = function(dateStr) {
+        // Remove previous selection
+        document.querySelectorAll('.fc-daygrid-day.selected').forEach(el => el.classList.remove('selected'));
+        // Find the cell for the selected date and add 'selected'
+        const cell = document.querySelector(`.fc-daygrid-day[data-date="${dateStr}"]`);
+        if (cell) cell.classList.add('selected');
+
         // Parse as local date, not UTC
         const parts = dateStr.split('-');
         const localDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
@@ -244,7 +250,11 @@
         document.getElementById('calendly-timeslot-panel').classList.add('active');
         renderTimeSlots();
       }
+      // When Cancel or Confirm is pressed
       window.hideTimeSlotPanel = function() {
+        // Remove highlight from calendar
+        document.querySelectorAll('.fc-daygrid-day.selected').forEach(el => el.classList.remove('selected'));
+
         document.getElementById('calendly-timeslot-panel').classList.remove('active');
         document.getElementById('bookingDate').value = '';
         document.getElementById('timeSlot').value = '';
@@ -351,7 +361,6 @@
       });
     });
   </script>
-
 </body>
 </html>
 
